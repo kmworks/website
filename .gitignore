@@ -1,0 +1,7 @@
+node_modules/
+build/
+.docusaurus/
+.cache-loader/
+synced/
+.DS_Store
+npm-debug.log*

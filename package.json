@@ -10,7 +10,8 @@
     "swizzle": "docusaurus swizzle",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "deploy": "cf deploy"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
@@ -31,7 +32,9 @@
     "@docusaurus/tsconfig": "3.10.2",
     "@docusaurus/types": "3.10.2",
     "@types/react": "^19.0.0",
-    "typescript": "~6.0.2"
+    "cf": "^1.0.0-beta.5",
+    "typescript": "~6.0.2",
+    "wrangler": "^4.143.0"
   },
   "browserslist": {
     "production": [

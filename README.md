@@ -16,8 +16,8 @@ npm run typecheck
 
 ## Deploy
 
-Cloudflare Pages, project `kmworks`. Pushes to `main` build and deploy via `.github/workflows/deploy.yml`. To deploy a local build manually:
+Cloudflare Workers Builds: pushes to `main` build the site (`npm ci && npm run build`) and deploy the `kmworks-website` Worker (static assets + the `kmworks.date` / `www.kmworks.date` custom domains from `cloudflare.config.ts`). To deploy a local build manually:
 
 ```sh
-cf pages deploy build --project-name kmworks
+cf deploy
 ```

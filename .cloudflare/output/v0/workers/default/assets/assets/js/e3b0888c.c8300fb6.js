@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkkmworks_website=self.webpackChunkkmworks_website||[]).push([["839"],{2239(e){e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"kmreader"}')}}]);

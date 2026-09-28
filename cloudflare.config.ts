@@ -2,7 +2,7 @@ import { defineConfig } from "cf/config";
 
 export default defineConfig({
   worker: {
-    name: "kmworks-website",
+    name: "kmworks",
     compatibilityDate: "2026-09-25",
     observability: {
       enabled: true,

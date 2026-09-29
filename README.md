@@ -2,7 +2,7 @@
 
 The kmworks ecosystem site and documentation hub, served at <https://kmworks.date>.
 
-- The landing page lives in this repo; docs live at `/server/` (kmrs) and `/reader/` (KMReader).
+- The landing page lives in this repo; docs live at `/server/` (kmrs) and `/reader/` (kmreader).
 - Docs are authored as plain markdown in the source repos (`docs/` in kmrs and kmreader) and mirrored here at build time by `scripts/sync-docs.mjs` — edit them there, never in `synced/`.
 
 ## Develop

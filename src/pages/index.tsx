@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <Layout
       title="kmworks"
-      description="kmworks is an open-source comic and manga reading ecosystem: the kmrs server, the kmweb UI, and KMReader for Apple platforms. Drop-in compatible with Komga.">
+      description="kmworks is an open-source comic and manga reading ecosystem: the kmrs server, the kmweb UI, and kmreader for Apple platforms. Drop-in compatible with Komga.">
       <header className={styles.hero}>
         <img className={styles.glyph} src="img/logo.svg" alt="kmworks logo" />
         <p className={styles.eyebrow}>Komga-compatible, end to end</p>
@@ -29,7 +29,7 @@ export default function Home() {
         </Link>
         <Link className={styles.card} to="/reader/">
           <p className={styles.role}>The Apple client</p>
-          <h2 className={styles.cardTitle}>KMReader</h2>
+          <h2 className={styles.cardTitle}>kmreader</h2>
           <p className={styles.desc}>
             Native reading on iPhone, iPad, Mac, and Apple TV, online or
             offline.

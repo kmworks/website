@@ -114,28 +114,29 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Projects',
+          title: 'server',
           items: [
-            {label: 'server', to: '/server/'},
-            {label: 'reader', to: '/reader/'},
+            {label: 'Documentation', to: '/server/'},
+            {label: 'GitHub', href: 'https://github.com/kmworks/kmrs'},
+            {label: 'Releases', href: 'https://github.com/kmworks/kmrs/releases'},
+          ],
+        },
+        {
+          title: 'reader',
+          items: [
+            {label: 'Documentation', to: '/reader/'},
+            {label: 'GitHub', href: 'https://github.com/kmworks/kmreader'},
+            {label: 'App Store', href: 'https://apps.apple.com/app/id6755198424'},
             {label: 'Privacy Policy', to: '/reader/privacy'},
           ],
         },
         {
-          title: 'Source',
-          items: [
-            {label: 'github.com/kmworks', href: 'https://github.com/kmworks'},
-            {label: 'kmweb', href: 'https://github.com/kmworks/kmweb'},
-            {label: 'kmrs releases', href: 'https://github.com/kmworks/kmrs/releases'},
-            {label: 'KMReader on the App Store', href: 'https://apps.apple.com/app/id6755198424'},
-          ],
+          title: 'kmweb',
+          items: [{label: 'GitHub', href: 'https://github.com/kmworks/kmweb'}],
         },
         {
           title: 'Upstream',
-          items: [
-            {label: 'Komga', href: 'https://komga.org'},
-            {label: 'Komga clients', href: 'https://komga.org/docs/category/readers'},
-          ],
+          items: [{label: 'Komga', href: 'https://komga.org'}],
         },
       ],
       copyright: `kmworks projects are under the MIT License. Not affiliated with the komga project.`,

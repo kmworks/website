@@ -4,14 +4,10 @@ Nimbus (Astro) docs site, deployed to Cloudflare Workers as `kmworks`, served at
 
 Read and follow [AGENT.md](./AGENT.md) — the canonical guide for the Nimbus machinery (content collections, MDX components, lint, upgrades). This file only covers what AGENT.md does not.
 
-## Package manager is npm
-
-AGENT.md's examples use `pnpm`. Translate: `pnpm exec nimbus-docs <cmd>` → `npx nimbus-docs <cmd>`.
-
 ## Verify before calling work done
 
 ```sh
-npm run typecheck && npm run build && npx nimbus-docs check && npm run lint:docs
+pnpm typecheck && pnpm build && pnpm exec nimbus-docs check && pnpm lint:docs
 ```
 
 Then confirm `dist/` still serves every public route: `/`, `/server/`, `/reader/`, `/server/{intro,installation,configuration,webui,search,compatibility,enhancements,limitations,development}/`, `/reader/{intro,privacy}/`.
@@ -24,4 +20,4 @@ Then confirm `dist/` still serves every public route: `/`, `/server/`, `/reader/
 
 ## Deploy
 
-Pushes to `main` auto-deploy via Workers Builds (`npm ci && npm run build`, then `npx wrangler deploy` with `wrangler.jsonc`). Local manual deploy: `npm run deploy`. Both ship to production — only deploy when the user asks. Inspect pipeline state with `cf builds list --external-script-id "$(cf workers get kmworks | jq -r .id)"`.
+Pushes to `main` auto-deploy via Workers Builds (`pnpm install --frozen-lockfile && pnpm run build`, then `pnpm exec wrangler deploy` with `wrangler.jsonc`). Local manual deploy: `pnpm deploy`. Both ship to production — only deploy when the user asks. Inspect pipeline state with `cf builds list --external-script-id "$(cf workers get kmworks | jq -r .id)"`.

@@ -9,17 +9,17 @@ Agent-facing outputs (per-page markdown, `/llms.txt`, `/llms-full.txt`, JSON-LD,
 ## Develop
 
 ```sh
-npm install
-npm run dev        # dev server with hot reload
-npm run build      # production build in dist/
-npm run typecheck
-npm run lint:docs  # prose + MDX lint
+pnpm install
+pnpm dev        # dev server with hot reload
+pnpm build      # production build in dist/
+pnpm typecheck
+pnpm lint:docs  # prose + MDX lint
 ```
 
 ## Deploy
 
-Cloudflare Workers Builds: pushes to `main` build the site (`npm ci && npm run build`) and deploy the `kmworks` Worker (static assets from `dist/` + the `kmworks.date` / `www.kmworks.date` custom domains from `wrangler.jsonc`). To deploy a local build manually:
+Cloudflare Workers Builds: pushes to `main` build the site (`pnpm install --frozen-lockfile && pnpm run build`) and deploy the `kmworks` Worker (static assets from `dist/` + the `kmworks.date` / `www.kmworks.date` custom domains from `wrangler.jsonc`). To deploy a local build manually:
 
 ```sh
-npm run deploy     # wrangler deploy
+pnpm deploy     # wrangler deploy
 ```

@@ -1,0 +1,89 @@
+---
+---
+
+<footer class="footer">
+  <div class="inner">
+    <div class="cols">
+      <div class="col">
+        <h3 class="colTitle">server</h3>
+        <a class="link" href="/server/intro">Documentation</a>
+        <a class="link" href="https://github.com/kmworks/kmrs" target="_blank" rel="noopener">GitHub</a>
+        <a class="link" href="https://github.com/kmworks/kmrs/releases" target="_blank" rel="noopener">Releases</a>
+      </div>
+      <div class="col">
+        <h3 class="colTitle">reader</h3>
+        <a class="link" href="/reader/intro">Documentation</a>
+        <a class="link" href="https://github.com/kmworks/kmreader" target="_blank" rel="noopener">GitHub</a>
+        <a class="link" href="https://apps.apple.com/app/id6755198424" target="_blank" rel="noopener">App Store</a>
+        <a class="link" href="/reader/privacy">Privacy Policy</a>
+      </div>
+      <div class="col">
+        <h3 class="colTitle">Upstream</h3>
+        <a class="link" href="https://komga.org" target="_blank" rel="noopener">Komga</a>
+      </div>
+    </div>
+    <p class="copyright">
+      kmworks projects are under the MIT License. Not affiliated with the komga project.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--km-footer-bg);
+    border-top: 1px solid var(--km-border);
+    color: var(--km-text-muted);
+  }
+
+  .inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .colTitle {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--km-text);
+    margin: 0 0 0.35rem;
+  }
+
+  .link {
+    color: var(--km-text-muted);
+    font-size: 0.92rem;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .link:hover {
+    color: var(--km-accent);
+    text-decoration: none;
+  }
+
+  .copyright {
+    margin: 2.5rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--km-border);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .cols {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+    }
+  }
+</style>

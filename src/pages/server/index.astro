@@ -1,0 +1,223 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { Code } from "../../components/ui/code";
+import { Tabs, TabItem } from "../../components/ui/tabs";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import "../../styles/landing.css";
+
+export const prerender = true;
+
+const dockerRun = `docker run -d \\
+  --name=komga \\
+  --user 1000:1000 \\
+  -p 25600:25600 \\
+  --mount type=bind,source=/path/to/config,target=/config \\
+  --mount type=bind,source=/path/to/data,target=/data \\
+  --restart unless-stopped \\
+  ghcr.io/kmworks/kmrs`;
+
+const binaryRun = `# grab the archive for your platform from the releases page:
+#   https://github.com/kmworks/kmrs/releases/latest
+./kmrs   # serves on http://localhost:25600`;
+
+const diffRun = `python3 tests/diff/diff.py \\
+  --java-jar komga.jar \\
+  --rust-bin ./kmrs`;
+
+const clients = [
+  { label: "KMReader", href: "/reader/", icon: "ph:device-mobile" },
+  { label: "KOReader", href: "https://koreader.rocks", icon: "ph:book-open" },
+  { label: "Kobo", href: "https://komga.org/docs/guides/kobo", icon: "ph:book-open" },
+  { label: "Any Komga client", href: "https://komga.org/docs/category/readers", icon: "ph:arrow-right" },
+];
+---
+
+<BaseLayout
+  title="Comic & manga server in a single binary"
+  description="kmrs is a comic and manga server in a single static Rust binary, drop-in compatible with Komga: same API, same database."
+>
+  <div class="flex flex-col min-h-screen km-landing">
+    <Header />
+    <main id="main-content" tabindex="-1" class="flex-1">
+      <header class="hero">
+        <div class="heroBg"></div>
+        <div class="container">
+          <div class="heroInner">
+            <div>
+              <p class="eyebrow">Komga-compatible, drop-in</p>
+              <h1 class="heroTitle">
+                Your comics,
+                <br />
+                <em>one</em> static binary.
+              </h1>
+              <p class="heroSub">
+                Serve your comic and manga library to the web, your e-reader,
+                and every app in between.
+              </p>
+              <div class="ctaRow">
+                <a class="btnPrimary" href="/server/installation">
+                  Get started <Icon name="ph:arrow-right" class="w-4 h-4" />
+                </a>
+                <a class="btnGhost" href="https://github.com/kmworks/kmrs" target="_blank" rel="noopener">
+                  <Icon name="ph:github-logo" class="w-[17px] h-[17px]" /> GitHub
+                </a>
+              </div>
+            </div>
+            <div class="heroCode">
+              <div class="codeCaption">
+                <span>terminal</span>
+                <span>one command</span>
+              </div>
+              <Code code={dockerRun} lang="bash" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Same server, smaller footprint</h2>
+            <p class="sectionSub">
+              Same port, same mounts, same env vars, same database. What leaves
+              is the runtime weight.
+            </p>
+          </div>
+          <div class="cardGrid">
+            <div class="card cardWide">
+              <div class="cardIcon">
+                <Icon name="ph:git-diff" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">API parity, verified</h3>
+              <p class="cardBody">
+                REST, OPDS v1.2/v2, SSE, Kobo and KOReader sync. A differential
+                harness compares ~105 endpoints against a live Java instance of
+                komga 1.27.1.
+              </p>
+              <Code code={diffRun} lang="bash" />
+            </div>
+            <div class="card">
+              <div class="cardIcon">
+                <Icon name="ph:database" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Your data, as-is</h3>
+              <p class="cardBody">
+                Point kmrs at an existing komga data directory and it upgrades{" "}
+                <code>database.sqlite</code> in place with byte-for-byte Flyway
+                migrations. The Java version can still open libraries written by
+                kmrs.
+              </p>
+            </div>
+            <div class="card">
+              <div class="cardIcon">
+                <Icon name="ph:feather" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Runs anywhere</h3>
+              <p class="cardBody">
+                One static binary for Linux, macOS, and Windows, x86_64 and
+                aarch64.
+              </p>
+            </div>
+            <div class="card cardCjk">
+              <div class="cardIcon">
+                <Icon name="ph:translate" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">CJK cross-search</h3>
+              <p class="cardBody">
+                Simplified and traditional Chinese match each other, and CJK
+                unigrams find titles mid-run.
+              </p>
+              <span class="cjkGlyphs">简繁</span>
+            </div>
+            <div class="card">
+              <div class="cardIcon">
+                <Icon name="ph:pulse" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Heap profiling built in</h3>
+              <p class="cardBody">
+                jemalloc sampling with a pprof endpoint, always on in release
+                builds.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="split">
+            <div>
+              <h2 class="sectionTitle">Up and reading in one command</h2>
+              <div class="steps">
+                <div class="step">
+                  <span class="stepName">Install</span>
+                  <p class="stepDesc">
+                    One <code>docker run</code>, or a single static binary from
+                    the releases page.
+                  </p>
+                </div>
+                <div class="step">
+                  <span class="stepName">Keep your library</span>
+                  <p class="stepDesc">
+                    Point <code>/config</code> at your existing komga data. kmrs
+                    upgrades it in place.
+                  </p>
+                </div>
+                <div class="step">
+                  <span class="stepName">Pick a reader</span>
+                  <p class="stepDesc">
+                    The bundled kmweb UI, KMReader, KOReader, Kobo, or any
+                    OPDS client.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="codePanel">
+              <Tabs>
+                <TabItem label="Docker">
+                  <Code code={dockerRun} lang="bash" />
+                </TabItem>
+                <TabItem label="Binary">
+                  <Code code={binaryRun} lang="bash" />
+                </TabItem>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section clients">
+        <div class="container">
+          <h2 class="sectionTitle">Bring your own reader</h2>
+          <p class="sectionSub">
+            Compatible with the Komga API and its reader ecosystem.
+          </p>
+          <div class="chipRow">
+            {clients.map((c) => (
+              <a class="chip" href={c.href}>
+                <Icon name={c.icon} class="w-[18px] h-[18px]" />
+                {c.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="final">
+        <div class="finalBg"></div>
+        <div class="container">
+          <h2 class="finalTitle">Start serving your comics.</h2>
+          <div class="ctaRow">
+            <a class="btnPrimary" href="/server/installation">
+              Get started <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+            <a class="btnGhost" href="/server/intro"> Read the docs </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

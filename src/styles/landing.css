@@ -1,0 +1,505 @@
+/* Product landing pages (server / reader): shared layout in the kmworks
+   design language. Global on purpose (Code/Tabs/Icon render child markup the
+   pages don't own); every selector is prefixed with .km-landing so nothing
+   leaks onto Nimbus chrome or docs content. */
+
+.km-landing {
+  background: var(--km-bg);
+  color: var(--km-text);
+  overflow-x: clip;
+}
+
+.km-landing .container {
+  max-width: 71.25rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* ---------- hero ---------- */
+
+.km-landing .hero {
+  position: relative;
+  padding: clamp(3rem, 9vh, 6rem) 0 4rem;
+}
+
+.km-landing .heroBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(52rem 30rem at 78% 12%, var(--km-glow-a), transparent 62%),
+    radial-gradient(38rem 26rem at 12% 88%, var(--km-glow-r), transparent 60%);
+}
+
+.km-landing .heroInner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.km-landing .eyebrow {
+  font-family: var(--nb-font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--km-accent);
+  margin: 0 0 1.1rem;
+}
+
+.km-landing .heroTitle {
+  font-family: var(--nb-font-display);
+  font-size: clamp(2.6rem, 5.2vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin: 0 0 1.25rem;
+  background: linear-gradient(155deg, var(--km-grad-a) 30%, var(--km-grad-b) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.km-landing .heroSub {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: var(--km-text-muted);
+  max-width: 34rem;
+  margin: 0 0 2rem;
+}
+
+.km-landing .ctaRow {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.km-landing .btnPrimary,
+.km-landing .btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background 0.18s, border-color 0.18s;
+}
+
+.km-landing .btnPrimary {
+  background: #ffb340;
+  color: #1a1206;
+}
+
+.km-landing .btnPrimary:hover {
+  background: #f5a832;
+  color: #1a1206;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+[data-mode="dark"] .km-landing .btnPrimary:hover {
+  background: #ffc65c;
+}
+
+.km-landing .btnGhost {
+  border: 1px solid var(--km-border);
+  color: var(--km-text);
+  background: var(--km-surface);
+}
+
+.km-landing .btnGhost:hover {
+  border-color: rgba(255, 179, 64, 0.5);
+  color: var(--km-text);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.km-landing .btnPrimary:active,
+.km-landing .btnGhost:active {
+  transform: scale(0.98);
+}
+
+.km-landing .chipRow {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+
+.km-landing .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.32rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--km-border);
+  background: var(--km-surface);
+  color: var(--km-text-muted);
+  font-family: var(--nb-font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.km-landing .chip:hover {
+  border-color: rgba(255, 179, 64, 0.5);
+  text-decoration: none;
+}
+
+.km-landing .heroArt {
+  display: flex;
+  justify-content: center;
+}
+
+.km-landing .heroIcon {
+  width: min(19rem, 68%);
+  height: auto;
+  filter: drop-shadow(0 32px 80px rgba(255, 179, 64, 0.35))
+    drop-shadow(0 12px 32px rgba(255, 61, 104, 0.18));
+}
+
+.km-landing .heroCode {
+  position: relative;
+  border-radius: 14px;
+  border: 1px solid var(--km-border);
+  background: var(--km-surface);
+  overflow: hidden;
+}
+
+/* Blend the Nimbus code figure into the panel: one border, one radius. */
+.km-landing .heroCode .nb-code-figure,
+.km-landing .codePanel .nb-code-figure {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.km-landing .heroCode pre {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.km-landing .codeCaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--km-border);
+  font-family: var(--nb-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--km-text-muted);
+}
+
+.km-landing .codeCaption span:last-child {
+  color: var(--km-accent);
+}
+
+/* ---------- sections ---------- */
+
+.km-landing .section {
+  padding: 4.5rem 0;
+}
+
+.km-landing .sectionHead {
+  max-width: 40rem;
+  margin-bottom: 2.8rem;
+}
+
+.km-landing .sectionTitle {
+  font-family: var(--nb-font-display);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin: 0 0 0.9rem;
+}
+
+.km-landing .sectionSub {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--km-text-muted);
+  margin: 0;
+}
+
+/* ---------- cards ---------- */
+
+.km-landing .cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+
+.km-landing .card {
+  position: relative;
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  background: var(--km-surface);
+  padding: 1.7rem;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s;
+}
+
+.km-landing .card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 179, 64, 0.35);
+}
+
+.km-landing .cardWide {
+  grid-column: span 2;
+}
+
+.km-landing .cardIcon {
+  color: var(--km-accent);
+  margin-bottom: 1rem;
+}
+
+.km-landing .pill {
+  display: inline-block;
+  font-family: var(--nb-font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--km-accent);
+  background: rgba(255, 179, 64, 0.13);
+  border-radius: 999px;
+  padding: 0.22rem 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.km-landing .cardTitle {
+  font-family: var(--nb-font-display);
+  font-size: 1.12rem;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.55rem;
+}
+
+.km-landing .cardBody {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--km-text-muted);
+  margin: 0;
+}
+
+.km-landing .cardBody code {
+  font-size: 0.82em;
+}
+
+.km-landing .cardCjk {
+  background:
+    radial-gradient(20rem 14rem at 85% 0%, rgba(255, 179, 64, 0.16), transparent 65%),
+    radial-gradient(14rem 12rem at 0% 100%, rgba(255, 61, 104, 0.08), transparent 60%),
+    var(--km-surface);
+}
+
+.km-landing .cjkGlyphs {
+  position: absolute;
+  right: 1.2rem;
+  bottom: -0.6rem;
+  font-size: 4.6rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  background: linear-gradient(155deg, rgba(255, 179, 64, 0.3), rgba(255, 61, 104, 0.3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
+}
+
+.km-landing .card .nb-code-figure {
+  margin: 0.9rem 0 0;
+}
+
+.km-landing .card pre {
+  font-size: 0.74rem;
+}
+
+/* ---------- quickstart ---------- */
+
+.km-landing .split {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.km-landing .steps {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.km-landing .step {
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 0;
+}
+
+.km-landing .step + .step {
+  border-top: 1px solid var(--km-border);
+}
+
+.km-landing .stepName {
+  font-weight: 650;
+  font-size: 0.98rem;
+  white-space: nowrap;
+  min-width: 8.5rem;
+}
+
+.km-landing .stepDesc {
+  font-size: 0.92rem;
+  color: var(--km-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.km-landing .codePanel {
+  border-radius: 14px;
+  border: 1px solid var(--km-border);
+  background: var(--km-surface);
+  overflow: hidden;
+}
+
+.km-landing .codePanel pre {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+/* ---------- clients ---------- */
+
+.km-landing .clients {
+  text-align: center;
+}
+
+.km-landing .clients .chipRow {
+  justify-content: center;
+  margin-top: 2.4rem;
+}
+
+.km-landing .clients .chip {
+  padding: 0.6rem 1.3rem;
+  font-size: 0.92rem;
+  font-weight: 550;
+  font-family: var(--nb-font-sans);
+  color: var(--km-text);
+}
+
+.km-landing .clients .chip svg {
+  color: var(--km-accent);
+}
+
+/* ---------- faq ---------- */
+
+.km-landing .faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+}
+
+.km-landing .faqItem {
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  background: var(--km-surface);
+  padding: 1.5rem 1.7rem;
+}
+
+.km-landing .faqQuestion {
+  font-family: var(--nb-font-display);
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5rem;
+}
+
+.km-landing .faqAnswer {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--km-text-muted);
+  margin: 0;
+}
+
+.km-landing .faqAnswer a {
+  color: var(--km-accent);
+}
+
+/* ---------- final cta ---------- */
+
+.km-landing .final {
+  position: relative;
+  text-align: center;
+  padding: 6rem 0 7rem;
+}
+
+.km-landing .finalBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(40rem 20rem at 50% 100%, rgba(255, 179, 64, 0.1), transparent 65%),
+    radial-gradient(30rem 16rem at 88% 100%, rgba(255, 61, 104, 0.07), transparent 60%);
+}
+
+.km-landing .finalTitle {
+  font-family: var(--nb-font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 2rem;
+}
+
+.km-landing .final .ctaRow {
+  justify-content: center;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1024px) {
+  .km-landing .heroInner {
+    grid-template-columns: 1fr;
+    gap: 2.6rem;
+  }
+
+  .km-landing .heroIcon {
+    width: min(12rem, 50%);
+  }
+
+  .km-landing .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .km-landing .cardWide {
+    grid-column: span 2;
+  }
+
+  .km-landing .split {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .km-landing .cardGrid,
+  .km-landing .faqGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .km-landing .cardWide {
+    grid-column: span 1;
+  }
+
+  .km-landing .section {
+    padding: 3.5rem 0;
+  }
+
+  .km-landing .step {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+}

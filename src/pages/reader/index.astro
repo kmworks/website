@@ -1,0 +1,218 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import "../../styles/landing.css";
+
+export const prerender = true;
+
+const appStoreUrl = "https://apps.apple.com/app/id6755198424";
+const githubUrl = "https://github.com/kmworks/kmreader";
+
+const features = [
+  {
+    pill: "Readers",
+    title: "DIVINA, EPUB, and PDF",
+    body: "DIVINA on every platform, EPUB and PDF on iOS and macOS. Webtoon, spreads, page curl, AI upscaling, and per-book preferences.",
+    icon: "ph:book-open",
+  },
+  {
+    pill: "Browse",
+    title: "Find the right book faster",
+    body: "Keep Reading and On Deck dashboards, read lists that continue like series, metadata filters, saved searches, and Spotlight indexing for downloaded content.",
+    icon: "ph:magnifying-glass",
+  },
+  {
+    pill: "Offline",
+    title: "Keep reading anywhere",
+    body: "Downloads with per-series policies, offline-first reading, background transfers, and progress sync when you reconnect.",
+    icon: "ph:download-simple",
+  },
+  {
+    pill: "Apple platforms",
+    title: "System integrations",
+    body: "Widgets, Home Screen quick actions, Live Activities, Live Text, and dedicated reader windows on macOS.",
+    icon: "ph:apple-logo",
+  },
+  {
+    pill: "Multi-server",
+    title: "Switch servers quickly",
+    body: "Save multiple Komga servers, sign in with password or API key, and manage keys in the app.",
+    icon: "ph:hard-drives",
+  },
+  {
+    pill: "Admin",
+    title: "Manage your server in-app",
+    body: "Edit metadata, manage libraries, monitor tasks, and review or export logs.",
+    icon: "ph:gear-six",
+  },
+];
+
+const platforms = [
+  {
+    title: "iOS & iPadOS",
+    body: "All three readers with widgets, quick actions, Spotlight search, background downloads, and Live Activities.",
+    icon: "ph:device-mobile",
+  },
+  {
+    title: "macOS",
+    body: "Dedicated reader windows, menu bar actions, and keyboard-first controls.",
+    icon: "ph:laptop",
+  },
+  {
+    title: "tvOS",
+    body: "Remote-first DIVINA reading with a focused TV browsing experience.",
+    icon: "ph:television",
+  },
+];
+
+const faqs = [
+  {
+    q: "Is KMReader an official Komga app?",
+    a: "No. KMReader is an independent open-source client built for Komga users.",
+  },
+  {
+    q: "Which readers are available?",
+    a: "DIVINA on iOS, macOS, and tvOS. EPUB and PDF on iOS and macOS.",
+  },
+  {
+    q: "Can I use multiple Komga servers?",
+    a: "Yes. Save and switch between servers, sign in with password or API key, and manage keys in the app.",
+  },
+  {
+    q: "How does offline mode work?",
+    a: "Downloaded books stay readable offline, and reading progress syncs when you reconnect.",
+  },
+  {
+    q: "Can admins manage library data in-app?",
+    a: "Yes. Metadata editing, library and media management, task monitoring, and log review are built in.",
+  },
+];
+---
+
+<BaseLayout
+  title="Native Komga client for iOS, macOS, and tvOS"
+  description="KMReader is a native Komga client for iOS, macOS, and tvOS with DIVINA, EPUB, and PDF readers, offline downloads, multi-server support, and Apple-platform integrations."
+>
+  <div class="flex flex-col min-h-screen km-landing">
+    <Header />
+    <main id="main-content" tabindex="-1" class="flex-1">
+      <header class="hero">
+        <div class="heroBg"></div>
+        <div class="container">
+          <div class="heroInner">
+            <div>
+              <p class="eyebrow">Native Komga client</p>
+              <h1 class="heroTitle">KMReader</h1>
+              <p class="heroSub">
+                Read, download, and manage your Komga library on iPhone, iPad,
+                Mac, and Apple TV.
+              </p>
+              <div class="ctaRow">
+                <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
+                  <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Download on the App
+                  Store
+                </a>
+                <a class="btnGhost" href={githubUrl} target="_blank" rel="noopener">
+                  <Icon name="ph:github-logo" class="w-[17px] h-[17px]" /> View on GitHub
+                </a>
+              </div>
+              <div class="chipRow">
+                <span class="chip">iOS 17.0+</span>
+                <span class="chip">macOS 14.0+</span>
+                <span class="chip">tvOS 17.0+</span>
+              </div>
+            </div>
+            <div class="heroArt">
+              <img
+                src="/img/kmreader-icon.svg"
+                alt="KMReader app icon"
+                class="heroIcon"
+              />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Everything a Komga reader needs</h2>
+          </div>
+          <div class="cardGrid">
+            {features.map((f) => (
+              <article class="card">
+                <div class="cardIcon">
+                  <Icon name={f.icon} class="w-[26px] h-[26px]" />
+                </div>
+                <span class="pill">{f.pill}</span>
+                <h3 class="cardTitle">{f.title}</h3>
+                <p class="cardBody">{f.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Built for Apple platforms</h2>
+          </div>
+          <div class="cardGrid">
+            {platforms.map((p) => (
+              <article class="card">
+                <div class="cardIcon">
+                  <Icon name={p.icon} class="w-[26px] h-[26px]" />
+                </div>
+                <h3 class="cardTitle">{p.title}</h3>
+                <p class="cardBody">{p.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Details</h2>
+          </div>
+          <div class="faqGrid">
+            {faqs.map((f) => (
+              <article class="faqItem">
+                <h4 class="faqQuestion">{f.q}</h4>
+                <p class="faqAnswer">{f.a}</p>
+              </article>
+            ))}
+            <article class="faqItem">
+              <h4 class="faqQuestion">Which server should I run?</h4>
+              <p class="faqAnswer">
+                Any Komga 1.20.0+ server works, including{" "}
+                <a href="/server/">kmrs</a>, the single-binary Rust server from
+                the same family.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="final">
+        <div class="finalBg"></div>
+        <div class="container">
+          <h2 class="finalTitle">Start reading your library.</h2>
+          <div class="ctaRow">
+            <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
+              <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Download on the App Store
+            </a>
+            <a class="btnGhost" href="/reader/intro">
+              Get started <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

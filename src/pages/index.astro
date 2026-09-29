@@ -387,7 +387,34 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 9. Ecosystem */}
+      {/* 9. Demo */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionCenter" style="margin-bottom: 0;">
+            <h2 class="sectionTitle">Try it in your browser.</h2>
+            <p class="sectionSub">
+              A live KMServer with the bundled web UI and a public-domain
+              library of English and Japanese comics and ebooks. Everything
+              resets daily.
+            </p>
+            <div class="demoCreds">
+              <div class="demoCred">
+                <span class="demoCredLabel">Email</span>
+                <code class="demoCredValue">demo@kmworks.date</code>
+              </div>
+              <div class="demoCred">
+                <span class="demoCredLabel">Password</span>
+                <code class="demoCredValue">kmworks-demo</code>
+              </div>
+            </div>
+            <a class="btnPrimary" href="https://demo.kmworks.date" target="_blank" rel="noopener" style="margin-top: 2rem;">
+              Open the demo <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. Ecosystem */}
       <section class="section">
         <div class="container">
           <div class="sectionCenter">
@@ -449,7 +476,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 10. Open source */}
+      {/* 11. Open source */}
       <section class="section">
         <div class="container">
           <div class="sectionCenter">
@@ -495,7 +522,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 11. Final CTA */}
+      {/* 12. Final CTA */}
       <section class="final">
         <div class="finalBg"></div>
         <div class="container">
@@ -535,6 +562,39 @@ const serverFeatures = [
     margin: 2.2rem 0 0;
     font-size: 0.88rem;
     color: var(--km-text-muted);
+  }
+
+  .km-landing .demoCreds {
+    margin: 2rem auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+  }
+
+  .km-landing .demoCred {
+    border: 1px solid var(--km-border);
+    border-radius: 14px;
+    background: var(--km-surface);
+    padding: 1rem 1.5rem;
+    text-align: left;
+  }
+
+  .km-landing .demoCredLabel {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--km-text-muted);
+  }
+
+  .km-landing .demoCredValue {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: var(--nb-font-mono);
+    font-size: 1.02rem;
+    color: var(--km-text);
   }
 
   .km-landing .finalMeta {

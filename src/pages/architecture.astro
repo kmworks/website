@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import "../styles/landing.css";
+
+export const prerender = true;
+
+const blocks = [
+  {
+    title: "Server",
+    body: "KMServer is a single static Rust binary (kmrs). It scans your library directories in place and serves everything over HTTP on port 25600. The Docker image additionally bundles the kmweb UI, so the browser interface works out of the box.",
+    icon: "ph:hard-drives",
+  },
+  {
+    title: "API",
+    body: "The Komga-compatible surface: REST under /api, OPDS v1.2/v2 catalogs, SSE live updates, and Kobo and KOReader sync. A differential harness compares about 105 endpoints against a live Java instance of komga 1.27.1.",
+    icon: "ph:plugs-connected",
+  },
+  {
+    title: "Database",
+    body: "SQLite: database.sqlite and tasks.sqlite in the config directory. Existing komga databases are upgraded in place with byte-for-byte Flyway migrations, and the Java version can still open the result.",
+    icon: "ph:database",
+  },
+  {
+    title: "Filesystem",
+    body: "Your media stays where it is. KMServer reads library directories in place; files are not moved or rewritten. Config and database live under /config, library content under /data in the container layout.",
+    icon: "ph:folder-open",
+  },
+  {
+    title: "Client",
+    body: "KMReader is a native Apple app (Swift) for iOS, macOS, and tvOS. It talks to the same Komga REST API as every other client, and works with any Komga 1.20.0 or later server.",
+    icon: "ph:device-mobile",
+  },
+  {
+    title: "Offline storage",
+    body: "Downloads live in an offline-first local database on the device: pages, covers, and metadata are stored locally, with per-series download policies and background transfers.",
+    icon: "ph:download-simple",
+  },
+  {
+    title: "Sync",
+    body: "Reading progress is tracked on device first and synced to the server when you reconnect, through the same progress endpoints the other Komga clients use.",
+    icon: "ph:arrows-clockwise",
+  },
+];
+---
+
+<BaseLayout
+  title="Architecture"
+  description="How kmworks fits together: the KMServer binary, the Komga-compatible API, the SQLite database, the filesystem layout, and KMReader's offline storage and sync."
+>
+  <div class="flex flex-col min-h-screen km-landing">
+    <Header />
+    <main id="main-content" tabindex="-1" class="flex-1">
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h1 class="sectionTitle">Architecture</h1>
+            <p class="sectionSub">
+              How the pieces fit together, for developers and the curious.
+            </p>
+          </div>
+          <div class="diagram" role="img" aria-label="Diagram: your library on disk feeds KMServer, which exposes the Web UI, OPDS and the REST API. KMReader talks to the REST API and runs on iPhone, iPad, Mac and Apple TV.">
+            <div class="eco">
+              <div class="ecoBox">Library<span class="ecoCap">your files</span></div>
+              <div class="ecoLine"></div>
+              <div class="ecoBox ecoRoot">
+                KMServer<span class="ecoCap">kmrs binary, backed by SQLite (database.sqlite, tasks.sqlite)</span>
+              </div>
+              <div class="ecoLine"></div>
+              <div class="ecoRow ecoRow3">
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">Web UI<span class="ecoCap">kmweb</span></div>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">OPDS<span class="ecoCap">v1.2 / v2</span></div>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">REST API</div>
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox ecoHl">
+                    KMReader<span class="ecoCap">offline-first storage</span>
+                  </div>
+                  <div class="ecoLine"></div>
+                  <div class="ecoPlat">
+                    <span class="ecoChip">iPhone</span>
+                    <span class="ecoChip">iPad</span>
+                    <span class="ecoChip">Mac</span>
+                    <span class="ecoChip">Apple TV</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0;">
+        <div class="container">
+          <div class="cardGrid">
+            {blocks.map((b) => (
+              <article class="card">
+                <div class="cardIcon">
+                  <Icon name={b.icon} class="w-[26px] h-[26px]" />
+                </div>
+                <h2 class="cardTitle">{b.title}</h2>
+                <p class="cardBody">{b.body}</p>
+              </article>
+            ))}
+          </div>
+          <p class="techNote">
+            Deeper detail lives in the docs: <a href="/server/compatibility">Compatibility</a>,{" "}
+            <a href="/server/enhancements">Enhancements</a>,{" "}
+            <a href="/server/webui">Serving a web UI</a>,{" "}
+            <a href="/server/development">Development</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>
+
+<style>
+  .km-landing .techNote {
+    margin: 2.2rem 0 0;
+    font-size: 0.88rem;
+    color: var(--km-text-muted);
+  }
+
+  .km-landing .techNote a {
+    color: var(--km-accent);
+  }
+</style>

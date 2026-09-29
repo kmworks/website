@@ -1,0 +1,16 @@
+---
+title: "History events"
+sidebar:
+  order: 2
+---
+
+`GET /api/v1/history` reports four extra event types:
+
+- `BookTrashed` / `SeriesTrashed` when a scan moves an entry to the trash because its file/folder is no longer on disk
+- `BookPurged` / `SeriesPurged` when emptying the trash permanently deletes an entry
+
+The `reason` property distinguishes automatic emptying after a scan from a user request. The Java version only records events where it deletes a file that still exists on disk, so scan-triggered removals and trash emptying leave no trace there.
+
+The extra type strings are plain strings on the wire; clients that don't know them render them with their default fallback.
+
+The table is pruned daily to `history-retention-days` (default 180, 0 disables pruning); the Java version keeps history rows forever.

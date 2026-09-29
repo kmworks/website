@@ -1,0 +1,19 @@
+---
+title: "komf integration"
+sidebar:
+  order: 5
+---
+
+One-click setup of a [komf](https://github.com/dyphire/komf-rs) metadata fetcher: KMServer mints an API key for the connecting admin, pushes it together with the Komga base URL to komf's `PATCH /api/config` (hot-reloaded, komf needs no changes), and reconciles drift every minute. komf then calls back in Komga mode (REST + SSE) and starts matching metadata.
+
+- Preset via `[komf]` in `config.toml` (env `KOMGA_KOMF_URL` / `KOMGA_KOMF_BASEURL`) pre-fills the setup form.
+- The integration itself is configured at runtime via `GET`/`PUT`/`DELETE /api/v1/komf/integration` (admin only).
+- The key's plaintext is only ever handed to komf; KMServer stores its SHA-512.
+
+Once connected, KMServer also proxies komf's metadata, jobs, and config API under `/api/v1/komf/...` (admin only; the komga connection fields in `PATCH /api/v1/komf/config` stay managed by the integration), so admin UIs can drive komf through KMServer with plain Komga credentials.
+
+:::caution
+komf's API has no authentication — deploy it on a trusted network only.
+:::
+
+The Java version has no komf support.

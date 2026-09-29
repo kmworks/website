@@ -1,0 +1,108 @@
+---
+title: "Migration"
+description: "Switching from Komga to KMServer: keep your library, keep your database, keep your clients."
+sidebar:
+  order: 2
+---
+
+Switching from Komga? Keep your library. Keep your database. Keep your clients.
+
+KMServer reads the same data directory as the Java version, so migration is a matter of pointing the new server at your existing data. KMServer is distributed as the `kmrs` binary, which is what the commands below use.
+
+<Steps>
+
+1. **Stop the existing server**
+
+   Stop the Java komga process so nothing writes to the database while you switch:
+
+   ```sh
+   docker stop komga
+   ```
+
+2. **Back up the database**
+
+   Copy the database files out of your config directory before anything touches them:
+
+   ```sh
+   cp /path/to/config/database.sqlite /path/to/config/database.sqlite.bak
+   cp /path/to/config/tasks.sqlite /path/to/config/tasks.sqlite.bak
+   ```
+
+3. **Point KMServer at the existing data**
+
+   <Tabs>
+     <TabItem label="Docker">
+
+   Keep the exact same `/config` and `/data` mounts and swap the image:
+
+   ```sh
+   docker run -d \
+     --name=komga \
+     --user 1000:1000 \
+     -p 25600:25600 \
+     --mount type=bind,source=/path/to/config,target=/config \
+     --mount type=bind,source=/path/to/data,target=/data \
+     --restart unless-stopped \
+     ghcr.io/kmworks/kmrs
+   ```
+
+     </TabItem>
+     <TabItem label="Docker Compose">
+
+   Point the volumes at your existing directories:
+
+   ```yaml
+   services:
+     kmrs:
+       image: ghcr.io/kmworks/kmrs:latest
+       container_name: kmrs
+       user: "1000:1000"
+       ports:
+         - "25600:25600"
+       volumes:
+         - ./config:/config
+         - ./data:/data
+       restart: unless-stopped
+   ```
+
+     </TabItem>
+     <TabItem label="Binary">
+
+   Point `KOMGA_CONFIG_DIR` at the existing config directory:
+
+   ```sh
+   KOMGA_CONFIG_DIR=/path/to/config ./kmrs
+   ```
+
+     </TabItem>
+   </Tabs>
+
+4. **Start KMServer**
+
+   On first start, KMServer upgrades `database.sqlite` in place with byte-for-byte Flyway migrations. Your libraries, users, and reading progress carry over.
+
+   :::note
+   The upgrade is not one-way: the Java version can still open a database written by KMServer, so you can switch back by starting the old container again.
+   :::
+
+5. **Connect your clients**
+
+   KMServer listens on the same port (25600) and speaks the same API, so your clients reconnect to the same address: the web UI, KMReader, KOReader, Kobo, and OPDS readers. Sign in again where a client asks for it.
+
+</Steps>
+
+## Configuration
+
+The same `KOMGA_*` environment variables apply. A few Java-only keys are ignored with a warning during migration; the full list is under [Known limitations](/server/limitations). Everything else is documented under [Configuration](/server/configuration).
+
+## What carries over
+
+- Libraries, series, books, and metadata
+- Users and their reading progress
+- Collections, read lists, and saved searches
+- API keys
+
+## What changes
+
+- The web UI is the bundled [kmweb](https://github.com/kmworks/kmweb) interface instead of the Java one (Docker image; the bare binary serves no UI, see [Serving a web UI](/server/webui)).
+- A small number of behaviors differ on purpose; see [Enhancements](/server/enhancements) and [Known limitations](/server/limitations).

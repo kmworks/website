@@ -1,0 +1,114 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import "../styles/landing.css";
+
+export const prerender = true;
+
+const appStoreUrl = "https://apps.apple.com/app/id6755198424";
+
+// Capabilities of the current KMReader release. "Web UI" is the komga/kmweb
+// browser interface; "Generic OPDS client" is intentionally a range, since
+// OPDS readers differ.
+const rows: { cap: string; kmreader: string; webui: string; opds: string }[] = [
+  { cap: "Native iPhone", kmreader: "yes", webui: "Browser", opds: "varies" },
+  { cap: "Native iPad", kmreader: "yes", webui: "Browser", opds: "varies" },
+  { cap: "Native macOS", kmreader: "yes", webui: "Browser", opds: "varies" },
+  { cap: "Apple TV", kmreader: "yes", webui: "No", opds: "varies" },
+  { cap: "Offline downloads", kmreader: "yes", webui: "No", opds: "varies" },
+  { cap: "EPUB", kmreader: "yes", webui: "yes", opds: "varies" },
+  { cap: "PDF", kmreader: "yes", webui: "yes", opds: "varies" },
+  { cap: "Multiple servers", kmreader: "yes", webui: "No", opds: "varies" },
+  { cap: "Widgets", kmreader: "yes", webui: "No", opds: "No" },
+  { cap: "Spotlight", kmreader: "yes", webui: "No", opds: "No" },
+];
+---
+
+<BaseLayout
+  title="Compare"
+  description="A neutral capability comparison: KMReader, the browser Web UI, and generic OPDS clients, feature by feature."
+>
+  <div class="flex flex-col min-h-screen km-landing">
+    <Header />
+    <main id="main-content" tabindex="-1" class="flex-1">
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h1 class="sectionTitle">Compare</h1>
+            <p class="sectionSub">
+              A neutral look at what each way of reading can do. No rankings:
+              the right client is the one that fits how you read.
+            </p>
+          </div>
+          <div class="tableWrap">
+            <table class="compare">
+              <thead>
+                <tr>
+                  <th scope="col">Capability</th>
+                  <th scope="col">KMReader</th>
+                  <th scope="col">Web UI</th>
+                  <th scope="col">Generic OPDS client</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((r) => (
+                  <tr>
+                    <td>{r.cap}</td>
+                    <td>
+                      {r.kmreader === "yes" ? (
+                        <span class="yes">✓</span>
+                      ) : (
+                        <span class="no">{r.kmreader}</span>
+                      )}
+                    </td>
+                    <td>
+                      {r.webui === "yes" ? (
+                        <span class="yes">✓</span>
+                      ) : (
+                        <span class="no">{r.webui}</span>
+                      )}
+                    </td>
+                    <td>
+                      {r.opds === "yes" ? (
+                        <span class="yes">✓</span>
+                      ) : (
+                        <span class="varies">{r.opds}</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="techNote">
+            Capabilities of the current KMReader release. "Generic OPDS client"
+            is a range on purpose: OPDS readers differ widely, check yours for
+            specifics. The Web UI row describes the bundled kmweb interface and
+            the komga web UI, which share the same browser constraints.
+          </p>
+          <div class="ctaRow" style="margin-top: 2.4rem;">
+            <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
+              <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Get KMReader
+            </a>
+            <a class="btnGhost" href="/reader/">
+              KMReader details <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>
+
+<style>
+  .km-landing .techNote {
+    margin: 1.6rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--km-text-muted);
+    max-width: 44rem;
+  }
+</style>

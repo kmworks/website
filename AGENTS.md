@@ -10,7 +10,7 @@ Read and follow [AGENT.md](./AGENT.md) — the canonical guide for the Nimbus ma
 pnpm typecheck && pnpm build && pnpm exec nimbus-docs check && pnpm lint:docs
 ```
 
-Then confirm `dist/` still serves every public route: `/`, `/server/`, `/reader/`, `/server/{intro,installation,configuration,webui,search,compatibility,enhancements,limitations,development}/`, `/reader/{intro,privacy}/`.
+Then confirm `dist/` still serves every public route: `/`, `/server/`, `/reader/`, `/faq/`, `/compare/`, `/architecture/`, `/server/{intro,installation,configuration,webui,search,compatibility,enhancements,limitations,development,migration}/`, `/server/enhancements/{webhooks,history-events,epub2-metadata,natural-sort,komf,thumbnail-storage,komga-riir}/`, `/reader/{intro,privacy}/`.
 
 ## Content conventions
 

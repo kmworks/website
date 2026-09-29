@@ -16,8 +16,8 @@ const nimbusConfig = defineNimbusConfig({
   socialImageAlt: "kmworks — Komga-compatible reading, end to end",
   sidebar: {
     items: [
-      { label: "server", autogenerate: { directory: "server" } },
-      { label: "reader", autogenerate: { directory: "reader" } },
+      { label: "KMServer", autogenerate: { directory: "server" } },
+      { label: "KMReader", autogenerate: { directory: "reader" } },
     ],
   },
 });

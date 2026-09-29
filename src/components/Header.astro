@@ -1,5 +1,4 @@
 ---
-import type { SidebarSection } from "@cloudflare/nimbus-docs/types";
 import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
 import { Button } from "./ui/button";
 import { LinkButton } from "./ui/link-button";
@@ -19,35 +18,44 @@ interface Props {
    * shouldn't show a button that opens an empty dialog. Default `true`.
    */
   showSidebar?: boolean;
-  sections?: SidebarSection[];
+  sections?: import("@cloudflare/nimbus-docs/types").SidebarSection[];
 }
 
-// `entryId` is part of Props as a forward-compat hook (the version-switcher
-// recipe reads it) but the base Header doesn't use it — leave it off the
-// destructure to avoid an unused-var warning.
 const { collection, showSidebar = true, sections: sectionsProp } = Astro.props;
 
 // Normalize trailing slash so isActive matches sidebar hrefs.
 const currentSlug = stripBase(Astro.url.pathname, import.meta.env.BASE_URL).replace(/\/$/, "") || "/";
-let sections =
-  sectionsProp ?? (await getSidebarSections(currentSlug, { collection }));
-if (sections.length < 2) {
+
+const appStoreUrl = "https://apps.apple.com/app/id6755198424";
+
+// Product nav. Docs pages keep the section tab strip derived from the
+// sidebar; everywhere else the same three links are the primary nav.
+const productNav = [
+  { label: "KMReader", href: "/reader/", match: (s: string) => s === "/reader" },
+  { label: "KMServer", href: "/server/", match: (s: string) => s === "/server" },
+  { label: "Docs", href: "/server/intro", match: (s: string) => /^\/(server|reader)\/.+/.test(s) },
+];
+
+let sections = sectionsProp ?? (collection ? await getSidebarSections(currentSlug, { collection }) : []);
+if (collection && sections.length < 2) {
   // Nimbus only treats separately mounted collections as header sections;
   // kmworks sections are docs directories, so derive the tab strip from the
   // sidebar's top-level groups instead.
   const tree = await getSidebar(currentSlug, { collection });
+  const labels: Record<string, string> = { server: "KMServer", reader: "KMReader" };
   sections = tree
     .filter((item) => item.type === "group" && item._routeKey)
     .map((group) => {
       const seg = (group as { _routeKey?: string })._routeKey!.replace(/\/+$/, "");
+      const name = seg.replace(/^\//, "");
       return {
-        label: seg.replace(/^\//, ""),
+        label: labels[name] ?? name,
         href: `${seg}/`,
         isActive: currentSlug === seg || currentSlug.startsWith(`${seg}/`),
       };
     });
 }
-const showSections = sections.length >= 2;
+const showSections = collection && sections.length >= 2;
 const homeHref = withBase("/", import.meta.env.BASE_URL);
 const resolveSectionHref = (href: string): string =>
   withBase(href, import.meta.env.BASE_URL);
@@ -65,7 +73,7 @@ const resolveSectionHref = (href: string): string =>
         </a>
       </slot>
 
-      {showSections && (
+      {showSections ? (
         <nav aria-label="Sections" class="hidden md:flex items-center gap-1 ml-4 pl-4 border-l border-border h-6 min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {sections.map((section) => (
             <a
@@ -79,6 +87,23 @@ const resolveSectionHref = (href: string): string =>
               ]}
             >
               {section.label}
+            </a>
+          ))}
+        </nav>
+      ) : (
+        <nav aria-label="Products" class="hidden md:flex items-center gap-1 ml-4 pl-4 border-l border-border h-6">
+          {productNav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={item.match(currentSlug) ? "page" : undefined}
+              class:list={[
+                "px-2 py-1 rounded-md text-[0.8125rem] font-medium no-underline transition-colors whitespace-nowrap",
+                item.match(currentSlug)
+                  ? "text-foreground bg-accent"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent/60",
+              ]}
+            >
+              {item.label}
             </a>
           ))}
         </nav>
@@ -103,7 +128,15 @@ const resolveSectionHref = (href: string): string =>
         </LinkButton>
       )}
       <ThemeToggle />
-      {showSidebar && (
+      <a
+        href={appStoreUrl}
+        target="_blank"
+        rel="noopener"
+        class="hidden md:inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-primary text-primary-foreground text-[0.8125rem] font-semibold no-underline hover:opacity-90 transition-opacity whitespace-nowrap"
+      >
+        Get KMReader
+      </a>
+      {showSidebar && collection && (
         <Button
           variant="ghost"
           shape="square"
@@ -114,6 +147,48 @@ const resolveSectionHref = (href: string): string =>
           class="md:hidden text-muted-foreground"
         />
       )}
+      <Button
+        variant="ghost"
+        shape="square"
+        size="sm"
+        icon="ph:dots-three-outline-vertical"
+        aria-label="Open menu"
+        aria-expanded="false"
+        data-nav-btn
+        class="md:hidden text-muted-foreground"
+      />
     </div>
   </div>
+
+  <div data-nav-panel class="hidden md:hidden border-t border-border bg-card px-4 py-3">
+    <nav aria-label="Menu" class="flex flex-col gap-1">
+      {productNav.map((item) => (
+        <a
+          href={item.href}
+          class="px-2 py-2 rounded-md text-sm font-medium no-underline text-foreground hover:bg-accent/60"
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={appStoreUrl}
+        target="_blank"
+        rel="noopener"
+        class="mt-1 inline-flex items-center justify-center h-9 px-4 rounded-full bg-primary text-primary-foreground text-sm font-semibold no-underline"
+      >
+        Get KMReader
+      </a>
+    </nav>
+  </div>
 </header>
+
+<script>
+  // Delegated so it keeps working after ClientRouter swaps the header.
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest("[data-nav-btn]");
+    if (!btn) return;
+    const panel = btn.closest("header")?.querySelector("[data-nav-panel]");
+    const open = panel?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(open));
+  });
+</script>

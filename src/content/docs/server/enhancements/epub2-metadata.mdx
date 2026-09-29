@@ -1,0 +1,12 @@
+---
+title: "EPUB 2 series metadata"
+sidebar:
+  order: 3
+---
+
+When an EPUB has no EPUB 3 `belongs-to-collection` / `group-position` properties, KMServer falls back to the OPF 2 `<meta name="…" content="…"/>` form for the series title and the book's number/numberSort:
+
+- `calibre:series` / `calibre:series_index` (calibre)
+- the bare `series` / `series_index` (common in fan-packed light-novel EPUBs)
+
+The Java version only reads the EPUB 3 property form.

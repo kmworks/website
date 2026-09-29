@@ -9,6 +9,8 @@ import "../../styles/landing.css";
 
 export const prerender = true;
 
+const releasesUrl = "https://github.com/kmworks/kmrs/releases/latest";
+
 const dockerRun = `docker run -d \\
   --name=komga \\
   --user 1000:1000 \\
@@ -21,6 +23,18 @@ const dockerRun = `docker run -d \\
 const binaryRun = `# grab the archive for your platform from the releases page:
 #   https://github.com/kmworks/kmrs/releases/latest
 ./kmrs   # serves on http://localhost:25600`;
+
+const composeRun = `services:
+  kmrs:
+    image: ghcr.io/kmworks/kmrs:latest
+    container_name: kmrs
+    user: "1000:1000"
+    ports:
+      - "25600:25600"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    restart: unless-stopped`;
 
 const diffRun = `python3 tests/diff/diff.py \\
   --java-jar komga.jar \\
@@ -35,33 +49,36 @@ const clients = [
 ---
 
 <BaseLayout
-  title="Comic & manga server in a single binary"
-  description="kmrs is a comic and manga server in a single static Rust binary, drop-in compatible with Komga: same API, same database."
+  title="KMServer — Komga-Compatible Comic & Manga Server"
+  description="KMServer is a lightweight, Komga-compatible comic and manga server with the web UI included. Same API, same database: point it at your existing Komga library."
 >
   <div class="flex flex-col min-h-screen km-landing">
     <Header />
     <main id="main-content" tabindex="-1" class="flex-1">
+      {/* Hero */}
       <header class="hero">
         <div class="heroBg"></div>
         <div class="container">
           <div class="heroInner">
             <div>
-              <p class="eyebrow">Komga-compatible, drop-in</p>
-              <h1 class="heroTitle">
-                Your comics,
-                <br />
-                <em>one</em> static binary.
-              </h1>
+              <p class="eyebrow">KMServer</p>
+              <h1 class="heroTitle">Your library. One server.</h1>
               <p class="heroSub">
-                Serve your comic and manga library to the web, your e-reader,
-                and every app in between.
+                A lightweight, Komga-compatible server with the web UI included.
               </p>
+              <div class="chipRow" style="margin-top: 0; margin-bottom: 2rem;">
+                <span class="chip">Komga-compatible</span>
+                <span class="chip">Existing libraries</span>
+                <span class="chip">Existing database</span>
+                <span class="chip">Cross-platform</span>
+                <span class="chip">Single binary</span>
+              </div>
               <div class="ctaRow">
-                <a class="btnPrimary" href="/server/installation">
-                  Get started <Icon name="ph:arrow-right" class="w-4 h-4" />
+                <a class="btnPrimary" href={releasesUrl} target="_blank" rel="noopener">
+                  Download KMServer
                 </a>
-                <a class="btnGhost" href="https://github.com/kmworks/kmrs" target="_blank" rel="noopener">
-                  <Icon name="ph:github-logo" class="w-[17px] h-[17px]" /> GitHub
+                <a class="btnGhost" href="/server/intro">
+                  Documentation <Icon name="ph:arrow-right" class="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -76,13 +93,58 @@ const clients = [
         </div>
       </header>
 
+      {/* Why KMServer */}
       <section class="section">
         <div class="container">
           <div class="sectionHead">
-            <h2 class="sectionTitle">Same server, smaller footprint</h2>
+            <h2 class="sectionTitle">Why KMServer?</h2>
             <p class="sectionSub">
-              Same port, same mounts, same env vars, same database. What leaves
-              is the runtime weight.
+              The Komga experience with a much smaller footprint: one static
+              binary instead of a JVM runtime.
+            </p>
+          </div>
+          <div class="cardGrid">
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:package" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">One static binary</h3>
+              <p class="cardBody">
+                KMServer is distributed as the <code>kmrs</code> binary: no
+                runtime to install, nothing else to provision.
+              </p>
+            </article>
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:devices" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Runs anywhere</h3>
+              <p class="cardBody">
+                Linux, macOS, and Windows, on x86_64 and aarch64. Docker image
+                included.
+              </p>
+            </article>
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:browser" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Web UI included</h3>
+              <p class="cardBody">
+                The Docker image bundles the kmweb UI, so your library works
+                in a browser out of the box.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* Komga compatibility */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Komga-compatible, verified</h2>
+            <p class="sectionSub">
+              Same port, same mounts, same environment variables, same API.
             </p>
           </div>
           <div class="cardGrid">
@@ -93,58 +155,64 @@ const clients = [
               <h3 class="cardTitle">API parity, verified</h3>
               <p class="cardBody">
                 REST, OPDS v1.2/v2, SSE, Kobo and KOReader sync. A differential
-                harness compares ~105 endpoints against a live Java instance of
-                komga 1.27.1.
+                harness compares about 105 endpoints against a live Java
+                instance of komga 1.27.1.
               </p>
               <Code code={diffRun} lang="bash" />
             </div>
             <div class="card">
               <div class="cardIcon">
-                <Icon name="ph:database" class="w-[26px] h-[26px]" />
+                <Icon name="ph:plugs-connected" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">Your data, as-is</h3>
+              <h3 class="cardTitle">Drop-in replacement</h3>
               <p class="cardBody">
-                Point kmrs at an existing komga data directory and it upgrades{" "}
-                <code>database.sqlite</code> in place with byte-for-byte Flyway
-                migrations. The Java version can still open libraries written by
-                kmrs.
-              </p>
-            </div>
-            <div class="card">
-              <div class="cardIcon">
-                <Icon name="ph:feather" class="w-[26px] h-[26px]" />
-              </div>
-              <h3 class="cardTitle">Runs anywhere</h3>
-              <p class="cardBody">
-                One static binary for Linux, macOS, and Windows, x86_64 and
-                aarch64.
-              </p>
-            </div>
-            <div class="card cardCjk">
-              <div class="cardIcon">
-                <Icon name="ph:translate" class="w-[26px] h-[26px]" />
-              </div>
-              <h3 class="cardTitle">CJK cross-search</h3>
-              <p class="cardBody">
-                Simplified and traditional Chinese match each other, and CJK
-                unigrams find titles mid-run.
-              </p>
-              <span class="cjkGlyphs">简繁</span>
-            </div>
-            <div class="card">
-              <div class="cardIcon">
-                <Icon name="ph:pulse" class="w-[26px] h-[26px]" />
-              </div>
-              <h3 class="cardTitle">Heap profiling built in</h3>
-              <p class="cardBody">
-                jemalloc sampling with a pprof endpoint, always on in release
-                builds.
+                Same port (25600), same <code>/config</code> and{" "}
+                <code>/data</code> mounts, same <code>KOMGA_*</code>{" "}
+                environment variables. Your existing setup carries over.
               </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Existing library / migration */}
+      <section class="section">
+        <div class="container">
+          <div class="split">
+            <div>
+              <h2 class="sectionTitle">Keep your library. Keep your database.</h2>
+              <p class="sectionSub">
+                Point KMServer at an existing komga data directory and it
+                upgrades <code>database.sqlite</code> in place with
+                byte-for-byte Flyway migrations. The Java version can still
+                open libraries written by KMServer, so you can switch back at
+                any time.
+              </p>
+              <div class="ctaRow" style="margin-top: 2rem;">
+                <a class="btnGhost" href="/server/migration">
+                  Migration guide <Icon name="ph:arrow-right" class="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+            <div class="statRow" style="margin-top: 0; grid-template-columns: 1fr;">
+              <div class="stat">
+                <div class="statValue">Same library</div>
+                <p class="statLabel">Your files stay where they are.</p>
+              </div>
+              <div class="stat">
+                <div class="statValue">Same database</div>
+                <p class="statLabel">Upgraded in place, readable by both servers.</p>
+              </div>
+              <div class="stat">
+                <div class="statValue">Same API</div>
+                <p class="statLabel">Your clients reconnect without changes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Installation */}
       <section class="section">
         <div class="container">
           <div class="split">
@@ -161,23 +229,31 @@ const clients = [
                 <div class="step">
                   <span class="stepName">Keep your library</span>
                   <p class="stepDesc">
-                    Point <code>/config</code> at your existing komga data. kmrs
-                    upgrades it in place.
+                    Point <code>/config</code> at your existing komga data.
+                    KMServer upgrades it in place.
                   </p>
                 </div>
                 <div class="step">
                   <span class="stepName">Pick a reader</span>
                   <p class="stepDesc">
-                    The bundled kmweb UI, KMReader, KOReader, Kobo, or any
-                    OPDS client.
+                    The bundled web UI, KMReader, KOReader, Kobo, or any OPDS
+                    client.
                   </p>
                 </div>
+              </div>
+              <div class="ctaRow" style="margin-top: 2rem;">
+                <a class="btnGhost" href="/server/installation">
+                  Full installation guide <Icon name="ph:arrow-right" class="w-4 h-4" />
+                </a>
               </div>
             </div>
             <div class="codePanel">
               <Tabs>
                 <TabItem label="Docker">
                   <Code code={dockerRun} lang="bash" />
+                </TabItem>
+                <TabItem label="Compose">
+                  <Code code={composeRun} lang="yaml" />
                 </TabItem>
                 <TabItem label="Binary">
                   <Code code={binaryRun} lang="bash" />
@@ -188,6 +264,58 @@ const clients = [
         </div>
       </section>
 
+      {/* Technical details */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Technical details</h2>
+            <p class="sectionSub">
+              Improvements KMServer adds on top of compatibility.
+            </p>
+          </div>
+          <div class="cardGrid">
+            <div class="card cardCjk">
+              <div class="cardIcon">
+                <Icon name="ph:translate" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">CJK cross-search</h3>
+              <p class="cardBody">
+                Simplified and traditional Chinese match each other, and CJK
+                unigrams find titles mid-run. <a href="/server/search">Search</a>
+              </p>
+              <span class="cjkGlyphs">简繁</span>
+            </div>
+            <div class="card">
+              <div class="cardIcon">
+                <Icon name="ph:sort-ascending" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Natural sort</h3>
+              <p class="cardBody">
+                Numbered titles order the way you expect: "Page 2" before
+                "Page 10", with a configurable ICU locale.
+              </p>
+            </div>
+            <div class="card">
+              <div class="cardIcon">
+                <Icon name="ph:pulse" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Heap profiling built in</h3>
+              <p class="cardBody">
+                jemalloc sampling with a pprof endpoint, always on in release
+                builds.
+              </p>
+            </div>
+          </div>
+          <p class="techNote">
+            The full lists live in the docs: <a href="/server/enhancements">Enhancements</a>,{" "}
+            <a href="/server/compatibility">Compatibility</a>,{" "}
+            <a href="/server/limitations">Known limitations</a>,{" "}
+            <a href="/server/development">Development</a>.
+          </p>
+        </div>
+      </section>
+
+      {/* Clients */}
       <section class="section clients">
         <div class="container">
           <h2 class="sectionTitle">Bring your own reader</h2>
@@ -210,8 +338,8 @@ const clients = [
         <div class="container">
           <h2 class="finalTitle">Start serving your comics.</h2>
           <div class="ctaRow">
-            <a class="btnPrimary" href="/server/installation">
-              Get started <Icon name="ph:arrow-right" class="w-4 h-4" />
+            <a class="btnPrimary" href={releasesUrl} target="_blank" rel="noopener">
+              Download KMServer
             </a>
             <a class="btnGhost" href="/server/intro"> Read the docs </a>
           </div>
@@ -221,3 +349,16 @@ const clients = [
     <Footer />
   </div>
 </BaseLayout>
+
+<style>
+  .km-landing .techNote {
+    margin: 2.2rem 0 0;
+    font-size: 0.88rem;
+    color: var(--km-text-muted);
+  }
+
+  .km-landing .techNote a,
+  .km-landing .cardBody a {
+    color: var(--km-accent);
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+title: "Thumbnail file storage"
+sidebar:
+  order: 6
+---
+
+Opt-in: `thumbnails.storage = "file"` (env `KOMGA_THUMBNAILS_STORAGE`) stores book/series thumbnail bytes as files under `<config-dir>/thumbnails/<book|series>/<shard>/` instead of DB blobs, keeping only the file URL in the row.
+
+The read path is unchanged and identical to Java's (blob first, URL fallback). On first start after enabling, a one-time background migration moves existing blobs to files (tracked in `kmrs.sqlite`, resumable) and vacuums the database; a sweep at startup and daily deletes files no row references.
+
+Caveats:
+
+- The URLs are absolute paths, so moving the config directory breaks them: generated thumbnails are rebuilt automatically, but user-uploaded ones are lost (no migration tool is provided).
+- Switching back to `db` is not offered, though URL-backed rows remain readable in every mode.
+
+The Java version always stores thumbnails as DB blobs.

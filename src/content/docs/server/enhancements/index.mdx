@@ -1,0 +1,28 @@
+---
+title: "Enhancements"
+sidebar:
+  order: 6
+  label: "Overview"
+---
+
+Improvements KMServer adds on top of Java parity, plus intentional behavior differences. Accepted gaps that are not planned to be closed are listed under [Known limitations](/server/limitations).
+
+## Capabilities the Java version does not have
+
+- [Outbound webhooks](/server/enhancements/webhooks): library events POSTed as JSON to configured URLs, with HMAC-SHA256 signatures
+- [History events](/server/enhancements/history-events): scan-triggered trashing and trash emptying recorded in `GET /api/v1/history`
+- [Search](/server/search): simplified ↔ traditional Chinese cross-search and CJK boundary unigrams
+- [EPUB 2 series metadata](/server/enhancements/epub2-metadata): calibre-style OPF 2 `<meta>` fallback for series title and number
+- [Natural sort](/server/enhancements/natural-sort): numbered titles sort by numeric value, with a configurable ICU locale
+- [komf integration](/server/enhancements/komf): one-click setup of a komf metadata fetcher
+- [Thumbnail file storage](/server/enhancements/thumbnail-storage): opt-in file-backed thumbnails instead of DB blobs
+- [komga-riir databases](/server/enhancements/komga-riir): adopt databases created by komga-riir
+
+## Behavior differences
+
+Intentional differences from the Java behavior:
+
+- Book and series thumbnail endpoints answer `If-None-Match` against a deep ETag computed from the thumbnail row (blob rows: row id + file size; file-backed rows: file mtime + size), so a cache revalidation returns 304 without hashing the response body; file-backed rows (sidecars, `thumbnails.storage = "file"`) are revalidated with a file stat instead of a full read. The Java version always hashes the full response body (shallow ETag); `thumbnails.deep-etag = false` (env `KOMGA_THUMBNAILS_DEEPETAG`) switches back to that behavior. ETag values are opaque and not interchangeable between the two implementations — switching either way just costs one fresh 200 per image.
+- Page order and series book numbering are case-sensitive; the Java natural comparator is case-insensitive.
+- `GET /actuator/sessions` without `?username=` lists all sessions; the Java version rejects the request, as `username` is a required parameter there.
+- `/api/v1/books/{bookId}/next` and `/previous` break `numberSort` ties by book id, matching the On Deck selection order; the Java version orders and seeks by `numberSort` alone, so navigation between books with duplicate `numberSort` is unstable and can diverge from On Deck ([gotson/komga#2182](https://github.com/gotson/komga/pull/2182)).

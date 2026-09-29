@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/landing.css";
+
+export const prerender = true;
+
+const faqs = [
+  {
+    q: "Is KMReader compatible with Komga?",
+    a: "Yes. KMReader works with any Komga 1.20.0 or later server, including KMServer.",
+  },
+  {
+    q: "Do I need to migrate my library?",
+    a: "No. Point KMServer at your existing library directories and it scans them in place. Your files stay where they are.",
+  },
+  {
+    q: "Can KMServer use my existing library?",
+    a: "Yes. KMServer reuses your existing library structure; there is nothing to reorganize or re-import.",
+  },
+  {
+    q: "Can KMServer use my existing database?",
+    a: "Yes. Point it at an existing komga data directory and it upgrades database.sqlite in place with byte-for-byte Flyway migrations. The Java version can still open the result, so you can switch back at any time.",
+  },
+  {
+    q: "Can I continue using other Komga clients?",
+    a: "Yes. KMServer speaks the same API: REST, OPDS v1.2/v2, SSE, Kobo and KOReader sync. Your existing clients reconnect without changes.",
+  },
+  {
+    q: "Does KMReader work offline?",
+    a: "Yes. Downloaded books stay fully readable offline: pages, covers, metadata and progress are stored locally.",
+  },
+  {
+    q: "Does reading progress sync?",
+    a: "Yes. Progress is tracked offline first and synced to your server when you reconnect, so it follows you across devices.",
+  },
+  {
+    q: "Does KMReader support EPUB?",
+    a: "Yes, on iOS and macOS, with themes, fonts, and layout controls.",
+  },
+  {
+    q: "Does KMReader support PDF?",
+    a: "Yes, on iOS and macOS.",
+  },
+  {
+    q: "Does KMReader support DIVINA?",
+    a: "Yes, on every platform: iOS, macOS, and tvOS.",
+  },
+  {
+    q: "Does KMReader work on Mac?",
+    a: "Yes. KMReader is a native macOS app (macOS 14.0 or later) with dedicated reader windows, menu bar actions, and keyboard-first controls.",
+  },
+  {
+    q: "Does KMReader work on Apple TV?",
+    a: "Yes. KMReader is a native tvOS app (tvOS 17.0 or later) with remote-first DIVINA reading.",
+  },
+  {
+    q: "Can KMReader connect to multiple servers?",
+    a: "Yes. Save several servers, switch between them at any time, and sign in with a password or an API key.",
+  },
+  {
+    q: "Is kmworks open source?",
+    a: "Yes. Every kmworks project is MIT licensed: KMServer, KMReader, and the web UI.",
+  },
+  {
+    q: "Is kmworks affiliated with Komga?",
+    a: "No. kmworks is built for the Komga ecosystem but is independent of it, and is not affiliated with the Komga project.",
+  },
+  {
+    q: "What is kmrs?",
+    a: "kmrs is the technical name of KMServer: the repository, the Docker image, and the binary are all called kmrs. The product is KMServer.",
+  },
+];
+---
+
+<BaseLayout
+  title="KMReader & KMServer FAQ"
+  description="Answers about KMReader and KMServer: Komga compatibility, existing libraries and databases, offline reading, sync, formats, and platforms."
+>
+  <div class="flex flex-col min-h-screen km-landing">
+    <Header />
+    <main id="main-content" tabindex="-1" class="flex-1">
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h1 class="sectionTitle">Frequently asked questions</h1>
+            <p class="sectionSub">
+              Komga compatibility, migration, offline reading, and platforms.
+            </p>
+          </div>
+          <div class="faqGrid">
+            {faqs.map((f) => (
+              <article class="faqItem">
+                <h2 class="faqQuestion">{f.q}</h2>
+                <p class="faqAnswer">{f.a}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>

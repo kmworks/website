@@ -10,90 +10,130 @@ export const prerender = true;
 const appStoreUrl = "https://apps.apple.com/app/id6755198424";
 const githubUrl = "https://github.com/kmworks/kmreader";
 
-const features = [
+const readingFeatures = [
   {
-    pill: "Readers",
-    title: "DIVINA, EPUB, and PDF",
-    body: "DIVINA on every platform, EPUB and PDF on iOS and macOS. Webtoon, spreads, page curl, AI upscaling, and per-book preferences.",
+    title: "DIVINA",
+    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, per-book preferences.",
     icon: "ph:book-open",
   },
   {
-    pill: "Browse",
-    title: "Find the right book faster",
-    body: "Keep Reading and On Deck dashboards, read lists that continue like series, metadata filters, saved searches, and Spotlight indexing for downloaded content.",
-    icon: "ph:magnifying-glass",
+    title: "Webtoon",
+    body: "Vertical scrolling for webtoons and long strips.",
+    icon: "ph:scroll",
   },
   {
-    pill: "Offline",
-    title: "Keep reading anywhere",
-    body: "Downloads with per-series policies, offline-first reading, background transfers, and progress sync when you reconnect.",
-    icon: "ph:download-simple",
+    title: "EPUB",
+    body: "Native EPUB reading on iOS and macOS with themes, fonts, and layout controls.",
+    icon: "ph:book",
   },
   {
-    pill: "Apple platforms",
-    title: "System integrations",
-    body: "Widgets, Home Screen quick actions, Live Activities, Live Text, and dedicated reader windows on macOS.",
-    icon: "ph:apple-logo",
+    title: "PDF",
+    body: "PDF reading on iOS and macOS.",
+    icon: "ph:file-pdf",
   },
   {
-    pill: "Multi-server",
-    title: "Switch servers quickly",
-    body: "Save multiple Komga servers, sign in with password or API key, and manage keys in the app.",
-    icon: "ph:hard-drives",
+    title: "LTR / RTL",
+    body: "Reading direction per book, for manga and western comics alike.",
+    icon: "ph:arrows-left-right",
   },
   {
-    pill: "Admin",
-    title: "Manage your server in-app",
-    body: "Edit metadata, manage libraries, monitor tasks, and review or export logs.",
-    icon: "ph:gear-six",
+    title: "Page modes",
+    body: "Single-page and double-page modes, wide-page splitting, and cover isolation where supported.",
+    icon: "ph:copy",
   },
 ];
 
-const platforms = [
+const libraryFeatures = [
+  { label: "Keep Reading", icon: "ph:play" },
+  { label: "On Deck", icon: "ph:stack" },
+  { label: "Series & collections", icon: "ph:books" },
+  { label: "Read lists", icon: "ph:list-checks" },
+  { label: "Metadata filters", icon: "ph:funnel" },
+  { label: "Saved searches", icon: "ph:magnifying-glass" },
+  { label: "Reading history", icon: "ph:clock-counter-clockwise" },
+  { label: "Multiple servers", icon: "ph:hard-drives" },
+  { label: "API key sign-in", icon: "ph:key" },
+];
+
+const offlineFeatures = [
+  { label: "Downloads", icon: "ph:download-simple" },
+  { label: "Per-series policies", icon: "ph:sliders-horizontal" },
+  { label: "Background transfers", icon: "ph:arrows-clockwise" },
+  { label: "Offline-first database", icon: "ph:database" },
+  { label: "Local covers", icon: "ph:image" },
+  { label: "Next-book preparation", icon: "ph:fast-forward" },
+];
+
+const syncFeatures = [
   {
-    title: "iOS & iPadOS",
-    body: "All three readers with widgets, quick actions, Spotlight search, background downloads, and Live Activities.",
-    icon: "ph:device-mobile",
+    title: "Reading progress",
+    body: "Progress is tracked locally as you read, even fully offline.",
+    icon: "ph:bookmark-simple",
   },
   {
-    title: "macOS",
-    body: "Dedicated reader windows, menu bar actions, and keyboard-first controls.",
-    icon: "ph:laptop",
+    title: "Server sync",
+    body: "Progress syncs back to your Komga server when you reconnect.",
+    icon: "ph:arrows-clockwise",
   },
   {
-    title: "tvOS",
-    body: "Remote-first DIVINA reading with a focused TV browsing experience.",
-    icon: "ph:television",
+    title: "Cross-device",
+    body: "Pick up on your iPad where you stopped on your iPhone, through the same server.",
+    icon: "ph:devices",
   },
 ];
 
-const faqs = [
-  {
-    q: "Is KMReader an official Komga app?",
-    a: "No. KMReader is an independent open-source client built for Komga users.",
-  },
-  {
-    q: "Which readers are available?",
-    a: "DIVINA on iOS, macOS, and tvOS. EPUB and PDF on iOS and macOS.",
-  },
-  {
-    q: "Can I use multiple Komga servers?",
-    a: "Yes. Save and switch between servers, sign in with password or API key, and manage keys in the app.",
-  },
-  {
-    q: "How does offline mode work?",
-    a: "Downloaded books stay readable offline, and reading progress syncs when you reconnect.",
-  },
-  {
-    q: "Can admins manage library data in-app?",
-    a: "Yes. Metadata editing, library and media management, task monitoring, and log review are built in.",
-  },
+const appleFeatures = [
+  { label: "Spotlight", icon: "ph:magnifying-glass" },
+  { label: "Widgets", icon: "ph:squares-four" },
+  { label: "Live Activities", icon: "ph:timer" },
+  { label: "Live Text", icon: "ph:text-aa" },
+  { label: "Quick actions", icon: "ph:lightning" },
+  { label: "macOS reader windows", icon: "ph:app-window" },
+  { label: "Menu bar actions", icon: "ph:list" },
+  { label: "tvOS remote-first UI", icon: "ph:television" },
+];
+
+const iphoneShots = [
+  { src: "iphone-dashboard", alt: "Library dashboard with Keep Reading and recently added books" },
+  { src: "iphone-reader", alt: "DIVINA reader with the reading settings menu open" },
+  { src: "iphone-browse", alt: "Browse view with series, books, collections and read lists" },
+  { src: "iphone-offline", alt: "Offline view with download tasks and downloaded books" },
+  { src: "iphone-book", alt: "Current book view with reader presets and theme settings" },
+  { src: "iphone-server", alt: "Server management view with libraries and API keys" },
+  { src: "iphone-settings", alt: "Settings view with reader and display options" },
+];
+
+const ipadShots = [
+  { src: "ipad-dashboard", alt: "Library dashboard with Keep Reading and recently added books" },
+  { src: "ipad-reader", alt: "DIVINA reader showing a full comic page" },
+  { src: "ipad-browse", alt: "Browse view with the series grid" },
+  { src: "ipad-epub", alt: "EPUB reader with the theme panel open" },
+  { src: "ipad-offline", alt: "Offline view with downloaded books" },
+  { src: "ipad-server", alt: "Server management view" },
+  { src: "ipad-settings", alt: "Settings view" },
+];
+
+const macShots = [
+  { src: "mac-dashboard", alt: "Library dashboard with Keep Reading and the context menu open" },
+  { src: "mac-reader", alt: "DIVINA reader window with the keyboard shortcuts panel" },
+  { src: "mac-browse", alt: "Browse view with the series grid and reader settings" },
+  { src: "mac-offline", alt: "Offline view with download tasks and downloaded books" },
+  { src: "mac-server", alt: "Server management view" },
+];
+
+const tvosShots = [
+  { src: "tvos-dashboard", alt: "Home view with Keep Reading and recently added books" },
+  { src: "tvos-reader", alt: "Comic reader with the page grid open" },
+  { src: "tvos-search", alt: "Search view with the alphabet bar and results" },
+  { src: "tvos-offline", alt: "Offline view with downloaded books" },
+  { src: "tvos-server", alt: "Server management view" },
+  { src: "tvos-settings", alt: "Settings view" },
 ];
 ---
 
 <BaseLayout
-  title="Native Komga client for iOS, macOS, and tvOS"
-  description="KMReader is a native Komga client for iOS, macOS, and tvOS with DIVINA, EPUB, and PDF readers, offline downloads, multi-server support, and Apple-platform integrations."
+  title="KMReader — Native Komga Reader for iPhone, iPad, Mac & Apple TV"
+  description="KMReader is a native Komga client for iPhone, iPad, Mac and Apple TV with DIVINA, EPUB and PDF readers, offline downloads, progress sync, and Apple platform integrations."
 >
   <div class="flex flex-col min-h-screen km-landing">
     <Header />
@@ -106,16 +146,15 @@ const faqs = [
               <p class="eyebrow">Native Komga client</p>
               <h1 class="heroTitle">KMReader</h1>
               <p class="heroSub">
-                Read, download, and manage your Komga library on iPhone, iPad,
-                Mac, and Apple TV.
+                Your Komga library, the native way. A fast, offline-first comic
+                reader built for iPhone, iPad, Mac and Apple TV.
               </p>
               <div class="ctaRow">
                 <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
-                  <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Download on the App
-                  Store
+                  <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> App Store
                 </a>
-                <a class="btnGhost" href={githubUrl} target="_blank" rel="noopener">
-                  <Icon name="ph:github-logo" class="w-[17px] h-[17px]" /> View on GitHub
+                <a class="btnGhost" href="/reader/intro">
+                  Documentation <Icon name="ph:arrow-right" class="w-4 h-4" />
                 </a>
               </div>
               <div class="chipRow">
@@ -124,29 +163,135 @@ const faqs = [
                 <span class="chip">tvOS 17.0+</span>
               </div>
             </div>
-            <div class="heroArt">
-              <img
-                src="/img/kmreader-icon.svg"
-                alt="KMReader app icon"
-                class="heroIcon"
-              />
+            <div class="heroShots">
+              <figure class="shotFrame shotMain">
+                <img
+                  src="/img/shots/mac-dashboard-1000.webp"
+                  srcset="/img/shots/mac-dashboard-1000.webp 1000w, /img/shots/mac-dashboard-1800.webp 1800w"
+                  sizes="(max-width: 1024px) 88vw, 42vw"
+                  width="1000"
+                  height="625"
+                  alt="KMReader on Mac showing the library dashboard with Keep Reading and the context menu open"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </figure>
+              <figure class="shotFrame shotFloat">
+                <img
+                  src="/img/shots/iphone-browse-600.webp"
+                  srcset="/img/shots/iphone-browse-600.webp 600w, /img/shots/iphone-browse-1000.webp 1000w"
+                  sizes="(max-width: 1024px) 36vw, 15vw"
+                  width="600"
+                  height="1299"
+                  alt="KMReader on iPhone showing the browse view with series, books, collections and read lists"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </figure>
             </div>
           </div>
         </div>
       </header>
 
+      {/* Screenshot gallery */}
+      <section class="section">
+        <div class="container">
+          <div class="galleryTabs" role="tablist" aria-label="Platforms">
+            <button class="galleryTab" role="tab" aria-selected="true" data-gallery-tab="iphone" type="button">iPhone</button>
+            <button class="galleryTab" role="tab" aria-selected="false" data-gallery-tab="ipad" type="button">iPad</button>
+            <button class="galleryTab" role="tab" aria-selected="false" data-gallery-tab="mac" type="button">Mac</button>
+            <button class="galleryTab" role="tab" aria-selected="false" data-gallery-tab="tvos" type="button">Apple TV</button>
+          </div>
+          <div data-gallery-panel="iphone">
+            <div class="shotRow">
+              {iphoneShots.map((s, i) => (
+                <figure class="shotFrame">
+                  <img
+                    src={`/img/shots/${s.src}-600.webp`}
+                    srcset={`/img/shots/${s.src}-600.webp 600w, /img/shots/${s.src}-1000.webp 1000w`}
+                    sizes="(max-width: 640px) 62vw, 15rem"
+                    width="600"
+                    height="1299"
+                    alt={`KMReader on iPhone: ${s.alt}`}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+          <div data-gallery-panel="ipad" hidden>
+            <div class="shotRow wide">
+              {ipadShots.map((s) => (
+                <figure class="shotFrame">
+                  <img
+                    src={`/img/shots/${s.src}-900.webp`}
+                    srcset={`/img/shots/${s.src}-900.webp 900w, /img/shots/${s.src}-1600.webp 1600w`}
+                    sizes="(max-width: 640px) 78vw, 30rem"
+                    width="900"
+                    height="1201"
+                    alt={`KMReader on iPad: ${s.alt}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+          <div data-gallery-panel="mac" hidden>
+            <div class="shotRow wide">
+              {macShots.map((s) => (
+                <figure class="shotFrame">
+                  <img
+                    src={`/img/shots/${s.src}-1000.webp`}
+                    srcset={`/img/shots/${s.src}-1000.webp 1000w, /img/shots/${s.src}-1800.webp 1800w`}
+                    sizes="(max-width: 640px) 78vw, 30rem"
+                    width="1000"
+                    height="625"
+                    alt={`KMReader on Mac: ${s.alt}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+          <div data-gallery-panel="tvos" hidden>
+            <div class="shotRow wide">
+              {tvosShots.map((s) => (
+                <figure class="shotFrame">
+                  <img
+                    src={`/img/shots/${s.src}-960.webp`}
+                    srcset={`/img/shots/${s.src}-960.webp 960w, /img/shots/${s.src}-1920.webp 1920w`}
+                    sizes="(max-width: 640px) 78vw, 30rem"
+                    width="960"
+                    height="540"
+                    alt={`KMReader on Apple TV: ${s.alt}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reading */}
       <section class="section">
         <div class="container">
           <div class="sectionHead">
-            <h2 class="sectionTitle">Everything a Komga reader needs</h2>
+            <h2 class="sectionTitle">Reading</h2>
+            <p class="sectionSub">
+              Built for the way comics are actually read.
+            </p>
           </div>
           <div class="cardGrid">
-            {features.map((f) => (
+            {readingFeatures.map((f) => (
               <article class="card">
                 <div class="cardIcon">
                   <Icon name={f.icon} class="w-[26px] h-[26px]" />
                 </div>
-                <span class="pill">{f.pill}</span>
                 <h3 class="cardTitle">{f.title}</h3>
                 <p class="cardBody">{f.body}</p>
               </article>
@@ -155,45 +300,96 @@ const faqs = [
         </div>
       </section>
 
+      {/* Library */}
       <section class="section">
         <div class="container">
           <div class="sectionHead">
-            <h2 class="sectionTitle">Built for Apple platforms</h2>
+            <h2 class="sectionTitle">Library</h2>
+            <p class="sectionSub">
+              Find the right book faster, across every server you use.
+            </p>
+          </div>
+          <div class="miniGrid">
+            {libraryFeatures.map((f) => (
+              <div class="mini">
+                <Icon name={f.icon} class="w-[20px] h-[20px]" />
+                {f.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Offline */}
+      <section class="section">
+        <div class="container">
+          <div class="split">
+            <div>
+              <h2 class="sectionTitle">Offline</h2>
+              <p class="sectionSub">
+                Download what you want. Read anywhere. Sync when you're back.
+              </p>
+              <div class="miniGrid" style="margin-top: 1.8rem;">
+                {offlineFeatures.map((f) => (
+                  <div class="mini">
+                    <Icon name={f.icon} class="w-[20px] h-[20px]" />
+                    {f.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <figure class="shotFrame" style="max-width: 22rem; margin-inline: auto;">
+              <img
+                src="/img/shots/iphone-offline-600.webp"
+                srcset="/img/shots/iphone-offline-600.webp 600w, /img/shots/iphone-offline-1000.webp 1000w"
+                sizes="(max-width: 1024px) 60vw, 22rem"
+                width="600"
+                height="1299"
+                alt="KMReader on iPhone showing the Offline view with download tasks and downloaded books"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* Sync */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Sync</h2>
           </div>
           <div class="cardGrid">
-            {platforms.map((p) => (
+            {syncFeatures.map((f) => (
               <article class="card">
                 <div class="cardIcon">
-                  <Icon name={p.icon} class="w-[26px] h-[26px]" />
+                  <Icon name={f.icon} class="w-[26px] h-[26px]" />
                 </div>
-                <h3 class="cardTitle">{p.title}</h3>
-                <p class="cardBody">{p.body}</p>
+                <h3 class="cardTitle">{f.title}</h3>
+                <p class="cardBody">{f.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Apple */}
       <section class="section">
         <div class="container">
           <div class="sectionHead">
-            <h2 class="sectionTitle">Details</h2>
+            <h2 class="sectionTitle">Apple</h2>
+            <p class="sectionSub">
+              A native Apple app, not a web wrapper.
+            </p>
           </div>
-          <div class="faqGrid">
-            {faqs.map((f) => (
-              <article class="faqItem">
-                <h4 class="faqQuestion">{f.q}</h4>
-                <p class="faqAnswer">{f.a}</p>
-              </article>
+          <div class="miniGrid">
+            {appleFeatures.map((f) => (
+              <div class="mini">
+                <Icon name={f.icon} class="w-[20px] h-[20px]" />
+                {f.label}
+              </div>
             ))}
-            <article class="faqItem">
-              <h4 class="faqQuestion">Which server should I run?</h4>
-              <p class="faqAnswer">
-                Any Komga 1.20.0+ server works, including{" "}
-                <a href="/server/">kmrs</a>, the single-binary Rust server from
-                the same family.
-              </p>
-            </article>
           </div>
         </div>
       </section>
@@ -204,10 +400,10 @@ const faqs = [
           <h2 class="finalTitle">Start reading your library.</h2>
           <div class="ctaRow">
             <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
-              <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Download on the App Store
+              <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> App Store
             </a>
-            <a class="btnGhost" href="/reader/intro">
-              Get started <Icon name="ph:arrow-right" class="w-4 h-4" />
+            <a class="btnGhost" href={githubUrl} target="_blank" rel="noopener">
+              <Icon name="ph:github-logo" class="w-[17px] h-[17px]" /> GitHub
             </a>
           </div>
         </div>
@@ -216,3 +412,19 @@ const faqs = [
     <Footer />
   </div>
 </BaseLayout>
+
+<script>
+  // Delegated so it keeps working after ClientRouter swaps the page.
+  document.addEventListener("click", (e) => {
+    const tab = (e.target as HTMLElement).closest("[data-gallery-tab]");
+    if (!tab) return;
+    const name = tab.getAttribute("data-gallery-tab");
+    const root = tab.closest("section");
+    root?.querySelectorAll("[data-gallery-tab]").forEach((t) =>
+      t.setAttribute("aria-selected", String(t === tab))
+    );
+    root?.querySelectorAll("[data-gallery-panel]").forEach((p) => {
+      (p as HTMLElement).hidden = p.getAttribute("data-gallery-panel") !== name;
+    });
+  });
+</script>

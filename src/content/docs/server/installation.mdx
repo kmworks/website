@@ -4,9 +4,10 @@ sidebar:
   order: 1
 ---
 
-## Docker
+Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`) and prebuilt binaries for Linux, macOS, and Windows (x86_64 and aarch64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
 
-Every release publishes an image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name:
+<Tabs>
+  <TabItem label="Docker">
 
 ```sh
 docker run -d \
@@ -23,7 +24,22 @@ An existing komga `/config` directory (with `database.sqlite` / `tasks.sqlite`) 
 
 The image bundles the kmweb UI at `/webui` and serves it at `/`, so `http://<host>:25600/` works in a browser immediately. Run with an empty `KOMGA_WEBUI_DIR=` to disable the UI.
 
-## Docker Compose
+  </TabItem>
+  <TabItem label="Docker Compose">
+
+```yaml
+services:
+  kmrs:
+    image: ghcr.io/kmworks/kmrs:latest
+    container_name: kmrs
+    user: "1000:1000"
+    ports:
+      - "25600:25600"
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    restart: unless-stopped
+```
 
 A compose stack can also carry [komf](https://github.com/dyphire/komf-rs) (the metadata fetcher) as a sidecar:
 
@@ -54,14 +70,23 @@ services:
 
 komf's port is deliberately not published: its API has no authentication, and only kmrs needs to reach it. Once the stack is up, open the integrations page in the admin UI (or call `PUT /api/v1/komf/integration` with the same two URLs) and confirm — kmrs mints an API key and provisions komf itself; komf then calls back in Komga mode and starts matching metadata.
 
-## Prebuilt binaries
+  </TabItem>
+  <TabItem label="Binary">
 
 Download the archive for your platform from the [latest release](https://github.com/kmworks/kmrs/releases/latest) (Linux, macOS, Windows; x86_64 and aarch64).
 
-The binary serves on port 25600 with data directory `~/.komga` (override with `KOMGA_CONFIG_DIR`).
+The binary serves on port 25600 with data directory `~/.komga` (override with `KOMGA_CONFIG_DIR`):
 
-## Build from source
+```sh
+./kmrs   # serves on http://localhost:25600
+```
+
+  </TabItem>
+  <TabItem label="Source">
 
 ```sh
 cargo build --release -p komga-server   # produces target/release/kmrs
 ```
+
+  </TabItem>
+</Tabs>

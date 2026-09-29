@@ -2,169 +2,547 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { config } from "virtual:nimbus/config";
-import { withBase } from "@cloudflare/nimbus-docs/runtime";
+import { Code } from "../components/ui/code";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import "../styles/landing.css";
 
 export const prerender = true;
+
+const appStoreUrl = "https://apps.apple.com/app/id6755198424";
+const releasesUrl = "https://github.com/kmworks/kmrs/releases/latest";
+
+const dockerRun = `docker run -d \\
+  --name=komga \\
+  --user 1000:1000 \\
+  -p 25600:25600 \\
+  --mount type=bind,source=/path/to/config,target=/config \\
+  --mount type=bind,source=/path/to/data,target=/data \\
+  --restart unless-stopped \\
+  ghcr.io/kmworks/kmrs`;
+
+const readers = [
+  {
+    title: "DIVINA",
+    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, per-book preferences.",
+    icon: "ph:book-open",
+  },
+  {
+    title: "Webtoon",
+    body: "Vertical scrolling for webtoons and long strips, with reading direction per book.",
+    icon: "ph:scroll",
+  },
+  {
+    title: "EPUB",
+    body: "A native EPUB reader with themes, fonts, and layout controls on iOS and macOS.",
+    icon: "ph:book",
+  },
+  {
+    title: "PDF",
+    body: "PDF reading on iOS and macOS, with the same library and progress sync as everything else.",
+    icon: "ph:file-pdf",
+  },
+];
+
+const offlineCaps = [
+  "Download policies",
+  "Background transfers",
+  "Offline-first storage",
+  "Local covers",
+  "Reading progress",
+  "Next-book preparation",
+];
+
+const platforms = [
+  {
+    title: "iPhone",
+    body: "Your pocket library: Keep Reading, widgets, quick actions, and Spotlight search.",
+    icon: "ph:device-mobile",
+    shot: { src: "iphone-dashboard", w: 600, h: 1299, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/iphone-dashboard-600.webp 600w, /img/shots/iphone-dashboard-1000.webp 1000w" },
+  },
+  {
+    title: "iPad",
+    body: "A big-canvas reader for the couch, with the full DIVINA, EPUB, and PDF experience.",
+    icon: "ph:device-tablet",
+    shot: { src: "ipad-browse", w: 900, h: 1201, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/ipad-browse-900.webp 900w, /img/shots/ipad-browse-1600.webp 1600w" },
+  },
+  {
+    title: "Mac",
+    body: "Dedicated reader windows, menu bar actions, and keyboard-first controls.",
+    icon: "ph:laptop",
+    shot: { src: "mac-dashboard", w: 1000, h: 625, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/mac-dashboard-1000.webp 1000w, /img/shots/mac-dashboard-1800.webp 1800w" },
+  },
+  {
+    title: "Apple TV",
+    body: "Remote-first DIVINA reading with a focused TV browsing experience.",
+    icon: "ph:television",
+    shot: { src: "tvos-dashboard", w: 960, h: 540, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/tvos-dashboard-960.webp 960w, /img/shots/tvos-dashboard-1920.webp 1920w" },
+  },
+];
+
+const appleExtras = [
+  { label: "Spotlight search", icon: "ph:magnifying-glass" },
+  { label: "Widgets", icon: "ph:squares-four" },
+  { label: "Live Activities", icon: "ph:timer" },
+  { label: "Live Text", icon: "ph:text-aa" },
+  { label: "Quick actions", icon: "ph:lightning" },
+  { label: "Mac reader windows", icon: "ph:app-window" },
+];
+
+const serverFeatures = [
+  { title: "One binary", icon: "ph:package" },
+  { title: "Cross-platform", icon: "ph:devices" },
+  { title: "Komga-compatible", icon: "ph:plugs-connected" },
+  { title: "Web UI included", icon: "ph:browser" },
+  { title: "Existing libraries", icon: "ph:books" },
+  { title: "Existing database", icon: "ph:database" },
+];
 ---
 
 <BaseLayout
-  title={config.title}
-  description="kmworks is an open-source comic and manga reading ecosystem: server and native clients, drop-in compatible with Komga."
+  title="Native Komga Clients & Compatible Server"
+  description="kmworks is an open-source comic and manga reading ecosystem: KMReader, a native Apple client, and KMServer, a Komga-compatible server. Works with your existing Komga library."
 >
-  <div class="flex flex-col min-h-screen page">
+  <div class="flex flex-col min-h-screen km-landing">
     <Header />
     <main id="main-content" tabindex="-1" class="flex-1">
+      {/* 1. Hero */}
       <header class="hero">
-        <img class="glyph" src={withBase("/img/logo.svg", import.meta.env.BASE_URL)} alt="kmworks logo" />
-        <p class="eyebrow">Komga-compatible, end to end</p>
-        <h1 class="title">kmworks</h1>
-        <p class="sub">
-          An open-source comic and manga reading ecosystem: server and native
-          clients.
-        </p>
+        <div class="heroBg"></div>
+        <div class="container">
+          <div class="heroInner">
+            <div>
+              <h1 class="heroTitle">Your Komga library. Native everywhere.</h1>
+              <p class="heroSub">
+                An open-source server and native Apple client for your comic
+                and manga library.
+              </p>
+              <div class="ctaRow">
+                <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
+                  <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Get KMReader
+                </a>
+                <a class="btnGhost" href="/server/installation">
+                  Run KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />
+                </a>
+              </div>
+              <p class="heroTrust">Works with your existing Komga library.</p>
+            </div>
+            <div class="heroShots">
+              <figure class="shotFrame shotMain">
+                <img
+                  src="/img/shots/ipad-dashboard-900.webp"
+                  srcset="/img/shots/ipad-dashboard-900.webp 900w, /img/shots/ipad-dashboard-1600.webp 1600w"
+                  sizes="(max-width: 1024px) 88vw, 42vw"
+                  width="900"
+                  height="1201"
+                  alt="KMReader on iPad showing the library dashboard with Keep Reading and recently added books"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </figure>
+              <figure class="shotFrame shotFloat">
+                <img
+                  src="/img/shots/iphone-dashboard-600.webp"
+                  srcset="/img/shots/iphone-dashboard-600.webp 600w, /img/shots/iphone-dashboard-1000.webp 1000w"
+                  sizes="(max-width: 1024px) 36vw, 15vw"
+                  width="600"
+                  height="1299"
+                  alt="KMReader on iPhone showing the library dashboard"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <div class="projects">
-        <a class="card" href="/server/">
-          <h2 class="cardTitle">server</h2>
-          <p class="desc">
-            Your comics, one static binary, web UI included. Drop-in
-            compatible with Komga: same API, same database.
+      {/* 2. Existing Komga library */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionCenter">
+            <p class="eyebrow">Komga-compatible</p>
+            <h2 class="sectionTitle">Already using Komga?</h2>
+            <p class="sectionSub">
+              You don't need to rebuild your library. KMServer reads your
+              existing library structure, upgrades your existing database in
+              place, and speaks the same API, so the clients you already use
+              keep working. KMReader connects to the same ecosystem.
+            </p>
+          </div>
+          <div class="statRow">
+            <div class="stat">
+              <div class="statValue">Same library</div>
+              <p class="statLabel">Point KMServer at the files you already have.</p>
+            </div>
+            <div class="stat">
+              <div class="statValue">Same database</div>
+              <p class="statLabel">Your existing database is upgraded in place.</p>
+            </div>
+            <div class="stat">
+              <div class="statValue">Same API</div>
+              <p class="statLabel">Komga-compatible clients keep working.</p>
+            </div>
+          </div>
+          <div class="sectionCenter" style="margin-top: 2.4rem; margin-bottom: 0;">
+            <a class="btnGhost" href="/server/">
+              Learn about KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. KMReader */}
+      <section class="section">
+        <div class="container">
+          <div class="split">
+            <figure class="shotFrame">
+              <img
+                src="/img/shots/ipad-epub-900.webp"
+                srcset="/img/shots/ipad-epub-900.webp 900w, /img/shots/ipad-epub-1600.webp 1600w"
+                sizes="(max-width: 1024px) 92vw, 50vw"
+                width="900"
+                height="1201"
+                alt="KMReader on iPad showing the EPUB reader with the theme panel open"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+            <div>
+              <p class="eyebrow">KMReader</p>
+              <h2 class="sectionTitle">Your library, built for Apple.</h2>
+              <p class="sectionSub">
+                A native reading experience for iPhone, iPad, Mac and Apple TV.
+              </p>
+              <div class="chipRow">
+                <span class="chip">iPhone</span>
+                <span class="chip">iPad</span>
+                <span class="chip">Mac</span>
+                <span class="chip">Apple TV</span>
+              </div>
+              <div class="ctaRow" style="margin-top: 1.8rem;">
+                <a class="btnGhost" href="/reader/">
+                  Explore KMReader <Icon name="ph:arrow-right" class="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Reading */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Built for the way comics are actually read.</h2>
+          </div>
+          <div class="platformGrid">
+            {readers.map((r) => (
+              <article class="card">
+                <div class="cardIcon">
+                  <Icon name={r.icon} class="w-[26px] h-[26px]" />
+                </div>
+                <h3 class="cardTitle">{r.title}</h3>
+                <p class="cardBody">{r.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Offline */}
+      <section class="section">
+        <div class="container">
+          <div class="split">
+            <div>
+              <h2 class="sectionTitle">Your library, even offline.</h2>
+              <p class="sectionSub">
+                Download what you want. Read anywhere. Sync when you're back.
+              </p>
+              <div class="flowRow">
+                <span class="flowStep">Select</span>
+                <span class="flowArrow">→</span>
+                <span class="flowStep">Download</span>
+                <span class="flowArrow">→</span>
+                <span class="flowStep">Read offline</span>
+                <span class="flowArrow">→</span>
+                <span class="flowStep">Track progress</span>
+                <span class="flowArrow">→</span>
+                <span class="flowStep">Reconnect</span>
+                <span class="flowArrow">→</span>
+                <span class="flowStep">Sync</span>
+              </div>
+              <div class="chipRow">
+                {offlineCaps.map((c) => (
+                  <span class="chip">{c}</span>
+                ))}
+              </div>
+            </div>
+            <figure class="shotFrame" style="max-width: 22rem; margin-inline: auto;">
+              <img
+                src="/img/shots/iphone-offline-600.webp"
+                srcset="/img/shots/iphone-offline-600.webp 600w, /img/shots/iphone-offline-1000.webp 1000w"
+                sizes="(max-width: 1024px) 60vw, 22rem"
+                width="600"
+                height="1299"
+                alt="KMReader on iPhone showing the Offline view with download tasks and downloaded books"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Apple platforms */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">One library. Four Apple platforms.</h2>
+            <p class="sectionSub">
+              KMReader is a native Apple app, not a web wrapper.
+            </p>
+          </div>
+          <div class="platformGrid">
+            {platforms.map((p) => (
+              <article class="card">
+                <div class="cardShot">
+                  <img
+                    src={`/img/shots/${p.shot.src}-${p.shot.w}.webp`}
+                    srcset={p.shot.srcset}
+                    sizes={p.shot.sizes}
+                    width={p.shot.w}
+                    height={p.shot.h}
+                    alt={`KMReader on ${p.title}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div class="cardIcon">
+                  <Icon name={p.icon} class="w-[26px] h-[26px]" />
+                </div>
+                <h3 class="cardTitle">{p.title}</h3>
+                <p class="cardBody">{p.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Apple integration */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">At home in the Apple ecosystem.</h2>
+          </div>
+          <div class="miniGrid">
+            {appleExtras.map((x) => (
+              <div class="mini">
+                <Icon name={x.icon} class="w-[20px] h-[20px]" />
+                {x.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. KMServer */}
+      <section class="section">
+        <div class="container">
+          <div class="split">
+            <div>
+              <p class="eyebrow">KMServer</p>
+              <h2 class="sectionTitle">Your library. One server.</h2>
+              <p class="sectionSub">
+                A lightweight, Komga-compatible server with the web UI included.
+              </p>
+              <div class="miniGrid" style="margin-top: 1.8rem;">
+                {serverFeatures.map((f) => (
+                  <div class="mini">
+                    <Icon name={f.icon} class="w-[20px] h-[20px]" />
+                    {f.title}
+                  </div>
+                ))}
+              </div>
+              <div class="ctaRow" style="margin-top: 2rem;">
+                <a class="btnPrimary" href={releasesUrl} target="_blank" rel="noopener">
+                  Download KMServer
+                </a>
+                <a class="btnGhost" href="/server/intro">
+                  Documentation <Icon name="ph:arrow-right" class="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+            <div class="codePanel">
+              <div class="codeCaption">
+                <span>terminal</span>
+                <span>one command</span>
+              </div>
+              <Code code={dockerRun} lang="bash" />
+            </div>
+          </div>
+          <p class="techNote">
+            KMServer is distributed as the <code>kmrs</code> binary: one static
+            executable for Linux, macOS, and Windows, on x86_64 and aarch64.
           </p>
-          <span class="link">Docs &amp; downloads <i>→</i></span>
-        </a>
-        <a class="card" href="/reader/">
-          <h2 class="cardTitle">reader</h2>
-          <p class="desc">
-            Native reading on iPhone, iPad, Mac, and Apple TV, online or
-            offline.
-          </p>
-          <span class="link">Docs &amp; App Store <i>→</i></span>
-        </a>
-      </div>
+        </div>
+      </section>
+
+      {/* 9. Ecosystem */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionCenter">
+            <h2 class="sectionTitle">Use the clients you already love.</h2>
+            <p class="sectionSub">
+              KMServer speaks the Komga API, so the reader ecosystem around it
+              keeps working. KMReader is one client among many.
+            </p>
+          </div>
+          <div class="diagram" role="img" aria-label="Diagram: KMServer exposes the Komga-compatible API to the Web UI, OPDS readers, KMReader, Kobo sync and KOReader sync. KMReader runs on iPhone, iPad, Mac and Apple TV.">
+            <div class="eco">
+              <div class="ecoBox ecoRoot">KMServer</div>
+              <div class="ecoLine"></div>
+              <div class="ecoLabel">Komga-compatible API</div>
+              <div class="ecoLine"></div>
+              <div class="ecoRow ecoRow5">
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">Web UI</div>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">OPDS</div>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox ecoHl">KMReader</div>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">Kobo sync</div>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <div class="ecoBox">KOReader sync</div>
+                </div>
+              </div>
+              <div class="ecoLine"></div>
+              <div class="ecoRow ecoRow4">
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <span class="ecoChip">iPhone</span>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <span class="ecoChip">iPad</span>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <span class="ecoChip">Mac</span>
+                </div>
+                <div class="ecoCol">
+                  <div class="ecoLine"></div>
+                  <span class="ecoChip">Apple TV</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. Open source */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionCenter">
+            <h2 class="sectionTitle">Open source. No lock-in.</h2>
+          </div>
+          <div class="cardGrid">
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:scroll" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">MIT licensed</h3>
+              <p class="cardBody">
+                Every kmworks project is MIT licensed: KMServer, KMReader, and
+                the web UI.
+              </p>
+            </article>
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:plugs-connected" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Komga-compatible</h3>
+              <p class="cardBody">
+                Built for the Komga ecosystem, independent of it. kmworks is
+                not affiliated with the Komga project.
+              </p>
+            </article>
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:hard-drive" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Your data</h3>
+              <p class="cardBody">
+                Your library, your files, your database. Everything stays on
+                your hardware, in formats you already own.
+              </p>
+            </article>
+          </div>
+          <div class="sectionCenter" style="margin-top: 2.4rem; margin-bottom: 0;">
+            <a class="btnGhost" href="https://github.com/kmworks" target="_blank" rel="noopener">
+              View on GitHub <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 11. Final CTA */}
+      <section class="final">
+        <div class="finalBg"></div>
+        <div class="container">
+          <h2 class="finalTitle">Ready to read?</h2>
+          <div class="ctaRow">
+            <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
+              <Icon name="ph:app-store-logo" class="w-[17px] h-[17px]" /> Get KMReader
+            </a>
+            <a class="btnGhost" href="/server/installation">
+              Run KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+          <div class="finalMeta">
+            <span>KMReader for iPhone, iPad, Mac and Apple TV</span>
+            <span>KMServer for Linux, macOS and Windows</span>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
   </div>
 </BaseLayout>
 
 <style>
-  .page {
-    background: var(--km-bg);
-    color: var(--km-text);
+  /* Long headline: keep it to two lines on desktop. */
+  .km-landing .heroTitle {
+    font-size: clamp(2.4rem, 4.4vw, 3.6rem);
   }
 
-  .hero {
-    text-align: center;
-    padding: clamp(3rem, 9vh, 6rem) 1.5rem 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background:
-      radial-gradient(52rem 30rem at 78% 12%, var(--km-glow-a), transparent 62%),
-      radial-gradient(38rem 26rem at 12% 88%, var(--km-glow-r), transparent 60%);
-  }
-
-  .glyph {
-    width: 96px;
-    height: 96px;
-    margin-bottom: 1.6rem;
-  }
-
-  .eyebrow {
-    font-family: var(--nb-font-mono);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--km-accent);
-    margin: 0 0 1.1rem;
-  }
-
-  .title {
-    font-family: var(--nb-font-display);
-    font-size: clamp(2.8rem, 7vw, 4.6rem);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    margin: 0 0 1.1rem;
-    background: linear-gradient(155deg, var(--km-grad-a) 30%, var(--km-grad-b) 85%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .sub {
-    max-width: 32rem;
-    margin: 0;
-    color: var(--km-text-muted);
-    font-size: 1.08rem;
-  }
-
-  /* project cards */
-
-  .projects {
-    width: min(760px, 92vw);
-    margin: 0 auto;
-    padding: 1rem 0 4rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.1rem;
-  }
-
-  .card {
-    display: flex;
-    flex-direction: column;
-    padding: 1.7rem;
-    border: 1px solid var(--km-border);
-    border-radius: 14px;
-    background: var(--km-surface);
-    text-decoration: none;
-    color: var(--km-text);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s;
-  }
-
-  .card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 179, 64, 0.4);
-    text-decoration: none;
-    color: var(--km-text);
-  }
-
-  .cardTitle {
-    font-family: var(--nb-font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 0.6rem;
-  }
-
-  .desc {
-    color: var(--km-text-muted);
-    font-size: 0.94rem;
-    margin: 0 0 1.4rem;
-    flex: 1;
-  }
-
-  .link {
+  .km-landing .heroTrust {
+    margin: 1.4rem 0 0;
     font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--km-accent);
+    color: var(--km-text-muted);
   }
 
-  .link i {
-    font-style: normal;
-    display: inline-block;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  .km-landing .techNote {
+    margin: 2.2rem 0 0;
+    font-size: 0.88rem;
+    color: var(--km-text-muted);
   }
 
-  .card:hover .link i {
-    transform: translateX(3px);
-  }
-
-  @media (max-width: 860px) {
-    .projects {
-      grid-template-columns: 1fr;
-    }
+  .km-landing .finalMeta {
+    margin-top: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.88rem;
+    color: var(--km-text-muted);
   }
 </style>

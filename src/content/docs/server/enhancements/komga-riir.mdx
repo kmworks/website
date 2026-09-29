@@ -1,0 +1,13 @@
+---
+title: "komga-riir databases"
+sidebar:
+  order: 7
+---
+
+KMServer adopts databases built by komga-riir (a parallel Rust reimplementation), which record migration history in sqlx's `_sqlx_migrations` instead of `flyway_schema_history`. The Java version cannot open such databases at all.
+
+Adoption stamps the sqlx-recorded versions (and the Java JDBC data-fix ports from an explicit whitelist, which must not run against komga-riir-shaped data) into a rebuilt Flyway history; KMServer always applies its own `book_projection`. Migrations komga-riir applied beyond a Java komga / KMServer history are also absorbed so their DDL is not re-run.
+
+:::note
+Stamping endorses komga-riir's same-version SQL with KMServer's own checksum: if a same-version migration's content ever diverges between the two implementations, the drift is undetectable after stamping. This is inherent to the design and accepted consciously.
+:::

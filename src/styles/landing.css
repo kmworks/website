@@ -262,6 +262,22 @@
   margin-bottom: 1rem;
 }
 
+/* Platform cards: uniform crop across portrait and landscape shots. */
+.km-landing .cardShot {
+  margin: -1.7rem -1.7rem 1.2rem;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-bottom: 1px solid var(--km-border);
+}
+
+.km-landing .cardShot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
 .km-landing .pill {
   display: inline-block;
   font-family: var(--nb-font-mono);
@@ -458,6 +474,368 @@
   justify-content: center;
 }
 
+/* ---------- screenshots ---------- */
+
+.km-landing .shotFrame {
+  border: 1px solid var(--km-border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--km-surface);
+  box-shadow: 0 28px 70px -28px rgba(0, 0, 0, 0.5);
+}
+
+.km-landing .shotFrame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.km-landing .heroShots {
+  position: relative;
+}
+
+.km-landing .heroShots .shotMain {
+  width: 88%;
+  margin-left: auto;
+}
+
+.km-landing .heroShots .shotFloat {
+  position: absolute;
+  left: -4%;
+  bottom: -9%;
+  width: 36%;
+}
+
+/* ---------- stat blocks ---------- */
+
+.km-landing .statRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+  margin-top: 2.6rem;
+}
+
+.km-landing .stat {
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  background: var(--km-surface);
+  padding: 1.5rem 1.6rem;
+  text-align: center;
+}
+
+.km-landing .statValue {
+  font-family: var(--nb-font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.km-landing .statLabel {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--km-text-muted);
+  margin: 0.35rem 0 0;
+}
+
+/* ---------- flow ---------- */
+
+.km-landing .flowRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin: 2.2rem 0;
+}
+
+.km-landing .flowStep {
+  padding: 0.5rem 1.05rem;
+  border: 1px solid var(--km-border);
+  border-radius: 999px;
+  background: var(--km-surface);
+  font-size: 0.88rem;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.km-landing .flowArrow {
+  color: var(--km-accent);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+/* ---------- platform / mini grids ---------- */
+
+.km-landing .platformGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+}
+
+.km-landing .miniGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.km-landing .mini {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--km-border);
+  border-radius: 12px;
+  background: var(--km-surface);
+  font-size: 0.9rem;
+  font-weight: 550;
+}
+
+.km-landing .mini svg {
+  color: var(--km-accent);
+  flex-shrink: 0;
+}
+
+/* ---------- diagram ---------- */
+
+.km-landing .diagram {
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  background: var(--km-surface);
+  padding: 2.2rem 1.6rem;
+  overflow-x: auto;
+}
+
+/* Box-and-connector diagrams. Bars between rows rely on equal-width
+   columns: the bar spans from the first column center to the last. */
+.km-landing .eco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 30rem;
+}
+
+.km-landing .ecoBox {
+  display: inline-block;
+  border: 1px solid var(--km-border);
+  border-radius: 12px;
+  background: var(--km-bg);
+  padding: 0.6rem 1.15rem;
+  font-weight: 600;
+  font-size: 0.94rem;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.km-landing .ecoRoot,
+.km-landing .ecoHl {
+  border-color: rgba(255, 179, 64, 0.55);
+}
+
+.km-landing .ecoCap {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--km-text-muted);
+  margin-top: 0.15rem;
+}
+
+.km-landing .ecoLine {
+  width: 1px;
+  height: 1.5rem;
+  background: var(--km-border);
+}
+
+.km-landing .ecoLabel {
+  font-family: var(--nb-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--km-text-muted);
+  margin: 0.3rem 0;
+}
+
+.km-landing .ecoRow {
+  display: grid;
+  position: relative;
+  align-self: stretch;
+}
+
+.km-landing .ecoRow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 1px;
+  background: var(--km-border);
+}
+
+.km-landing .ecoRow5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.km-landing .ecoRow5::before {
+  left: 10%;
+  right: 10%;
+}
+
+.km-landing .ecoRow3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.km-landing .ecoRow3::before {
+  left: 16.67%;
+  right: 16.67%;
+}
+
+.km-landing .ecoRow4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.km-landing .ecoRow4::before {
+  left: 12.5%;
+  right: 12.5%;
+}
+
+.km-landing .ecoCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.km-landing .ecoChip {
+  font-size: 0.78rem;
+  font-weight: 550;
+  padding: 0.32rem 0.8rem;
+  border: 1px solid var(--km-border);
+  border-radius: 999px;
+  background: var(--km-bg);
+  white-space: nowrap;
+}
+
+.km-landing .ecoPlat {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+}
+
+@media (max-width: 640px) {
+  .km-landing .eco {
+    min-width: 0;
+  }
+
+  .km-landing .ecoRow5 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+
+  .km-landing .ecoRow::before,
+  .km-landing .ecoRow5 .ecoCol > .ecoLine:first-child {
+    display: none;
+  }
+}
+
+/* ---------- compare table ---------- */
+
+.km-landing .tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  background: var(--km-surface);
+}
+
+.km-landing .compare {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  min-width: 34rem;
+}
+
+.km-landing .compare th,
+.km-landing .compare td {
+  padding: 0.85rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid var(--km-border);
+}
+
+.km-landing .compare tr:last-child td {
+  border-bottom: 0;
+}
+
+.km-landing .compare thead th {
+  font-family: var(--nb-font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--km-text-muted);
+}
+
+.km-landing .compare .yes {
+  color: var(--km-accent);
+  font-weight: 700;
+}
+
+.km-landing .compare .no,
+.km-landing .compare .varies {
+  color: var(--km-text-muted);
+}
+
+/* ---------- screenshot gallery ---------- */
+
+.km-landing .galleryTabs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.8rem;
+}
+
+.km-landing .galleryTab {
+  padding: 0.45rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--km-border);
+  background: var(--km-surface);
+  color: var(--km-text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s;
+}
+
+.km-landing .galleryTab[aria-selected="true"] {
+  color: var(--km-text);
+  border-color: rgba(255, 179, 64, 0.55);
+}
+
+.km-landing .shotRow {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(15rem, 62%);
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.8rem;
+}
+
+.km-landing .shotRow > figure {
+  scroll-snap-align: start;
+  margin: 0;
+}
+
+.km-landing .shotRow.wide {
+  grid-auto-columns: min(30rem, 78%);
+}
+
+/* ---------- centered section head ---------- */
+
+.km-landing .sectionCenter {
+  text-align: center;
+  max-width: 44rem;
+  margin: 0 auto 2.8rem;
+}
+
+.km-landing .sectionCenter .sectionSub {
+  margin-top: 0.9rem;
+}
+
 /* ---------- responsive ---------- */
 
 @media (max-width: 1024px) {
@@ -482,12 +860,38 @@
     grid-template-columns: 1fr;
     gap: 2.4rem;
   }
+
+  .km-landing .platformGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .km-landing .miniGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
   .km-landing .cardGrid,
-  .km-landing .faqGrid {
+  .km-landing .faqGrid,
+  .km-landing .statRow,
+  .km-landing .platformGrid,
+  .km-landing .miniGrid {
     grid-template-columns: 1fr;
+  }
+
+  .km-landing .flowRow {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .km-landing .flowArrow {
+    transform: rotate(90deg);
+  }
+
+  .km-landing .heroShots .shotFloat {
+    left: 0;
+    width: 42%;
   }
 
   .km-landing .cardWide {

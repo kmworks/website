@@ -1,0 +1,11 @@
+---
+title: "Natural sort"
+sidebar:
+  order: 4
+---
+
+Numbered titles sort by numeric value: "Page 2" < "Page 10". A dot is plain text, so "Vol 1.5" < "Vol 1.10", matching Explorer/Finder. The comparator is a total order, so pagination boundaries stay deterministic.
+
+The sort locale follows `server.sort-locale` / `KOMGA_SORT_LOCALE` (BCP47, e.g. `zh-CN` for pinyin order). Page order and series book numbering use the same comparator.
+
+The Java version hard-codes the UCA root and sorts numbered titles lexicographically ("Page 10" < "Page 2").

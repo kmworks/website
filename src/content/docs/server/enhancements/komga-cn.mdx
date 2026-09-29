@@ -1,0 +1,9 @@
+---
+title: "komga-cn databases"
+sidebar:
+  order: 8
+---
+
+KMServer adopts databases built by the komga-cn fork's Rust port, which stores plain filesystem paths (`/data/series/book.cbz`) in the `URL` columns instead of komga's `file:` URLs (`file:/data/series/book.cbz`). The Java version trashes and recreates every series and book on the first scan of such a database, because scan matching compares URLs as exact strings.
+
+On each library scan, KMServer rewrites any non-canonical URL (plain paths, `file:///` shapes) to komga's `file:` form before matching, so series and books keep their identity, metadata, and reading progress across the switch. The rewrite is safe for switching back: komga-cn's Rust port reads `file:` URLs fine.

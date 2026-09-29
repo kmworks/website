@@ -6,45 +6,34 @@ export default function Home() {
   return (
     <Layout
       title="kmworks"
-      description="kmworks is an open-source comic and manga reading ecosystem: the kmrs server, the kmweb UI, and kmreader for Apple platforms. Drop-in compatible with Komga.">
+      description="kmworks is an open-source comic and manga reading ecosystem: server and native clients, drop-in compatible with Komga.">
       <header className={styles.hero}>
         <img className={styles.glyph} src="img/logo.svg" alt="kmworks logo" />
         <p className={styles.eyebrow}>Komga-compatible, end to end</p>
         <h1 className={styles.title}>kmworks</h1>
         <p className={styles.sub}>
-          An open-source comic and manga reading ecosystem: server, web UI, and
-          native clients.
+          An open-source comic and manga reading ecosystem: server and native
+          clients.
         </p>
       </header>
 
       <main className={styles.projects}>
         <Link className={styles.card} to="/server/">
-          <p className={styles.role}>The server</p>
-          <h2 className={styles.cardTitle}>kmrs</h2>
+          <h2 className={styles.cardTitle}>server</h2>
           <p className={styles.desc}>
-            Your comics, one static binary. Drop-in compatible with Komga: same
-            API, same database.
+            Your comics, one static binary, web UI included. Drop-in
+            compatible with Komga: same API, same database.
           </p>
           <span className={styles.link}>Docs &amp; downloads <i>→</i></span>
         </Link>
         <Link className={styles.card} to="/reader/">
-          <p className={styles.role}>The Apple client</p>
-          <h2 className={styles.cardTitle}>kmreader</h2>
+          <h2 className={styles.cardTitle}>reader</h2>
           <p className={styles.desc}>
             Native reading on iPhone, iPad, Mac, and Apple TV, online or
             offline.
           </p>
           <span className={styles.link}>Docs &amp; App Store <i>→</i></span>
         </Link>
-        <a className={styles.card} href="https://github.com/kmworks/kmweb">
-          <p className={styles.role}>The web UI</p>
-          <h2 className={styles.cardTitle}>kmweb</h2>
-          <p className={styles.desc}>
-            The React interface bundled with the kmrs Docker image, served at /
-            out of the box.
-          </p>
-          <span className={styles.link}>GitHub <i>→</i></span>
-        </a>
       </main>
     </Layout>
   );

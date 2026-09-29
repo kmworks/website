@@ -18,6 +18,10 @@ const LINK_REWRITES = [
   [/\(https:\/\/kmworks\.github\.io\/kmreader\//g, '(/reader/'],
 ];
 
+// Product landing pages own the section root; intro docs move to
+// /<section>/intro.
+const FRONTMATTER_REWRITES = [[/^slug: \/\n/m, '']];
+
 const OUT = new URL('../synced/', import.meta.url).pathname;
 
 for (const {repo, branch, section} of SOURCES) {
@@ -39,6 +43,7 @@ for (const {repo, branch, section} of SOURCES) {
     if (!file.endsWith('.md')) continue;
     let text = readFileSync(join(tmp, 'docs', file), 'utf8');
     for (const [from, to] of LINK_REWRITES) text = text.replace(from, to);
+    for (const [from, to] of FRONTMATTER_REWRITES) text = text.replace(from, to);
     writeFileSync(join(dest, file), text);
   }
   rmSync(tmp, {recursive: true, force: true});

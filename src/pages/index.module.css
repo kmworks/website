@@ -48,11 +48,11 @@
 /* project cards */
 
 .projects {
-  width: min(1020px, 92vw);
+  width: min(760px, 92vw);
   margin: 0 auto;
   padding: 1rem 0 4rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.1rem;
 }
 
@@ -73,15 +73,6 @@
   border-color: rgba(255, 179, 64, 0.4);
   text-decoration: none;
   color: var(--km-text);
-}
-
-.role {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--km-accent);
-  margin: 0 0 0.7rem;
 }
 
 .cardTitle {

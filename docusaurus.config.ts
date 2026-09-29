@@ -90,17 +90,13 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'server',
-          docsPluginId: 'server',
-          position: 'left',
+          to: '/server/',
+          position: 'right',
           label: 'server',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'reader',
-          docsPluginId: 'reader',
-          position: 'left',
+          to: '/reader/',
+          position: 'right',
           label: 'reader',
         },
         {
@@ -116,7 +112,7 @@ const config: Config = {
         {
           title: 'server',
           items: [
-            {label: 'Documentation', to: '/server/'},
+            {label: 'Documentation', to: '/server/intro'},
             {label: 'GitHub', href: 'https://github.com/kmworks/kmrs'},
             {label: 'Releases', href: 'https://github.com/kmworks/kmrs/releases'},
           ],
@@ -124,15 +120,11 @@ const config: Config = {
         {
           title: 'reader',
           items: [
-            {label: 'Documentation', to: '/reader/'},
+            {label: 'Documentation', to: '/reader/intro'},
             {label: 'GitHub', href: 'https://github.com/kmworks/kmreader'},
             {label: 'App Store', href: 'https://apps.apple.com/app/id6755198424'},
             {label: 'Privacy Policy', to: '/reader/privacy'},
           ],
-        },
-        {
-          title: 'kmweb',
-          items: [{label: 'GitHub', href: 'https://github.com/kmworks/kmweb'}],
         },
         {
           title: 'Upstream',

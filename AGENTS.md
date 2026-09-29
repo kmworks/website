@@ -24,4 +24,4 @@ Then confirm `dist/` still serves every public route: `/`, `/server/`, `/reader/
 
 ## Deploy
 
-Pushes to `main` auto-deploy via Workers Builds (`npm ci && npm run build`, then `npx wrangler deploy` with `wrangler.jsonc`). Local manual deploy: `npm run deploy`. Both ship to production — only deploy when the user asks. Inspect pipeline state with `cf builds list --external-script-id 82bd11b0ebca4fc4872cc43d16e9d9b6`.
+Pushes to `main` auto-deploy via Workers Builds (`npm ci && npm run build`, then `npx wrangler deploy` with `wrangler.jsonc`). Local manual deploy: `npm run deploy`. Both ship to production — only deploy when the user asks. Inspect pipeline state with `cf builds list --external-script-id "$(cf workers get kmworks | jq -r .id)"`.

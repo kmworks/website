@@ -44,31 +44,21 @@ const config: Config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'kmrs',
-        path: 'synced/kmrs',
-        routeBasePath: 'kmrs',
-        sidebarPath: './sidebars/kmrs.ts',
-        editUrl: 'https://github.com/kmworks/kmrs/tree/master/website/docs/',
+        id: 'server',
+        path: 'synced/server',
+        routeBasePath: 'server',
+        sidebarPath: './sidebars/server.ts',
+        editUrl: 'https://github.com/kmworks/kmrs/tree/master/docs/',
       },
     ],
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'kmweb',
-        path: 'docs/kmweb',
-        routeBasePath: 'kmweb',
-        sidebarPath: './sidebars/kmweb.ts',
-        editUrl: 'https://github.com/kmworks/website/tree/main/docs/kmweb/',
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'kmreader',
-        path: 'synced/kmreader',
-        routeBasePath: 'kmreader',
-        sidebarPath: './sidebars/kmreader.ts',
-        editUrl: 'https://github.com/kmworks/kmreader/tree/main/website/docs/',
+        id: 'reader',
+        path: 'synced/reader',
+        routeBasePath: 'reader',
+        sidebarPath: './sidebars/reader.ts',
+        editUrl: 'https://github.com/kmworks/kmreader/tree/main/docs/',
       },
     ],
   ],
@@ -79,10 +69,10 @@ const config: Config = {
       {
         hashed: true,
         indexBlog: false,
-        docsRouteBasePath: ['kmrs', 'kmweb', 'kmreader'],
+        docsRouteBasePath: ['server', 'reader'],
         // no docs instance has the reserved id "default"; the search bar
         // falls back to this one off docs pages
-        docsPluginIdForPreferredVersion: 'kmrs',
+        docsPluginIdForPreferredVersion: 'server',
       },
     ],
   ],
@@ -94,7 +84,6 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'kmworks',
       logo: {
         alt: 'kmworks',
         src: 'img/logo.svg',
@@ -102,24 +91,17 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'kmrs',
-          docsPluginId: 'kmrs',
+          sidebarId: 'server',
+          docsPluginId: 'server',
           position: 'left',
-          label: 'kmrs',
+          label: 'server',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'kmweb',
-          docsPluginId: 'kmweb',
+          sidebarId: 'reader',
+          docsPluginId: 'reader',
           position: 'left',
-          label: 'kmweb',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'kmreader',
-          docsPluginId: 'kmreader',
-          position: 'left',
-          label: 'KMReader',
+          label: 'reader',
         },
         {
           href: 'https://github.com/kmworks',
@@ -134,15 +116,16 @@ const config: Config = {
         {
           title: 'Projects',
           items: [
-            {label: 'kmrs', to: '/kmrs/'},
-            {label: 'kmweb', to: '/kmweb/'},
-            {label: 'KMReader', to: '/kmreader/'},
+            {label: 'server', to: '/server/'},
+            {label: 'reader', to: '/reader/'},
+            {label: 'Privacy Policy', to: '/reader/privacy'},
           ],
         },
         {
           title: 'Source',
           items: [
             {label: 'github.com/kmworks', href: 'https://github.com/kmworks'},
+            {label: 'kmweb', href: 'https://github.com/kmworks/kmweb'},
             {label: 'kmrs releases', href: 'https://github.com/kmworks/kmrs/releases'},
             {label: 'KMReader on the App Store', href: 'https://apps.apple.com/app/id6755198424'},
           ],

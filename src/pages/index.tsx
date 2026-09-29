@@ -18,7 +18,7 @@ export default function Home() {
       </header>
 
       <main className={styles.projects}>
-        <Link className={styles.card} to="/kmrs/">
+        <Link className={styles.card} to="/server/">
           <p className={styles.role}>The server</p>
           <h2 className={styles.cardTitle}>kmrs</h2>
           <p className={styles.desc}>
@@ -27,24 +27,24 @@ export default function Home() {
           </p>
           <span className={styles.link}>Docs &amp; downloads <i>→</i></span>
         </Link>
-        <Link className={styles.card} to="/kmreader/">
+        <Link className={styles.card} to="/reader/">
           <p className={styles.role}>The Apple client</p>
           <h2 className={styles.cardTitle}>KMReader</h2>
           <p className={styles.desc}>
             Native reading on iPhone, iPad, Mac, and Apple TV, online or
             offline.
           </p>
-          <span className={styles.link}>Site &amp; App Store <i>→</i></span>
+          <span className={styles.link}>Docs &amp; App Store <i>→</i></span>
         </Link>
-        <Link className={styles.card} to="/kmweb/">
+        <a className={styles.card} href="https://github.com/kmworks/kmweb">
           <p className={styles.role}>The web UI</p>
           <h2 className={styles.cardTitle}>kmweb</h2>
           <p className={styles.desc}>
             The React interface bundled with the kmrs Docker image, served at /
             out of the box.
           </p>
-          <span className={styles.link}>Docs <i>→</i></span>
-        </Link>
+          <span className={styles.link}>GitHub <i>→</i></span>
+        </a>
       </main>
     </Layout>
   );

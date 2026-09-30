@@ -1,0 +1,21 @@
+---
+title: "Next/previous navigation"
+sidebar:
+  order: 9
+---
+
+The sibling book endpoints — `GET /api/v1/books/{bookId}/next|previous` and `GET /api/v1/readlists/{id}/books/{bookId}/next|previous` — differ from the Java version in two ways.
+
+## skipRead
+
+The `next` endpoints accept an optional `skipRead` query parameter (default `false`).
+
+With `skipRead=true`, the endpoint returns the first book after the current one — in series order, or in read-list order — that the requesting user has not read. "Not read" means unread or in progress, matching the `read_status` search filter.
+
+When every later book is already read, the endpoint falls back to the plain next book, so re-reading a finished series or list still moves forward. Either way it is a single request; without the parameter, clients have to emulate this with extra search round trips.
+
+The `previous` endpoints do not take the parameter.
+
+## numberSort ties
+
+Both directions break `numberSort` ties by book id, matching the On Deck selection order; the Java version orders and seeks by `numberSort` alone, so navigation between books with duplicate `numberSort` is unstable and can diverge from On Deck ([gotson/komga#2182](https://github.com/gotson/komga/pull/2182)).

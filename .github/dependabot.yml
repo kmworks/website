@@ -12,6 +12,11 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    # astro check does not support TypeScript 7; stay on 6.x until it does
+    ignore:
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
     groups:
       npm:
         patterns:

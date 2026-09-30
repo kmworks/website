@@ -33,7 +33,7 @@
     "@tailwindcss/vite": "^4.1.4",
     "pagefind": "^1.5.2",
     "tailwindcss": "^4.1.4",
-    "typescript": "^7.0.2",
-    "wrangler": "^4.95.0"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.142.0"
   }
 }

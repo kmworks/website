@@ -30,6 +30,16 @@ Java's `CJKBigramFilter` indexes a CJK run as sliding bigrams plus a trailing un
 
 kmrs indexes every CJK character as a unigram (Lucene's `outputUnigrams` mode), so every token the search side emits resolves in the index: `可爱` and `我的` match mid-run, `3月` matches `3月的狮子`, and single-character queries like `王` work anywhere in a run. The added unigrams take positions that keep the bigrams' relative spacing intact (the run-initial unigram takes the run's first position, each mid-run unigram shares the position of the bigram it starts, the trailing unigram keeps its own position), so phrase queries behave as before.
 
+### CJK prefix fallback
+
+A bare query term that runs past the end of the title misses in the Java version, because every analyzed CJK bigram is ANDed: `葬送的芙莉莲系列` never matches the title `葬送的芙莉莲`, as the query's trailing bigrams (莲系, 系列) exist in no title. When such a query yields nothing, kmrs retries it with trailing analyzed tokens dropped one by one, longest prefix first, and stops at the first hit — the query above matches at its first five tokens.
+
+The relaxation is deliberately narrow:
+
+- only a suffix of CJK bigram-chain tokens may be dropped — whole-word (Latin/digit) clauses are never relaxed, so `JOJO的奇妙冒险系列` matches `JOJO的奇妙冒险`, but `Frieren系列完全版` never degrades to a bare `Frieren`;
+- the retained prefix keeps at least two tokens;
+- only plain search-box terms qualify — phrases, field-qualified terms (`title:…`), and compound queries are untouched, so a Lucene miss stays a miss otherwise.
+
 ### Simplified ↔ traditional cross-search
 
 Index and query text are both normalized to simplified Chinese (OpenCC phrase dictionaries, via [opencc-jieba-rs](https://crates.io/crates/opencc-jieba-rs)) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles. Prefix and wildcard queries are covered too.

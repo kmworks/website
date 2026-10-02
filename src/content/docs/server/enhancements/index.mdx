@@ -11,7 +11,7 @@ Improvements KMServer adds on top of Java parity, plus intentional behavior diff
 
 - [Outbound webhooks](/server/enhancements/webhooks): library events POSTed as JSON to configured URLs, with HMAC-SHA256 signatures
 - [History events](/server/enhancements/history-events): scan-triggered trashing and trash emptying recorded in `GET /api/v1/history`
-- [Search](/server/search): simplified ↔ traditional Chinese cross-search and CJK boundary unigrams
+- [Search](/server/search): simplified ↔ traditional Chinese cross-search, CJK boundary unigrams, and a prefix fallback for CJK queries that run past the title
 - [EPUB 2 series metadata](/server/enhancements/epub2-metadata): calibre-style OPF 2 `<meta>` fallback for series title and number
 - [Natural sort](/server/enhancements/natural-sort): numbered titles sort by numeric value, with a configurable ICU locale
 - [komf integration](/server/enhancements/komf): one-click setup of a komf metadata fetcher

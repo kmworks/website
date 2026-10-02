@@ -6,14 +6,15 @@ sidebar:
 
 One-click setup of a [komf](https://github.com/dyphire/komf-rs) metadata fetcher: KMServer mints an API key for the connecting admin, pushes it together with the Komga base URL to komf's `PATCH /api/config` (hot-reloaded, komf needs no changes), and reconciles drift every minute. komf then calls back in Komga mode (REST + SSE) and starts matching metadata.
 
-- Preset via `[komf]` in `config.toml` (env `KOMGA_KOMF_URL` / `KOMGA_KOMF_BASEURL`) pre-fills the setup form.
+- Preset via `[komf]` in `config.toml` (env `KOMGA_KOMF_URL` / `KOMGA_KOMF_BASEURL` / `KOMGA_KOMF_AUTHKEY`) pre-fills the setup form.
 - The integration itself is configured at runtime via `GET`/`PUT`/`DELETE /api/v1/komf/integration` (admin only).
 - The key's plaintext is only ever handed to komf; KMServer stores its SHA-512.
+- When komf-rs runs behind its `KOMF_AUTH_KEY` gate, present the matching key as `auth-key` in the preset, or as `authKey` on the `PUT` (takes precedence; `GET` only reports `authKeySet`, never the value). KMServer sends it as a Bearer credential on every call to komf.
 
 Once connected, KMServer also proxies komf's metadata, jobs, and config API under `/api/v1/komf/...` (admin only; the komga connection fields in `PATCH /api/v1/komf/config` stay managed by the integration), so admin UIs can drive komf through KMServer with plain Komga credentials.
 
 :::caution
-komf's API has no authentication — deploy it on a trusted network only.
+Without a key, komf's API has no authentication — deploy it on a trusted network only, or gate it with komf-rs's `KOMF_AUTH_KEY` and configure the matching key here. komf-rs's gate bypasses loopback/LAN clients, so a same-host komf needs no key.
 :::
 
 The Java version has no komf support.

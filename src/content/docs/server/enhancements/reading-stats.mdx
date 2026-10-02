@@ -1,0 +1,39 @@
+---
+title: "Reading statistics"
+sidebar:
+  order: 10
+---
+
+Per-user reading statistics for the authenticated user, computed on the server. Not part of the Komga API surface, so the endpoints are absent from the OpenAPI spec.
+
+The statistics are split into three endpoints that map to the sections of a stats page; each takes an optional `libraryId` to restrict the scope to one library (intersected with the libraries the user can see). All counts cover only books the user is allowed to see (library sharing and content restrictions apply), matching what a book search would return.
+
+## Summary
+
+`GET /api/v1/stats/reading/summary` — the totals cards:
+
+- `totalBooks` — visible books in scope
+- `booksStarted` / `booksCompleted` — books with a read-progress row / completed
+- `pagesRead` — completed books count their full page count, in-progress ones their current page
+- `averagePagesPerBook` — mean page count of completed books
+- `readingDays` — distinct days with any reading activity
+- `currentStreakDays` / `longestStreakDays` — consecutive-day reading streaks; the current streak is still alive when the last active day is yesterday
+- `lastReadAt` — most recent read date, or `null`
+- `statusDistribution` — `read` / `inProgress` / `unread` book counts (always all three)
+
+## Activity
+
+`GET /api/v1/stats/reading/activity` — the time dimension. Accepts `tzOffsetMinutes` (`-720` to `840`, default `0`), the client's UTC offset, which only affects the weekday/hour buckets.
+
+- `weekdayDistribution` — 7 counts, index 0 = Sunday
+- `hourlyDistribution` — 24 counts, index = hour of day
+- `readingTimeSeries` — one `{date, pagesRead, booksCompleted}` point per day that had activity (clients zero-fill the gaps when rendering); days are UTC, and the series covers the full history
+
+Weekday, hour, and the daily pages are derived from real activity: books tracked by the reading event log contribute every progress update, other books contribute their last read date. Pages are attributed per book — the event log gives actual per-day increments, while completed books without events contribute their whole page count on the day they were finished, so histories predating the event log are not blank. Re-reading a book (the position moving backwards) counts nothing for the jump back, then counts normally from the new position.
+
+## Tops
+
+`GET /api/v1/stats/reading/tops` — content composition:
+
+- `topAuthors` / `topGenres` / `topTags` — the 10 most common names among series with at least one completed book (each name counts once per series)
+- `genreDistribution` / `tagDistribution` — the full ranking, capped at 17 entries plus an `Other` bucket summing the rest

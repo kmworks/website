@@ -27,6 +27,7 @@ const { collection, showSidebar = true, sections: sectionsProp } = Astro.props;
 const currentSlug = stripBase(Astro.url.pathname, import.meta.env.BASE_URL).replace(/\/$/, "") || "/";
 
 const appStoreUrl = "https://apps.apple.com/app/id6755198424";
+const discordUrl = "https://discord.gg/WQtE6VhjpP";
 
 // Product nav. Docs pages keep the section tab strip derived from the
 // sidebar; everywhere else the same three links are the primary nav.
@@ -127,6 +128,18 @@ const resolveSectionHref = (href: string): string =>
           <Icon name="ph:github-logo" class="w-4 h-4" />
         </LinkButton>
       )}
+      <LinkButton
+        href={discordUrl}
+        variant="minimal"
+        shape="square"
+        size="sm"
+        aria-label="Discord"
+        target="_blank"
+        rel="noopener"
+        class="text-muted-foreground"
+      >
+        <Icon name="ph:discord-logo" class="w-4 h-4" />
+      </LinkButton>
       <ThemeToggle />
       <a
         href={appStoreUrl}

@@ -42,7 +42,7 @@ The relaxation is deliberately narrow:
 
 ### Simplified ↔ traditional cross-search
 
-Index and query text are both normalized to simplified Chinese (OpenCC phrase dictionaries, via [opencc-jieba-rs](https://crates.io/crates/opencc-jieba-rs)) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles. Prefix and wildcard queries are covered too.
+Index and query text are both normalized to simplified Chinese (OpenCC conversion tables, longest-match over the phrase exception list and the per-character map) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles. Prefix and wildcard queries are covered too.
 
 Two properties of the mapping are worth knowing:
 

@@ -33,5 +33,5 @@ With auto-update also enabled, the managed copy replaces whatever `webui.dir` po
 ## Notes
 
 - KMServer speaks plain HTTP. If you need HTTPS, put any TLS-terminating proxy in front; it can be a dumb pipe, since KMServer tells the SPA and the API apart itself.
-- Cross-origin hosting (web UI on a different origin than the API) is not supported: KMServer parses `KOMGA_CORS_ALLOWEDORIGINS` but does not apply CORS headers. Serve same-origin.
+- Cross-origin hosting (web UI on a different origin than the API) works once the UI's origin is listed in `cors.allowed-origins` (`KOMGA_CORS_ALLOWEDORIGINS`). Credentialed requests are always allowed, so the wildcard `*` is rejected — list origins explicitly.
 - The web UI's files and SPA routes are served without authentication — the login page has to load anonymously. Authentication is enforced by the API, same as the Java version.

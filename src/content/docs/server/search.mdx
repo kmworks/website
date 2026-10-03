@@ -26,9 +26,13 @@ These change recall only: the index format is versioned (see below), and nothing
 
 ### CJK unigrams
 
-Java's `CJKBigramFilter` indexes a CJK run as sliding bigrams plus a trailing unigram, so a character that only ever appears inside a bigram cannot be searched for. A query term's analyzed tokens are all ANDed (komga's `defaultOperator = AND`), and the query's trailing unigram has no index entry when that character sits in the middle of a run: `可爱` analyzes to `+可爱 +爱`, but 爱 exists in the Java index only inside the bigrams 可爱/爱对, so `可爱` cannot match `我的可愛對黑岩目高不管用` — only substrings aligned with a run boundary match at all.
+Java's `CJKBigramFilter` indexes a CJK run as sliding bigrams plus a trailing unigram, so a character that only appears mid-run has no index entry of its own.
 
-kmrs indexes every CJK character as a unigram (Lucene's `outputUnigrams` mode), so every token the search side emits resolves in the index: `可爱` and `我的` match mid-run, `3月` matches `3月的狮子`, and single-character queries like `王` work anywhere in a run. The added unigrams take positions that keep the bigrams' relative spacing intact (the run-initial unigram takes the run's first position, each mid-run unigram shares the position of the bigram it starts, the trailing unigram keeps its own position), so phrase queries behave as before.
+That breaks ANDed queries: komga's `defaultOperator = AND` requires every analyzed token to resolve, and the query's trailing unigram resolves nowhere when that character sits mid-run. `可爱` analyzes to `+可爱 +爱`, but 爱 exists in the Java index only inside the bigrams 可爱/爱对 — so `可爱` cannot match `我的可愛對黑岩目高不管用`. Only substrings aligned with a run boundary match at all.
+
+kmrs indexes every CJK character as a unigram (Lucene's `outputUnigrams` mode), so every query-side token resolves: `可爱` and `我的` match mid-run, `3月` matches `3月的狮子`, and single-character queries like `王` work anywhere in a run.
+
+The added unigrams take positions that keep the bigrams' relative spacing intact (run-initial unigram → the run's first position; mid-run unigram → the position of the bigram it starts; trailing unigram → its own position), so phrase queries behave as before.
 
 ### CJK prefix fallback
 
@@ -42,7 +46,7 @@ The relaxation is deliberately narrow:
 
 ### Simplified ↔ traditional cross-search
 
-Index and query text are both normalized to simplified Chinese (OpenCC conversion tables, longest-match over the phrase exception list and the per-character map) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles. Prefix and wildcard queries are covered too.
+Index and query text are both normalized to simplified Chinese (OpenCC conversion tables) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles. Prefix and wildcard queries are covered too.
 
 Two properties of the mapping are worth knowing:
 

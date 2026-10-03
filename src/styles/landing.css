@@ -844,6 +844,27 @@
     gap: 2.6rem;
   }
 
+  /* In flow: the absolute float shot is taller than the main shot here and
+     would cover the CTAs above and the gallery below. */
+  .km-landing .heroShots {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .km-landing .heroShots .shotMain {
+    order: 2;
+    width: 74%;
+    margin-left: 0;
+  }
+
+  .km-landing .heroShots .shotFloat {
+    position: relative;
+    z-index: 1;
+    order: 1;
+    width: 32%;
+    margin-right: -8%;
+  }
+
   .km-landing .heroIcon {
     width: min(12rem, 50%);
   }
@@ -887,11 +908,6 @@
 
   .km-landing .flowArrow {
     transform: rotate(90deg);
-  }
-
-  .km-landing .heroShots .shotFloat {
-    left: 0;
-    width: 42%;
   }
 
   .km-landing .cardWide {

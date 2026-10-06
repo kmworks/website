@@ -13,7 +13,7 @@ Per-library content counts and a server state snapshot, computed on the server. 
 - `libraries` — one entry per visible library, ordered by name: `libraryId`, `name`, `series`, `books`, `fileSize` (bytes), `readlists`, `collections`. Libraries without content report zeros.
 - `total` — the same counts over all visible libraries.
 
-All counts cover only the content the user is allowed to see (library sharing and content restrictions apply), matching what a book search would return. For an administrator this is the full library.
+All counts cover only the content the user is allowed to see (library sharing and content restrictions apply), matching what a book search would return. For an administrator this is the full library. Administrators also get a `sidecars` count in each library entry and in `total`; sidecars are scan artifacts with no visibility of their own, so the field is omitted for other users.
 
 Read list and collection counts use the same belongs-to semantics as the list pages: a list counts in every library it has at least one visible member in. A list can therefore appear in several libraries' counts, so `total.readlists`/`total.collections` count each list once instead of summing the per-library rows. Lists with no members belong to no library and are not counted.
 

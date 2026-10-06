@@ -22,6 +22,10 @@ Scope exclusions are intentional and not listed here either:
 - Lucene fuzzy (`~`) and phrase-slop (`~N`) queries are unsupported and yield empty results.
 - `komga.lucene.index-analyzer.*` and `komga.lucene.commit-delay` are ignored (warned and dropped during Java config migration); the analyzer is fixed to the multilingual ngram chain.
 
+## API
+
+- Request JSON is parsed strictly: property names and search-condition operator tags are case-sensitive (`oneShot`, `isNot`). The Java version accepts any casing (Jackson `ACCEPT_CASE_INSENSITIVE_PROPERTIES` / `ACCEPT_CASE_INSENSITIVE_VALUES`), so payloads spelled `oneshot` or `isnot` work there but get a 422 here; send the documented camelCase forms.
+
 ## Database / migrations
 
 - Deprecated BCP47 aliases (e.g. `iw` → `he`) are not normalized by the language-code migration for pre-2023-08 libraries, an accepted deviation.

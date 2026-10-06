@@ -37,6 +37,7 @@ Every key below is commented out at its default value; uncomment to change it. A
 # an explicit pool-size applies to the task pool too.
 # [database.pragmas] # extra SQLite pragmas, TOML only. synchronous defaults to NORMAL in WAL mode, FULL otherwise
 # synchronous = "FULL"
+# journal_size_limit = "67108864" # WAL file size cap in bytes; default 64 MiB in WAL mode, unlimited otherwise (autocheckpoint rewinds but never shrinks the WAL)
 # cache_size = "-1820" # page cache per connection, negative = KiB; default: 16 MiB per database split between its connections (512..2048 KiB clamp)
 
 [tasks-db]

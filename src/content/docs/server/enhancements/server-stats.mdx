@@ -1,0 +1,24 @@
+---
+title: "Library and server statistics"
+sidebar:
+  order: 12
+---
+
+Per-library content counts and a server state snapshot, computed on the server. Not part of the Komga API surface, so the endpoints are absent from the OpenAPI spec. They are the kmrs-native way to feed library overviews and admin dashboards: one call returns everything, instead of querying the actuator metrics one meter at a time.
+
+## Library statistics
+
+`GET /api/v1/stats/libraries` — content counts for every library the caller can see, plus their total:
+
+- `libraries` — one entry per visible library, ordered by name: `libraryId`, `name`, `series`, `books`, `fileSize` (bytes). Libraries without content report zeros.
+- `total` — the same counts summed over all visible libraries.
+
+All counts cover only the content the user is allowed to see (library sharing and content restrictions apply), matching what a book search would return. For an administrator this is the full library.
+
+## Server statistics
+
+`GET /api/v1/stats/server` — a server state snapshot. Administrator only.
+
+- `tasks` — the background task queue and execution metrics, merged by task type: `queueSize`, and one `types` entry per task type that has queued tasks or recorded executions: `type`, `queued`, `executions`, `totalTimeMs`, `maxTimeMs`, `failures`
+- `process` — `startTime`, `uptimeSeconds`, `cpuUsage` (percent of total capacity), `memoryBytes` (resident set size)
+- `totals` — global row counts: `libraries`, `collections`, `readlists`, `sidecars`

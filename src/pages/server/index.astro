@@ -49,8 +49,8 @@ const clients = [
 ---
 
 <BaseLayout
-  title="KMServer — Komga-Compatible Comic & Manga Server"
-  description="KMServer is a lightweight, Komga-compatible comic and manga server with the web UI included. Same API, same database: point it at your existing Komga library."
+  title="KMServer — Komga-Compatible Comic & Manga Server, in Rust"
+  description="KMServer is a lightweight, Komga-compatible comic and manga server written in Rust, with the web UI included. Same API, same database: point it at your existing Komga library."
 >
   <div class="flex flex-col min-h-screen km-landing">
     <Header />
@@ -64,9 +64,11 @@ const clients = [
               <p class="eyebrow">KMServer</p>
               <h1 class="heroTitle">Your library. One server.</h1>
               <p class="heroSub">
-                A lightweight, Komga-compatible server with the web UI included.
+                Komga reimplemented in Rust: one static binary, a bounded
+                footprint, and the web UI included.
               </p>
               <div class="chipRow" style="margin-top: 0; margin-bottom: 2rem;">
+                <span class="chip">Written in Rust</span>
                 <span class="chip">Komga-compatible</span>
                 <span class="chip">Existing libraries</span>
                 <span class="chip">Existing database</span>
@@ -93,25 +95,63 @@ const clients = [
         </div>
       </header>
 
+      {/* Demo */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionCenter" style="margin-bottom: 0;">
+            <h2 class="sectionTitle">Try it in your browser.</h2>
+            <p class="sectionSub">
+              A live KMServer with the bundled web UI and a public-domain
+              library of English and Japanese comics and ebooks. Everything
+              resets daily.
+            </p>
+            <div class="demoCreds">
+              <div class="demoCred">
+                <span class="demoCredLabel">Email</span>
+                <code class="demoCredValue">demo@kmworks.date</code>
+              </div>
+              <div class="demoCred">
+                <span class="demoCredLabel">Password</span>
+                <code class="demoCredValue">kmworks-demo</code>
+              </div>
+            </div>
+            <a class="btnPrimary" href="https://demo.kmworks.date" target="_blank" rel="noopener" style="margin-top: 2rem;">
+              Open the demo <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Why KMServer */}
       <section class="section">
         <div class="container">
           <div class="sectionHead">
             <h2 class="sectionTitle">Why KMServer?</h2>
             <p class="sectionSub">
-              The Komga experience with a much smaller footprint: one static
-              binary instead of a JVM runtime.
+              The Komga experience, rebuilt in Rust: one static binary instead
+              of a JVM runtime, and a footprint that stays small.
             </p>
           </div>
-          <div class="cardGrid">
+          <div class="platformGrid">
             <article class="card">
               <div class="cardIcon">
-                <Icon name="ph:package" class="w-[26px] h-[26px]" />
+                <Icon name="ph:code" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">One static binary</h3>
+              <h3 class="cardTitle">Written in Rust</h3>
               <p class="cardBody">
-                KMServer is distributed as the <code>kmrs</code> binary: no
-                runtime to install, nothing else to provision.
+                A ground-up, memory-safe reimplementation of the Komga server.
+                No JVM, no runtime: the whole server ships as one static binary.
+              </p>
+            </article>
+            <article class="card">
+              <div class="cardIcon">
+                <Icon name="ph:memory" class="w-[26px] h-[26px]" />
+              </div>
+              <h3 class="cardTitle">Bounded memory</h3>
+              <p class="cardBody">
+                A 16 MiB SQLite page-cache budget per database and capped
+                allocator arenas keep the footprint flat, whatever the
+                hardware. <a href="/server/enhancements">Enhancements</a>
               </p>
             </article>
             <article class="card">
@@ -264,13 +304,13 @@ const clients = [
         </div>
       </section>
 
-      {/* Technical details */}
+      {/* Beyond compatibility */}
       <section class="section">
         <div class="container">
           <div class="sectionHead">
-            <h2 class="sectionTitle">Technical details</h2>
+            <h2 class="sectionTitle">Beyond compatibility</h2>
             <p class="sectionSub">
-              Improvements KMServer adds on top of compatibility.
+              Capabilities the Java version does not have.
             </p>
           </div>
           <div class="cardGrid">
@@ -305,6 +345,17 @@ const clients = [
                 builds.
               </p>
             </div>
+          </div>
+          <div class="chipRow">
+            <a class="chip" href="/server/enhancements/webhooks">Webhooks</a>
+            <a class="chip" href="/server/enhancements/history-events">History events</a>
+            <a class="chip" href="/server/enhancements/epub2-metadata">EPUB 2 metadata</a>
+            <a class="chip" href="/server/enhancements/komf">komf integration</a>
+            <a class="chip" href="/server/enhancements/thumbnail-storage">File-backed thumbnails</a>
+            <a class="chip" href="/server/enhancements/next-previous">Next/previous</a>
+            <a class="chip" href="/server/enhancements/reading-stats">Reading stats</a>
+            <a class="chip" href="/server/enhancements/smart-lists">Smart lists</a>
+            <a class="chip" href="/server/enhancements/server-stats">Server stats</a>
           </div>
           <p class="techNote">
             The full lists live in the docs: <a href="/server/enhancements">Enhancements</a>,{" "}

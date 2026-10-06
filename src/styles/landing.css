@@ -824,6 +824,41 @@
   grid-auto-columns: min(30rem, 78%);
 }
 
+/* ---------- demo ---------- */
+
+.km-landing .demoCreds {
+  margin: 2rem auto 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.km-landing .demoCred {
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  background: var(--km-surface);
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+.km-landing .demoCredLabel {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--km-text-muted);
+}
+
+.km-landing .demoCredValue {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--nb-font-mono);
+  font-size: 1.02rem;
+  color: var(--km-text);
+}
+
 /* ---------- centered section head ---------- */
 
 .km-landing .sectionCenter {

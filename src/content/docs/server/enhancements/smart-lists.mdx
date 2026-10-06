@@ -1,0 +1,31 @@
+---
+title: "Smart lists"
+sidebar:
+  order: 11
+---
+
+A smart list is a saved book or series search — the same `BookSearch`/`SeriesSearch` document that `POST /api/v1/books/list` and `POST /api/v1/series/list` accept — owned by a user and evaluated live on each request through the same query path. Membership is never stored, so conditions that depend on the requesting user (read status, content restrictions, library authorization) always evaluate for whoever is asking, not for whoever saved the list. Not part of the Komga API surface; the endpoints are included in the OpenAPI document under the `Smart lists (kmrs extension)` tag.
+
+## Managing lists
+
+`GET`/`POST /api/v1/smart-lists` and `GET`/`PATCH`/`DELETE /api/v1/smart-lists/{id}` — any authenticated user can create lists, and a name only has to be unique per owner. The search document is validated against the list target (`BOOK` or `SERIES`) when written, and switching the target requires sending a new search document.
+
+Each list has a visibility scope:
+
+- `PRIVATE` (default) — owner and admins only
+- `PUBLIC` — every authenticated user
+- `SHARED` — the users named in `sharedWithUserIds`, validated against existing users; a `SHARED` list always requires a non-empty scope. `GET /api/v1/smart-lists/share-targets` lists the users a list can be shared with
+
+Visibility grants read access only: renaming, changing the filter or the scope, managing covers, and deleting the list stay with the owner (and admins). Admins see every list and can narrow the listing with `?owner=<userId>`.
+
+## Reading the items
+
+`POST /api/v1/smart-lists/{id}/books` and `POST /api/v1/smart-lists/{id}/series` evaluate the stored filter for the requesting user and return the same paged DTOs as the `/list` endpoints. The optional request body is an overlay search document: its conditions are ANDed with the stored filter, and its full-text term replaces the stored one — this is how a list detail page applies its own filters and search box on top of the saved filter.
+
+## Covers
+
+`GET /api/v1/smart-lists/{id}/thumbnail` serves a generated mosaic of up to 4 covers of the matched books or series (the collection collage), cached behind a content fingerprint and rebuilt when the matched set changes. The mosaic is computed once from the owner's view, so on shared lists a sharee with stricter restrictions may see covers their own filter would hide. Uploading, listing, selecting, and deleting covers under `/thumbnails` mirrors the read-list cover API, with writes restricted to the owner; a selected uploaded cover wins over the mosaic.
+
+Smart lists and their covers live in `kmrs.sqlite`, so the Java version can always open a kmrs data directory. Changes are delivered to the owner over SSE (`SmartListAdded` / `SmartListChanged` / `SmartListDeleted` / `SmartListThumbnailChanged`); webhooks do not carry smart-list events.
+
+The Java version has no smart lists.

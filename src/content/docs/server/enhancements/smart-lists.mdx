@@ -14,9 +14,9 @@ Each list has a visibility scope:
 
 - `PRIVATE` (default) — owner and admins only
 - `PUBLIC` — every authenticated user
-- `SHARED` — the users named in `sharedWithUserIds`, validated against existing users; a `SHARED` list always requires a non-empty scope. `GET /api/v1/smart-lists/share-targets` lists the users a list can be shared with
+- `SHARED` — the users named in `sharedWithUserIds`, validated against existing users; a `SHARED` list always requires a non-empty scope
 
-Visibility grants read access only: renaming, changing the filter or the scope, managing covers, and deleting the list stay with the owner (and admins). Admins see every list and can narrow the listing with `?owner=<userId>`.
+Visibility and sharing are admin capabilities: a regular user's lists are always private, and `GET /api/v1/smart-lists/share-targets` (the user directory for picking share targets) is admin-only, like komga's `/api/v2/users`. Visibility grants read access only: renaming, changing the filter or the scope, and deleting the list stay with the owner and admins; covers stay with the owner. Admins see every list and can narrow the listing with `?owner=<userId>`.
 
 ## Reading the items
 

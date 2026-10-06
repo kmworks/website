@@ -10,7 +10,7 @@ Per-library content counts and a server state snapshot, computed on the server. 
 
 `GET /api/v1/stats/libraries` — content counts for every library the caller can see, plus their total:
 
-- `libraries` — one entry per visible library, ordered by name: `libraryId`, `name`, `series`, `books`, `fileSize` (bytes), `readlists`, `collections`. Libraries without content report zeros.
+- `libraries` — one entry per visible library, ordered by name: `libraryId`, `name`, `series`, `books`, `fileSize` (bytes), `readlists`, `collections`, `sidecars` (administrators only). Libraries without content report zeros.
 - `total` — the same counts over all visible libraries.
 
 All counts cover only the content the user is allowed to see (library sharing and content restrictions apply), matching what a book search would return. For an administrator this is the full library. Administrators also get a `sidecars` count in each library entry and in `total`; sidecars are scan artifacts with no visibility of their own, so the field is omitted for other users.

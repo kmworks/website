@@ -5,21 +5,19 @@ sidebar:
   label: "Serving a web UI"
 ---
 
-The release Docker image bundles the kmweb React UI (dashboard, browsing with facet filters, full-text search, the comic reader, account settings, live updates over SSE) and serves it at `/` out of the box. Nothing to configure: `http://<host>:25600/` works in a browser immediately.
+The kmweb React UI (dashboard, browsing with facet filters, full-text search, the comic reader, account settings, live updates over SSE) is embedded in the KMServer binary and served at `/` out of the box. Nothing to configure: `http://<host>:25600/` works in a browser immediately, from the Docker image and the standalone binaries alike.
 
-The bundled UI is built from the same source tree as the server and is version-locked to it: upgrading the image upgrades the UI, and the two never drift out of sync.
+The UI is built from the same source tree as the server and is version-locked to it: upgrading KMServer upgrades the UI, and the two never drift out of sync.
 
-## Bare binary
+## Building from source
 
-The standalone binary carries no UI, which is fine for API-only clients (KMReader, KOReader, OPDS readers). To serve a UI anyway, build the bundle from the kmrs source tree and point `webui.dir` at it — this is only needed to force a specific UI:
+A `cargo build` embeds whatever `webui/dist` holds at compile time. Build the UI first, or the binary serves a placeholder page telling you to:
 
 ```sh
-git clone https://github.com/kmworks/kmrs && cd kmrs/webui
+cd webui
 pnpm install && pnpm build   # produces webui/dist
-KOMGA_WEBUI_DIR=/path/to/kmrs/webui/dist kmrs
+cd .. && cargo build --release -p komga-server
 ```
-
-Run with an empty `KOMGA_WEBUI_DIR=` to explicitly disable the UI.
 
 ## Notes
 

@@ -23,4 +23,4 @@ Read list and collection counts use the same belongs-to semantics as the list pa
 
 - `tasks` — the background task queue and execution metrics, merged by task type: `queueSize`, and one `types` entry per task type that has queued tasks or recorded executions: `type`, `queued`, `executions`, `totalTimeMs`, `maxTimeMs`, `failures`
 - `process` — `startTime`, `uptimeSeconds`, `cpuUsage` (percent of total capacity), `memoryBytes` (resident set size)
-- `totals` — global row counts: `libraries`, `collections`, `readlists`, `sidecars`
+- `totals` — global content counts: `libraries`, `series`, `books`, `fileSize` (bytes), `collections`, `readlists`, `sidecars`

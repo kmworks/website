@@ -24,7 +24,7 @@ docker run -d \
 
 An existing komga `/config` directory (with `database.sqlite` / `tasks.sqlite`) is picked up and upgraded in place.
 
-The image bundles the kmweb UI at `/webui` and serves it at `/`, so `http://<host>:25600/` works in a browser immediately. Run with an empty `KOMGA_WEBUI_DIR=` to disable the UI.
+The kmweb UI is embedded in the binary and served at `/`, so `http://<host>:25600/` works in a browser immediately.
 
   </TabItem>
   <TabItem label="Docker Compose">

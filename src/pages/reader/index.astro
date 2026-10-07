@@ -36,8 +36,9 @@ const readingFeatures = [
 const libraryFeatures = [
   { label: "Keep Reading", icon: "ph:play" },
   { label: "On Deck", icon: "ph:stack" },
-  { label: "Series & collections", icon: "ph:books" },
-  { label: "Read lists", icon: "ph:list-checks" },
+  { label: "Lists page", icon: "ph:list-checks" },
+  { label: "Smart lists", icon: "ph:magic-wand" },
+  { label: "Reading stats", icon: "ph:chart-line" },
   { label: "Metadata filters", icon: "ph:funnel" },
   { label: "Saved searches", icon: "ph:magnifying-glass" },
   { label: "Reading history", icon: "ph:clock-counter-clockwise" },
@@ -84,37 +85,37 @@ const appleFeatures = [
 ];
 
 const iphoneShots = [
-  { src: "iphone-dashboard", alt: "Library dashboard with Keep Reading and recently added books" },
-  { src: "iphone-reader", alt: "DIVINA reader with the reading settings menu open" },
-  { src: "iphone-browse", alt: "Browse view with series, books, collections and read lists" },
+  { src: "iphone-dashboard", alt: "Dashboard with Keep Reading and recently added books" },
+  { src: "iphone-reader", alt: "Comic reader with the reading options menu open" },
+  { src: "iphone-browse", alt: "Lists page with collections, read lists, and smart lists" },
   { src: "iphone-offline", alt: "Offline view with download tasks and downloaded books" },
-  { src: "iphone-book", alt: "Current book view with reader presets and theme settings" },
-  { src: "iphone-server", alt: "Server management view with libraries and API keys" },
-  { src: "iphone-settings", alt: "Settings view with reader and display options" },
+  { src: "iphone-book", alt: "EPUB reader settings with presets and themes" },
+  { src: "iphone-stats", alt: "Reading stats with streaks and a pages-read heatmap" },
+  { src: "iphone-settings", alt: "Reader settings with page transitions and tap zones" },
 ];
 
 const ipadShots = [
-  { src: "ipad-dashboard", alt: "Library dashboard with Keep Reading and recently added books" },
-  { src: "ipad-reader", alt: "DIVINA reader showing a full comic page" },
-  { src: "ipad-browse", alt: "Browse view with the series grid" },
-  { src: "ipad-epub", alt: "EPUB reader with the theme panel open" },
+  { src: "ipad-dashboard", alt: "Dashboard with Keep Reading and recently added books" },
+  { src: "ipad-reader", alt: "Comic reader showing a two-page spread with the options menu" },
+  { src: "ipad-browse", alt: "Lists page with collections, read lists, and smart lists" },
+  { src: "ipad-epub", alt: "EPUB reader with the book info panel open" },
   { src: "ipad-offline", alt: "Offline view with downloaded books" },
   { src: "ipad-server", alt: "Server management view" },
   { src: "ipad-settings", alt: "Settings view" },
 ];
 
 const macShots = [
-  { src: "mac-dashboard", alt: "Library dashboard with Keep Reading and the context menu open" },
-  { src: "mac-reader", alt: "DIVINA reader window with the keyboard shortcuts panel" },
-  { src: "mac-browse", alt: "Browse view with the series grid and reader settings" },
+  { src: "mac-dashboard", alt: "Dashboard with the context menu open" },
+  { src: "mac-reader", alt: "Comic reader with the Go to Page dialog" },
+  { src: "mac-browse", alt: "All Libraries view with the books grid" },
   { src: "mac-offline", alt: "Offline view with download tasks and downloaded books" },
   { src: "mac-server", alt: "Server management view" },
 ];
 
 const tvosShots = [
-  { src: "tvos-dashboard", alt: "Home view with Keep Reading and recently added books" },
-  { src: "tvos-reader", alt: "Comic reader with the page grid open" },
-  { src: "tvos-search", alt: "Search view with the alphabet bar and results" },
+  { src: "tvos-dashboard", alt: "Dashboard with Keep Reading and On Deck" },
+  { src: "tvos-reader", alt: "Comic reader with the page jump dialog" },
+  { src: "tvos-search", alt: "Browse view with the context menu open" },
   { src: "tvos-offline", alt: "Offline view with downloaded books" },
   { src: "tvos-server", alt: "Server management view" },
   { src: "tvos-settings", alt: "Settings view" },
@@ -172,8 +173,8 @@ const tvosShots = [
                   srcset="/img/shots/iphone-browse-600.webp 600w, /img/shots/iphone-browse-1000.webp 1000w"
                   sizes="(max-width: 1024px) 32vw, 15vw"
                   width="600"
-                  height="1299"
-                  alt="KMReader on iPhone showing the browse view with series, books, collections and read lists"
+                  height="1304"
+                  alt="KMReader on iPhone showing the Lists page with collections, read lists, and smart lists"
                   fetchpriority="high"
                   decoding="async"
                 />
@@ -201,7 +202,7 @@ const tvosShots = [
                     srcset={`/img/shots/${s.src}-600.webp 600w, /img/shots/${s.src}-1000.webp 1000w`}
                     sizes="(max-width: 640px) 62vw, 15rem"
                     width="600"
-                    height="1299"
+                    height="1304"
                     alt={`KMReader on iPhone: ${s.alt}`}
                     loading={i < 2 ? "eager" : "lazy"}
                     decoding="async"
@@ -219,7 +220,7 @@ const tvosShots = [
                     srcset={`/img/shots/${s.src}-900.webp 900w, /img/shots/${s.src}-1600.webp 1600w`}
                     sizes="(max-width: 640px) 78vw, 30rem"
                     width="900"
-                    height="1201"
+                    height="675"
                     alt={`KMReader on iPad: ${s.alt}`}
                     loading="lazy"
                     decoding="async"
@@ -335,7 +336,7 @@ const tvosShots = [
                 srcset="/img/shots/iphone-offline-600.webp 600w, /img/shots/iphone-offline-1000.webp 1000w"
                 sizes="(max-width: 1024px) 60vw, 22rem"
                 width="600"
-                height="1299"
+                height="1304"
                 alt="KMReader on iPhone showing the Offline view with download tasks and downloaded books"
                 loading="lazy"
                 decoding="async"
@@ -393,6 +394,8 @@ const tvosShots = [
             <p class="sectionSub">
               KMReader works with any Komga 1.20.0+ server, including
               KMServer, the single-binary Rust server from the same family.
+              On KMServer you also get smart lists, server-side reading stats,
+              and metadata fetching with komf.
             </p>
             <a class="btnGhost" href="/server/" style="margin-top: 2rem;">
               Learn about KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />

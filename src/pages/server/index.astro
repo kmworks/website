@@ -132,15 +132,16 @@ const clients = [
               of a JVM runtime, and a footprint that stays small.
             </p>
           </div>
-          <div class="platformGrid">
+          <div class="cardGrid">
             <article class="card">
               <div class="cardIcon">
-                <Icon name="ph:code" class="w-[26px] h-[26px]" />
+                <Icon name="ph:package" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">Written in Rust</h3>
+              <h3 class="cardTitle">One static binary</h3>
               <p class="cardBody">
-                A ground-up, memory-safe reimplementation of the Komga server.
-                No JVM, no runtime: the whole server ships as one static binary.
+                No JVM, no runtime: the whole server is one Rust executable
+                for Linux, macOS, and Windows, on x86_64 and aarch64. Docker
+                image included.
               </p>
             </article>
             <article class="card">
@@ -152,16 +153,6 @@ const clients = [
                 A 16 MiB SQLite page-cache budget per database and capped
                 allocator arenas keep the footprint flat, whatever the
                 hardware. <a href="/server/enhancements">Enhancements</a>
-              </p>
-            </article>
-            <article class="card">
-              <div class="cardIcon">
-                <Icon name="ph:devices" class="w-[26px] h-[26px]" />
-              </div>
-              <h3 class="cardTitle">Runs anywhere</h3>
-              <p class="cardBody">
-                Linux, macOS, and Windows, on x86_64 and aarch64. Docker image
-                included.
               </p>
             </article>
             <article class="card">
@@ -327,22 +318,24 @@ const clients = [
             </div>
             <div class="card">
               <div class="cardIcon">
-                <Icon name="ph:sort-ascending" class="w-[26px] h-[26px]" />
+                <Icon name="ph:list-magnifying-glass" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">Natural sort</h3>
+              <h3 class="cardTitle">Smart lists</h3>
               <p class="cardBody">
-                Numbered titles order the way you expect: "Page 2" before
-                "Page 10", with a configurable ICU locale.
+                Save any search as a live list: the filter re-evaluates for
+                whoever is looking, with share scopes and generated mosaic
+                covers. <a href="/server/enhancements/smart-lists">Smart lists</a>
               </p>
             </div>
             <div class="card">
               <div class="cardIcon">
-                <Icon name="ph:pulse" class="w-[26px] h-[26px]" />
+                <Icon name="ph:chart-line-up" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">Heap profiling built in</h3>
+              <h3 class="cardTitle">Reading stats</h3>
               <p class="cardBody">
-                jemalloc sampling with a pprof endpoint, always on in release
-                builds.
+                Per-user totals, day-by-day activity, and reading streaks,
+                computed on the server.{" "}
+                <a href="/server/enhancements/reading-stats">Reading stats</a>
               </p>
             </div>
           </div>
@@ -350,11 +343,10 @@ const clients = [
             <a class="chip" href="/server/enhancements/webhooks">Webhooks</a>
             <a class="chip" href="/server/enhancements/history-events">History events</a>
             <a class="chip" href="/server/enhancements/epub2-metadata">EPUB 2 metadata</a>
+            <a class="chip" href="/server/enhancements/natural-sort">Natural sort</a>
             <a class="chip" href="/server/enhancements/komf">komf integration</a>
             <a class="chip" href="/server/enhancements/thumbnail-storage">File-backed thumbnails</a>
             <a class="chip" href="/server/enhancements/next-previous">Next/previous</a>
-            <a class="chip" href="/server/enhancements/reading-stats">Reading stats</a>
-            <a class="chip" href="/server/enhancements/smart-lists">Smart lists</a>
             <a class="chip" href="/server/enhancements/server-stats">Server stats</a>
           </div>
           <p class="techNote">

@@ -20,74 +20,6 @@ const dockerRun = `docker run -d \\
   --restart unless-stopped \\
   ghcr.io/kmworks/kmrs`;
 
-const readers = [
-  {
-    title: "DIVINA",
-    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, per-book preferences.",
-    icon: "ph:book-open",
-  },
-  {
-    title: "Webtoon",
-    body: "Vertical scrolling for webtoons and long strips, with reading direction per book.",
-    icon: "ph:scroll",
-  },
-  {
-    title: "EPUB",
-    body: "A native EPUB reader with themes, fonts, and layout controls on iOS and macOS.",
-    icon: "ph:book",
-  },
-  {
-    title: "PDF",
-    body: "PDF reading on iOS and macOS, with the same library and progress sync as everything else.",
-    icon: "ph:file-pdf",
-  },
-];
-
-const offlineCaps = [
-  "Download policies",
-  "Background transfers",
-  "Offline-first storage",
-  "Local covers",
-  "Reading progress",
-  "Next-book preparation",
-];
-
-const platforms = [
-  {
-    title: "iPhone",
-    body: "Your pocket library: Keep Reading, widgets, quick actions, and Spotlight search.",
-    icon: "ph:device-mobile",
-    shot: { src: "iphone-dashboard", w: 600, h: 1299, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/iphone-dashboard-600.webp 600w, /img/shots/iphone-dashboard-1000.webp 1000w" },
-  },
-  {
-    title: "iPad",
-    body: "A big-canvas reader for the couch, with the full DIVINA, EPUB, and PDF experience.",
-    icon: "ph:device-tablet",
-    shot: { src: "ipad-browse", w: 900, h: 1201, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/ipad-browse-900.webp 900w, /img/shots/ipad-browse-1600.webp 1600w" },
-  },
-  {
-    title: "Mac",
-    body: "Dedicated reader windows, menu bar actions, and keyboard-first controls.",
-    icon: "ph:laptop",
-    shot: { src: "mac-dashboard", w: 1000, h: 625, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/mac-dashboard-1000.webp 1000w, /img/shots/mac-dashboard-1800.webp 1800w" },
-  },
-  {
-    title: "Apple TV",
-    body: "Remote-first DIVINA reading with a focused TV browsing experience.",
-    icon: "ph:television",
-    shot: { src: "tvos-dashboard", w: 960, h: 540, sizes: "(max-width: 640px) 92vw, 21vw", srcset: "/img/shots/tvos-dashboard-960.webp 960w, /img/shots/tvos-dashboard-1920.webp 1920w" },
-  },
-];
-
-const appleExtras = [
-  { label: "Spotlight search", icon: "ph:magnifying-glass" },
-  { label: "Widgets", icon: "ph:squares-four" },
-  { label: "Live Activities", icon: "ph:timer" },
-  { label: "Live Text", icon: "ph:text-aa" },
-  { label: "Quick actions", icon: "ph:lightning" },
-  { label: "Mac reader windows", icon: "ph:app-window" },
-];
-
 const serverFeatures = [
   { title: "One binary", icon: "ph:package" },
   { title: "Cross-platform", icon: "ph:devices" },
@@ -113,8 +45,9 @@ const serverFeatures = [
             <div>
               <h1 class="heroTitle">Your Komga library. Native everywhere.</h1>
               <p class="heroSub">
-                An open-source server and native Apple client for your comic
-                and manga library.
+                An open-source ecosystem for your comic and manga library:
+                KMReader, a native Apple client, and KMServer, a
+                Komga-compatible server in Rust.
               </p>
               <div class="ctaRow">
                 <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
@@ -183,11 +116,6 @@ const serverFeatures = [
               <p class="statLabel">Komga-compatible clients keep working.</p>
             </div>
           </div>
-          <div class="sectionCenter" style="margin-top: 2.4rem; margin-bottom: 0;">
-            <a class="btnGhost" href="/server/">
-              Learn about KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />
-            </a>
-          </div>
         </div>
       </section>
 
@@ -211,7 +139,9 @@ const serverFeatures = [
               <p class="eyebrow">KMReader</p>
               <h2 class="sectionTitle">Your library, built for Apple.</h2>
               <p class="sectionSub">
-                A native reading experience for iPhone, iPad, Mac and Apple TV.
+                A native app for iPhone, iPad, Mac and Apple TV: the DIVINA
+                comic reader, offline downloads, and progress sync across
+                devices.
               </p>
               <div class="chipRow">
                 <span class="chip">iPhone</span>
@@ -229,123 +159,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 4. Reading */}
-      <section class="section">
-        <div class="container">
-          <div class="sectionHead">
-            <h2 class="sectionTitle">Built for the way comics are actually read.</h2>
-          </div>
-          <div class="platformGrid">
-            {readers.map((r) => (
-              <article class="card">
-                <div class="cardIcon">
-                  <Icon name={r.icon} class="w-[26px] h-[26px]" />
-                </div>
-                <h3 class="cardTitle">{r.title}</h3>
-                <p class="cardBody">{r.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Offline */}
-      <section class="section">
-        <div class="container">
-          <div class="split">
-            <div>
-              <h2 class="sectionTitle">Your library, even offline.</h2>
-              <p class="sectionSub">
-                Download what you want. Read anywhere. Sync when you're back.
-              </p>
-              <div class="flowRow">
-                <span class="flowStep">Select</span>
-                <span class="flowArrow">→</span>
-                <span class="flowStep">Download</span>
-                <span class="flowArrow">→</span>
-                <span class="flowStep">Read offline</span>
-                <span class="flowArrow">→</span>
-                <span class="flowStep">Track progress</span>
-                <span class="flowArrow">→</span>
-                <span class="flowStep">Reconnect</span>
-                <span class="flowArrow">→</span>
-                <span class="flowStep">Sync</span>
-              </div>
-              <div class="chipRow">
-                {offlineCaps.map((c) => (
-                  <span class="chip">{c}</span>
-                ))}
-              </div>
-            </div>
-            <figure class="shotFrame" style="max-width: 22rem; margin-inline: auto;">
-              <img
-                src="/img/shots/iphone-offline-600.webp"
-                srcset="/img/shots/iphone-offline-600.webp 600w, /img/shots/iphone-offline-1000.webp 1000w"
-                sizes="(max-width: 1024px) 60vw, 22rem"
-                width="600"
-                height="1299"
-                alt="KMReader on iPhone showing the Offline view with download tasks and downloaded books"
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Apple platforms */}
-      <section class="section">
-        <div class="container">
-          <div class="sectionHead">
-            <h2 class="sectionTitle">One library. Four Apple platforms.</h2>
-            <p class="sectionSub">
-              KMReader is a native Apple app, not a web wrapper.
-            </p>
-          </div>
-          <div class="platformGrid">
-            {platforms.map((p) => (
-              <article class="card">
-                <div class="cardShot">
-                  <img
-                    src={`/img/shots/${p.shot.src}-${p.shot.w}.webp`}
-                    srcset={p.shot.srcset}
-                    sizes={p.shot.sizes}
-                    width={p.shot.w}
-                    height={p.shot.h}
-                    alt={`KMReader on ${p.title}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <div class="cardIcon">
-                  <Icon name={p.icon} class="w-[26px] h-[26px]" />
-                </div>
-                <h3 class="cardTitle">{p.title}</h3>
-                <p class="cardBody">{p.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Apple integration */}
-      <section class="section">
-        <div class="container">
-          <div class="sectionHead">
-            <h2 class="sectionTitle">At home in the Apple ecosystem.</h2>
-          </div>
-          <div class="miniGrid">
-            {appleExtras.map((x) => (
-              <div class="mini">
-                <Icon name={x.icon} class="w-[20px] h-[20px]" />
-                {x.label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. KMServer */}
+      {/* 4. KMServer */}
       <section class="section">
         <div class="container">
           <div class="split">
@@ -353,7 +167,8 @@ const serverFeatures = [
               <p class="eyebrow">KMServer</p>
               <h2 class="sectionTitle">Your library. One server.</h2>
               <p class="sectionSub">
-                A lightweight, Komga-compatible server with the web UI included.
+                Komga reimplemented in Rust: one static binary, a bounded
+                footprint, and the web UI included.
               </p>
               <div class="miniGrid" style="margin-top: 1.8rem;">
                 {serverFeatures.map((f) => (
@@ -387,7 +202,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 9. Demo */}
+      {/* 5. Demo */}
       <section class="section">
         <div class="container">
           <div class="sectionCenter" style="margin-bottom: 0;">
@@ -414,7 +229,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 10. Ecosystem */}
+      {/* 6. Ecosystem */}
       <section class="section">
         <div class="container">
           <div class="sectionCenter">
@@ -476,7 +291,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 11. Open source */}
+      {/* 7. Open source */}
       <section class="section">
         <div class="container">
           <div class="sectionCenter">
@@ -522,7 +337,7 @@ const serverFeatures = [
         </div>
       </section>
 
-      {/* 12. Final CTA */}
+      {/* 8. Final CTA */}
       <section class="final">
         <div class="finalBg"></div>
         <div class="container">

@@ -13,33 +13,23 @@ const githubUrl = "https://github.com/kmworks/kmreader";
 const readingFeatures = [
   {
     title: "DIVINA",
-    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, per-book preferences.",
+    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, and per-book preferences.",
     icon: "ph:book-open",
   },
   {
     title: "Webtoon",
-    body: "Vertical scrolling for webtoons and long strips.",
+    body: "Vertical scrolling for webtoons and long strips, with reading direction per book.",
     icon: "ph:scroll",
   },
   {
     title: "EPUB",
-    body: "Native EPUB reading on iOS and macOS with themes, fonts, and layout controls.",
+    body: "A native EPUB reader with themes, fonts, and layout controls on iOS and macOS.",
     icon: "ph:book",
   },
   {
     title: "PDF",
-    body: "PDF reading on iOS and macOS.",
+    body: "PDF reading on iOS and macOS, with the same library and progress sync as everything else.",
     icon: "ph:file-pdf",
-  },
-  {
-    title: "LTR / RTL",
-    body: "Reading direction per book, for manga and western comics alike.",
-    icon: "ph:arrows-left-right",
-  },
-  {
-    title: "Page modes",
-    body: "Single-page and double-page modes, wide-page splitting, and cover isolation where supported.",
-    icon: "ph:copy",
   },
 ];
 
@@ -281,12 +271,13 @@ const tvosShots = [
       <section class="section">
         <div class="container">
           <div class="sectionHead">
-            <h2 class="sectionTitle">Reading</h2>
+            <h2 class="sectionTitle">Built for the way comics are actually read.</h2>
             <p class="sectionSub">
-              Built for the way comics are actually read.
+              DIVINA for comics, vertical scroll for webtoons, and native EPUB
+              and PDF readers.
             </p>
           </div>
-          <div class="cardGrid">
+          <div class="platformGrid">
             {readingFeatures.map((f) => (
               <article class="card">
                 <div class="cardIcon">
@@ -390,6 +381,22 @@ const tvosShots = [
                 {f.label}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Your server */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionCenter" style="margin-bottom: 0;">
+            <h2 class="sectionTitle">Bring your own server.</h2>
+            <p class="sectionSub">
+              KMReader works with any Komga 1.20.0+ server, including
+              KMServer, the single-binary Rust server from the same family.
+            </p>
+            <a class="btnGhost" href="/server/" style="margin-top: 2rem;">
+              Learn about KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>

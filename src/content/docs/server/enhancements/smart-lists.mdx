@@ -26,6 +26,6 @@ Visibility and sharing are admin capabilities: a regular user's lists are always
 
 `GET /api/v1/smart-lists/{id}/thumbnail` serves a generated mosaic of up to 4 covers of the matched books or series (the collection collage), cached behind a content fingerprint and rebuilt when the matched set changes. The mosaic is computed once from the owner's view, so on shared lists a sharee with stricter restrictions may see covers their own filter would hide. Uploading, listing, selecting, and deleting covers under `/thumbnails` mirrors the read-list cover API, with writes restricted to the owner; a selected uploaded cover wins over the mosaic.
 
-Smart lists and their covers live in `kmrs.sqlite`, so the Java version can always open a kmrs data directory. Changes are delivered to the owner over SSE (`SmartListAdded` / `SmartListChanged` / `SmartListDeleted` / `SmartListThumbnailChanged`); webhooks do not carry smart-list events.
+Smart lists and their covers live in `kmrs.sqlite`, so the Java version can always open a kmrs data directory. Changes are delivered over SSE (`SmartListAdded` / `SmartListChanged` / `SmartListDeleted` / `SmartListThumbnailChanged`) to everyone in the visibility scope — the owner, admins, every authenticated user for `PUBLIC`, and the share scope for `SHARED`; webhooks do not carry smart-list events.
 
 The Java version has no smart lists.

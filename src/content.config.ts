@@ -14,5 +14,17 @@ export const collections = {
       },
     }),
   ),
+  // Mounts at /blog per the nimbus collection conventions; gets .md
+  // alternates, OG cards, and /blog/llms.txt without extra wiring.
+  blog: defineCollection(
+    docsCollection({
+      base: "blog",
+      schemaFields: {
+        audience: z.literal("human").optional(),
+        date: z.coerce.date(),
+        tags: z.array(z.string()).optional(),
+      },
+    }),
+  ),
   partials: defineCollection(partialsCollection()),
 };

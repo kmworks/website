@@ -1,0 +1,26 @@
+---
+title: "Manga translation"
+description: "Translate manga pages on iOS and macOS with on-device OCR and your choice of translation provider."
+sidebar:
+  order: 1
+---
+
+KMReader can detect text in manga pages and typeset the translation back into the bubbles, on iOS and macOS. OCR runs entirely on your device, and you choose how the recognized text gets translated.
+
+## 1. Download an OCR model pack
+
+Open Settings → Manga Translation and pick a model pack from the catalog. Packs are downloaded on demand, verified against their published hashes, and stored outside the app bundle, so you can delete them at any time to reclaim storage. Detection and recognition models can be mixed to trade speed for accuracy.
+
+## 2. Choose a translation provider
+
+Without any setup, KMReader falls back to Apple's built-in translation, so recognized text never leaves your device.
+
+For higher-quality results you can add any OpenAI-compatible provider with your own endpoint, model, and API key. Only the recognized text — and optionally the comic's title — is sent to your provider; page images are never uploaded. Set a default source language and a target language in the same settings page.
+
+## 3. Translate while reading
+
+- Tap the floating translation action to translate the current page; tap again to see the original.
+- Long-press the action to jump straight to Manga Translation settings.
+- The reader ⋯ menu toggles translation for the session; on macOS the same lives in the Manga Translation command menu.
+
+Translated pages are kept for the whole reading session, upcoming pages are translated ahead as you read, and vertical text is rendered vertically. Translation works in paged, right-to-left, split, and Webtoon modes.

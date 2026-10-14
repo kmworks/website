@@ -14,7 +14,7 @@ import { components } from "../../components";
 export const prerender = true;
 export const getStaticPaths = getCollectionStaticPaths("blog");
 
-const page = await getCollectionPage(Astro);
+const page = await getCollectionPage<"blog">(Astro);
 if (page instanceof Response) return page;
 const { entry, Content, headings, markdownUrl, ogImageUrl } = page;
 

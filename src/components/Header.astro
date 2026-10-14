@@ -35,10 +35,11 @@ const productNav = [
   { label: "KMReader", href: "/reader/", match: (s: string) => s === "/reader" },
   { label: "KMServer", href: "/server/", match: (s: string) => s === "/server" },
   { label: "Docs", href: "/server/intro", match: (s: string) => /^\/(server|reader)\/.+/.test(s) },
+  { label: "Blog", href: "/blog/", match: (s: string) => s === "/blog" || s.startsWith("/blog/") },
 ];
 
 let sections = sectionsProp ?? (collection ? await getSidebarSections(currentSlug, { collection }) : []);
-if (collection && sections.length < 2) {
+if (collection === "docs" && sections.length < 2) {
   // Nimbus only treats separately mounted collections as header sections;
   // kmworks sections are docs directories, so derive the tab strip from the
   // sidebar's top-level groups instead.

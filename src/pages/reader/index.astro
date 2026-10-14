@@ -33,6 +33,29 @@ const readingFeatures = [
   },
 ];
 
+const translationFeatures = [
+  {
+    title: "On-device OCR",
+    body: "Text detection and recognition run locally with downloadable CoreML model packs — page images never leave your device.",
+    icon: "ph:scan",
+  },
+  {
+    title: "Your translator, your choice",
+    body: "Use Apple's on-device translation, or point KMReader at any OpenAI-compatible endpoint with your own API key.",
+    icon: "ph:translate",
+  },
+  {
+    title: "Lettered back into the page",
+    body: "Translations are typeset into the bubbles — vertical text stays vertical — across paged, RTL, split, and Webtoon modes.",
+    icon: "ph:textbox",
+  },
+  {
+    title: "One tap away",
+    body: "A floating reader action translates the page, shows the original again, and prefetches what comes next.",
+    icon: "ph:hand-tap",
+  },
+];
+
 const libraryFeatures = [
   { label: "Keep Reading", icon: "ph:play" },
   { label: "On Deck", icon: "ph:stack" },
@@ -124,7 +147,7 @@ const tvosShots = [
 
 <BaseLayout
   title="KMReader — Native Komga Reader for iPhone, iPad, Mac & Apple TV"
-  description="KMReader is a native Komga client for iPhone, iPad, Mac and Apple TV with DIVINA, EPUB and PDF readers, offline downloads, progress sync, and Apple platform integrations."
+  description="KMReader is a native Komga client for iPhone, iPad, Mac and Apple TV with on-device manga translation, DIVINA, EPUB and PDF readers, offline downloads, progress sync, and Apple platform integrations."
 >
   <div class="flex flex-col min-h-screen km-landing">
     <Header />
@@ -138,7 +161,8 @@ const tvosShots = [
               <h1 class="heroTitle">KMReader</h1>
               <p class="heroSub">
                 Your Komga library, the native way. A fast, offline-first comic
-                reader built for iPhone, iPad, Mac and Apple TV.
+                reader with on-device manga translation, built for iPhone,
+                iPad, Mac and Apple TV.
               </p>
               <div class="ctaRow">
                 <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
@@ -264,6 +288,30 @@ const tvosShots = [
                 </figure>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Manga translation */}
+      <section class="section">
+        <div class="container">
+          <div class="sectionHead">
+            <h2 class="sectionTitle">Manga translation, on your device.</h2>
+            <p class="sectionSub">
+              OCR runs locally, the translation engine is your choice, and the
+              result is lettered back into the page. On iOS and macOS.
+            </p>
+          </div>
+          <div class="platformGrid">
+            {translationFeatures.map((f) => (
+              <article class="card">
+                <div class="cardIcon">
+                  <Icon name={f.icon} class="w-[26px] h-[26px]" />
+                </div>
+                <h3 class="cardTitle">{f.title}</h3>
+                <p class="cardBody">{f.body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

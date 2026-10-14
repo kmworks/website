@@ -27,6 +27,12 @@ You control when to clear caches or sign out. Uninstalling the app removes every
 
 KMReader talks directly to the Komga servers you add. All requests stay between your Apple device and your Komga instance using HTTPS if your server supports it. We never proxy, log, or inspect that traffic.
 
+## Manga translation
+
+Text detection and OCR run entirely on your device — page images are never uploaded, to us or to anyone else.
+
+If you use Apple's built-in translation, the recognized text stays on your device too. If you configure your own OpenAI-compatible translation provider, only the recognized text — and optionally the comic's title — is sent, over your own API key, to the endpoint you chose. That traffic goes straight from your device to your provider; we run no servers in between.
+
 ## No third-party tracking
 
 The app ships without advertising SDKs, analytics beacons, social trackers, or data brokers. What happens in KMReader stays with you.
@@ -49,4 +55,4 @@ We occasionally refine this document to reflect new features or legal requiremen
 
 Reach out anytime on [GitHub](https://github.com/kmworks/kmreader) or [email us](mailto:everpcpc@icloud.com).
 
-Last updated: January 2026
+Last updated: October 2026

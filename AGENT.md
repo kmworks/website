@@ -14,14 +14,16 @@ src/
 ├── components/              # AgentDirective, Header, Render + ui/<slug>/
 ├── content/
 │   ├── docs/*.mdx
+│   ├── blog/*.mdx           # posts mount at /blog (needs `date`; `tags` optional)
 │   └── partials/*.mdx       # referenced via <Render file="..." />
-├── content.config.ts        # registers docsCollection() + partialsCollection()
+├── content.config.ts        # registers docsCollection() + blog collection + partialsCollection()
 ├── layouts/                 # BaseLayout (NimbusHead), DocsLayout (sidebar/TOC/breadcrumbs)
 ├── lib/cn.ts                # Tailwind className merger
 ├── pages/
 │   ├── [...slug].astro
 │   ├── [...slug]/index.md.ts   # Markdown version of every page, all collections
 │   ├── [...slug]/index.mdx.ts  # authored source of every page, all collections
+│   ├── blog/                  # index (listing), [...slug] (post), rss.xml
 │   ├── llms.txt.ts
 │   ├── og.png.ts                # site-level OG card
 │   ├── og/
@@ -60,6 +62,7 @@ Rules:
 | Goal | Action |
 |---|---|
 | New doc page | Create `src/content/docs/<slug>.mdx`. Sidebar picks it up. |
+| New blog post | Create `src/content/blog/<slug>.mdx` with a `date`. `/blog/`, RSS, OG cards, and `/blog/llms.txt` pick it up. |
 | New partial | Create `src/content/partials/<slug>.mdx`. Use via `<Render file="<slug>" />`. |
 | UI from registry | `pnpm exec nimbus-docs add <slug>`. Register in `src/components.ts` if used in MDX. |
 | Feature recipe | `pnpm exec nimbus-docs add <feature-slug>`. Pipe the printed brief to your agent. |

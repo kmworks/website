@@ -1,0 +1,73 @@
+---
+title: "Reading"
+description: "Choose a reader, find its controls, and set up DIVINA, EPUB, and PDF for the way you read."
+sidebar:
+  order: 1
+---
+
+KMReader uses different readers for different content. Start with the default for your format, then change only the options that solve a problem you actually have.
+
+## Choose a reader
+
+| Reader | Best for | Useful options |
+| --- | --- | --- |
+| DIVINA | Comics, manga, and image-heavy books on iOS, macOS, and tvOS | LTR, RTL, vertical and Webtoon modes, spreads, page transitions, tap zones, border cropping, preloading, and image upscaling |
+| EPUB | Novels and other reflowable books on iOS and macOS | Paged or continuous reading, themes, custom fonts, typography, multi-column layout, and a nested table of contents |
+| Native PDF | Text-heavy PDF books on iOS and macOS | Search, table of contents, page jump, and automatic, paged, or continuous presentation |
+| PDF in DIVINA | Comic and manga PDFs, or PDFs you want to read like image pages | DIVINA directions, transitions, tap zones, upscaling, and configurable offline render quality |
+
+Switch between the two PDF engines in Settings → PDF Reader → Use Native PDF Reader.
+
+## Global, per-book, and session options
+
+Not every option has the same lifetime:
+
+- **Settings → DIVINA Reader** stores your defaults and persistent appearance, navigation, and performance preferences.
+- **The reader ⋯ menu** changes DIVINA's reading direction, page layout, cover handling, and wide-page behavior for the current reading session. Those choices carry into adjacent books opened during that session; opening a book later starts again from its series metadata and your defaults.
+- **Page rotation and manga translation** are session-only. Manga translation starts off for each newly opened book.
+- **EPUB Theme → Current Book** saves a theme and typography override for that book. Use **Reset to Global** to inherit the shared EPUB theme again.
+- **Peek**, available from a book's detail page or context menu, opens a reading session without recording reading progress.
+
+With the default tap zones, tap the center of a page to show or hide the reader controls. The ⋯ menu contains reading options, while the page button opens navigation and the thumbnail filmstrip.
+
+## Recommended setups
+
+### Manga and two-page spreads
+
+1. Choose **Right to Left** in the reader ⋯ menu, or set it as your preferred direction in Settings → DIVINA Reader. Without **Force Default Reading Direction**, series metadata wins when it provides a direction.
+2. Use **Auto** page layout to pair pages only when their dimensions suit a spread, or **Dual** to force two-page presentation.
+3. Keep **Solo Cover Page** on so the cover is not paired with the first story page.
+4. Use **Split Wide Pages → Auto** to turn a landscape image into two page turns. Choose **Scroll** instead to keep the spread whole and pan across it.
+5. Turn off **Show Page Shadow** if you want adjacent pages to look seamless.
+
+On iPhone and iPad, **Page Curl** gives a physical page-turn effect. **Cover** is a flatter sliding transition; **Scroll** is the simplest continuous transition.
+
+### Webtoons and long strips
+
+Choose **Webtoon** in the reader ⋯ menu. **Webtoon Page Width** controls how much of the screen the artwork uses, and **Webtoon Tap Scroll Height** controls how far a tap moves. Start with the defaults, then lower the scroll height if taps repeatedly skip content you wanted to finish.
+
+### Wide pages on a phone
+
+Use **Single Page** with **Split Wide Pages → Scroll** when you want the entire spread at once and are happy to pan. Use **Auto**, **Left to Right**, or **Right to Left** splitting when you would rather turn through the two halves as separate pages.
+
+### Low-resolution scans
+
+Set **Waifu2x Mode → Auto**. Upscaling runs only when the scale needed to fit a page exceeds the trigger threshold: lower the threshold to upscale more pages, or raise it to process fewer. **Border Cropping** trims empty margins; start with **Conservative** and use **Aggressive** only when more border remains than you want.
+
+### Smoother turns or lower memory use
+
+Settings → DIVINA Reader → Image Preloading has three profiles:
+
+- **Low Memory** decodes fewer nearby pages, but page turns may wait for loading more often.
+- **Balanced** is the default compromise.
+- **Fast Page Turns** keeps more nearby pages decoded, at the cost of higher memory use.
+
+## Progress and continuation
+
+**Settings → Reading → Record Progress After** prevents an accidental open from immediately changing an unread or already finished book. Choose how many pages you must move before recording begins. Books already in progress record every page turn, and opening a book without turning a page never creates progress.
+
+**Suggest Next Unread Book** makes the next-book action skip completed books and continue with the first later unread book. Turn it off when you want strict series or read-list order even for re-reading.
+
+**Read List Continuation** makes ordered read lists behave like series. Enable it in Settings → Reading to add Read Lists in Progress to the dashboard, remember the list you are reading, and continue in list order from any entry point. Opening a book directly from a read list always uses that list's order, even when the setting is off.
+
+For text recognition and translated overlays, see [Manga translation](/reader/translation). For downloads and progress sync, see [Offline reading and sync](/reader/offline).

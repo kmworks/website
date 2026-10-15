@@ -1,0 +1,55 @@
+---
+title: "Browse and discover"
+description: "Use dashboard sections, library scopes, filters, lists, batch actions, and Apple integrations to find books faster."
+sidebar:
+  order: 3
+---
+
+Most browsing actions live in three places: the filter chip row above a list, the trailing ⋯ menu, and an item's context menu. On iOS, long-press a card or row to open its context menu; on macOS, right-click it.
+
+## Shape the dashboard
+
+Settings → Dashboard lets you hide, show, and reorder sections. Use the menu at the end of a section header to change that section's card style independently. Resetting the section list does not discard those card choices or your library selection.
+
+Use **Pin Libraries** in the library-scope menu to define what your pinned library set contains. Then switch between these scopes:
+
+- **All Libraries** searches and browses everything on the current server.
+- **Pinned** limits the page to your pinned set. Dashboard widgets also follow this set.
+- **A single library** temporarily focuses the current page on one library.
+
+A scope change filters the current page; it does not move or edit any server content.
+
+## Filter once, reuse often
+
+The chip row above series and book lists contains layout, sort, filter, and saved-filter actions. Filters include reading status and metadata such as age rating and release year. Save a useful combination as a preset instead of rebuilding it.
+
+When **Settings → Browse → Search Ignores Filters** is off, a search stays within the filters on the current page. Turn it on when you expect a filtered page's search field to search the whole library instead. The setting applies only while a query is non-empty.
+
+Use the checkmark button at the end of the chip row to enter selection mode. You can then mark several books or series read or unread, or add them to a collection or read list in one operation.
+
+## Collections, read lists, and smart lists
+
+The **Lists** page keeps collections and read lists together, with pinned items first.
+
+- **Collections** group series.
+- **Read lists** group books. Ordered read lists can also drive continuous reading; enable it in Settings → Reading → Read List Continuation.
+- **Smart lists** evaluate a saved search on the server, so their membership follows the current library. They require a server with smart-list support, such as KMServer, and are available only online. Create or edit them from the smart-list browse page or its ⋯ menu.
+
+A book card opens the reader directly. Open its context menu and choose **Details** when you want metadata, list membership, download controls, or **Peek** instead.
+
+## Reading history and stats
+
+Settings → Reading Stats shows reading activity, current and longest streaks, and a pages-read heatmap. On servers that provide reading-stat APIs, aggregation happens on the server; otherwise KMReader calculates it from on-device data.
+
+The History and Server Info areas also expose account activity, server tasks, sessions, and storage or content totals when the current account and server support them.
+
+## Apple integrations
+
+- **Spotlight** can index downloaded books and, optionally, series. Choose content types and libraries in Settings → System Features.
+- **Handoff** has separate switches for browsing and reading. Browse Handoff is useful when moving between library pages; Reader Handoff carries the current reader link to another device.
+- **Widgets and Home Screen quick actions** provide shortcuts to areas such as Keep Reading, Search, and Downloads on supported iOS versions.
+- **Live Activities** can show reader and download progress on the Lock Screen and in Dynamic Island. The reader activity has its own switch in Settings → Reading.
+
+## For server administrators
+
+The Server area contains API-key management, library administration, metadata editing, media analysis, missing-poster and duplicate checks, logs, and server information. On servers with the komf integration, series and oneshot menus also offer Identify, Match, and Reset Metadata. Admin-only entries appear only for administrator accounts, and integration-specific actions appear only when the server supports them.

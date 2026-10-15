@@ -1,0 +1,130 @@
+---
+title: "Settings by scenario"
+description: "A task-oriented map of KMReader settings: what to change, when to change it, and what happens next."
+sidebar:
+  order: 4
+---
+
+You do not need to tune every setting. Keep the defaults unless you have a specific goal, then use the recipes below. Options not available on your platform or server simply do not appear.
+
+On iPhone, open Settings with the gear on the Dashboard. On iPad and tvOS, use the Settings tab or sidebar entry. On macOS, use the KMReader menu → Settings.
+
+## Start with the result you want
+
+### Read manga in spread form
+
+Go to **Settings → DIVINA Reader**:
+
+- **Preferred Direction**: choose Right to Left, or leave your preferred direction as a fallback and let series metadata decide. **Force Default Reading Direction** ignores that metadata for every book.
+- **Page Layout**: Auto pairs suitable pages; Dual forces two-page presentation; Single always shows one page.
+- **Solo Cover Page**: keeps the cover out of the first story spread.
+- **Split Wide Pages**: Auto divides landscape images into halves; Scroll keeps each spread whole and pans across it.
+- **Show Page Shadow**: turn it off for a seamless-looking spread.
+
+See [Reading](/reader/reading#manga-and-two-page-spreads) for the per-session equivalents in the reader ⋯ menu.
+
+### Read long strips comfortably
+
+Choose **Webtoon** while reading, then adjust:
+
+- **Webtoon Page Width**: reduce it if full-width artwork feels too large; increase it for fewer margins.
+- **Webtoon Tap Scroll Height**: reduce it if taps skip too far ahead.
+- **Image Preloading**: use Fast Page Turns if scrolling frequently waits for images; use Low Memory if the device struggles instead.
+
+### Make small text or low-resolution pages clearer
+
+In **Settings → DIVINA Reader → Image Processing**:
+
+- **Border Cropping** removes empty margins. Conservative is the safer starting point; Aggressive trims more aggressively.
+- **Waifu2x Mode → Auto** upscales pages that need enlargement. The **Auto Trigger Scale Threshold** controls how selective this is: lower means more pages are processed, higher means fewer.
+
+These options change displayed images, not the original files on your server.
+
+### Read novels with fewer distractions
+
+For EPUB, choose **Settings → EPUB Settings → Reading Flow → Scrolled** for continuous reading, or keep **Paged** and select a transition. In **EPUB Theme**, adjust colors, typeface, margins, line height, and other typography. Enable **Advanced Layout** only when the simpler controls are not enough.
+
+A theme changed through **Current Book** applies only to that book. Save presets for combinations you reuse, and use **Reset to Global** to return a book to the shared theme.
+
+For any reader, you can hide the persistent page number or progress bar, disable automatic keyboard help after learning the shortcuts, and turn off tap-zone hints.
+
+### Pick the right PDF engine
+
+Keep **Use Native PDF Reader** on for text-heavy PDFs, especially when you need search or a table of contents. Turn it off for comic and manga PDFs that benefit from DIVINA's reading directions, transitions, and image processing.
+
+Native PDF **Page Presentation → Auto** uses dual-page continuous mode in landscape and single-page paged mode in portrait. Choose an explicit mode when you do not want orientation to change the layout.
+
+### Avoid accidental reading progress
+
+Use **Settings → Reading → Record Progress After**. A higher threshold gives you more page turns to back out of an unread or finished book without recording progress. Choose **Immediately** only when you want every actual page turn recorded right away. Books already in progress continue to record every turn.
+
+For a one-off session that must not record progress at all, open the book with **Peek** instead of changing this global setting.
+
+### Download for travel without filling the device
+
+Use manual downloads for a fixed selection. Use **Unread Only** with a limit for ongoing series or read lists, and leave **All** for sources you genuinely want in full. Keep **Auto Delete Read Books** off if you re-read downloaded books; turn it on when automatic reclamation is more important.
+
+See [Offline reading and sync](/reader/offline) for cover sync, manual offline mode, PDF quality, and progress reconciliation.
+
+### Make page turns faster or reduce memory pressure
+
+Use **Settings → DIVINA Reader → Image Preloading**:
+
+- Low Memory for constrained devices or very large pages.
+- Balanced for normal use.
+- Fast Page Turns for smoother rapid navigation when you can spare more memory.
+
+If the problem is network latency rather than decoding, preloading cannot remove it entirely. Explicit downloads or **Offline-first Reading** are the better solution for unreliable connections.
+
+### Free storage
+
+Check **Settings → Cache** before deleting downloads. It shows page- and cover-cache usage separately and offers current-server or all-server clearing. Lower the maximum sizes for automatic maintenance, or extend **Cover Expiration** when covers rarely change and repeated downloads are undesirable.
+
+Downloads are managed separately from the Offline page. A large cache can improve responsiveness, but it is not a guaranteed offline library.
+
+### Make search broader or narrower
+
+Keep **Settings → Browse → Search Ignores Filters** off to search within the current filtered view. Turn it on to search the entire library even while that view is filtered.
+
+To reduce visual noise, the same settings page can switch cards to cover-only or text-overlay presentation, hide series titles on book cards, and disable unread badges or progress bars. **Blur Unread Covers** obscures unread artwork; it does not change read status or recommendations.
+
+### Reduce dashboard noise
+
+In **Settings → Dashboard**, hide sections you never use and drag the rest into your priority order. A section header's card-style menu controls only that section. **Show Card Style Menu** controls whether those menus are visible, not the card choices already made. Section backgrounds can also be turned off independently.
+
+### Control refreshes and notifications
+
+Settings → Real-time Updates has three separate levels:
+
+- Leave **Real-time Updates** on to receive server events.
+- Turn off **Auto-refresh Dashboard** to receive events without having them refresh the dashboard; manual refresh still works.
+- Turn off **Show Notifications** to silence connection and task-completion messages while keeping real-time updates themselves.
+
+Disabling Real-time Updates turns off the underlying server connection, not just visible notifications.
+
+### Use Apple integrations selectively
+
+In **Settings → System Features**:
+
+- Enable **Browse Handoff** when you move between library pages on different devices.
+- Enable **Reader Handoff** only if you also want reader sessions handed off.
+- Enable **Spotlight Indexing** to find downloaded content from system search. Choose books, series, and libraries separately to keep results focused.
+
+In **Settings → Appearance**, **Privacy Protection** obscures app content when the app goes into the background, such as in the app switcher. It does not change reading history; use Peek for that purpose.
+
+### Adjust networking only when necessary
+
+The default request, download, and authentication timeouts suit most servers. Increase them only for a demonstrably slow server or connection. **API Retry Count** can ride out transient failures, but more retries also mean a real failure takes longer to surface.
+
+## Where options take effect
+
+| Location | Scope |
+| --- | --- |
+| Settings → Reading | Shared behavior across DIVINA, EPUB, and PDF: offline reading, progress, continuation, screen, and Live Activity options |
+| Settings → DIVINA Reader / PDF Reader / EPUB Settings | Persistent reader defaults and engine-specific behavior |
+| Settings → EPUB Theme | The shared EPUB theme; Current Book creates a per-book override instead |
+| Reader ⋯ menu | Session navigation and layout controls, plus reader settings and translation |
+| Page rotation | Current reading session only |
+| Peek | Current reading session only, with no progress recording |
+
+For model packs, providers, source/target languages, text direction, and translation privacy, continue to [Manga translation](/reader/translation).

@@ -1,0 +1,59 @@
+---
+title: "Offline reading and sync"
+description: "Download books for travel, choose automatic offline policies, manage storage, and sync progress when you reconnect."
+sidebar:
+  order: 2
+---
+
+Downloads and caches serve different purposes. Cached pages and covers make repeat viewing faster and are cleaned automatically; downloaded books are managed from the Offline page and are the reliable choice when you know you will be without a connection.
+
+## Download what you need
+
+- For one book, use the download button on its detail page or the download action in its context menu.
+- For a series or read list, use **Download** on its detail page to queue everything, unread books, or a limited number of unread books.
+- On a dashboard section's detail page, **Download Latest 20 Books** queues a small travel selection. Keep Reading and On Deck can also queue their whole section.
+- The **Offline** page shows queued, active, failed, and completed downloads, plus downloaded book counts and storage use. Failed downloads keep their partial content so retrying can resume them.
+
+On iOS, downloads can continue in the background, and Live Activities can show their progress.
+
+## Choose an offline policy
+
+Series and read lists have a separate **Offline Policy** menu beside **Download**:
+
+| Policy | Use it when | Effect |
+| --- | --- | --- |
+| Manual | You want full control | Books change only when you explicitly download or remove them. |
+| Unread Only | You follow an ongoing series or list | Unread books are downloaded automatically. Choose 1, 3, 5, 10, 25, 50, or unlimited as the limit. |
+| All | You want the complete source locally | Every book in the series or read list is included, regardless of read status. |
+
+A policy is local to KMReader and the current server profile; it does not alter the library on your Komga server.
+
+## Prepare for a trip
+
+1. Download the books or lists you want while still connected.
+2. On the Offline page, run **Sync Missing Covers** if offline browsing needs cover artwork. You can limit this sync to selected libraries. If it stops at the cover-cache limit, raise that limit in Settings → Cache or sync fewer libraries.
+3. Enable **Settings → Reading → Offline-first Reading** if you want opening a book to prepare and use local content before reading begins. This reduces dependence on the network mid-session and also prepares the next book, but the first open can take longer and uses more storage.
+4. Leave **Auto Delete Read Books** off if you want finished books to remain available for re-reading. Turn it on when reclaiming space matters more; completed downloaded books can then be removed automatically.
+5. For PDFs read with DIVINA, choose **Settings → PDF Reader → Offline DIVINA Rendering → Render Quality**. Higher quality is sharper but needs more processing and storage; lower quality is lighter.
+
+For a short trip with a few books, manual downloads are enough. For an ongoing series, **Unread Only** with a small limit is usually the better balance.
+
+## Work while offline
+
+KMReader can enter offline mode automatically after a connection failure. You can also enter it manually: use the Wi-Fi button at the top of Settings on iPhone, or the offline button at the bottom of the Server page on iPad, macOS, and tvOS.
+
+Offline browsing uses the local database and downloaded content. Reading progress and other offline changes are queued, then synced when you reconnect. To return online, use the Dashboard reconnect banner or the same offline control; KMReader checks the server before switching back.
+
+The Offline page also provides:
+
+- **Sync Data** for a normal or forced full library sync.
+- **Sync Reading Progress** when you only want to reconcile reading activity.
+- Pull to refresh on iOS and macOS for downloaded content.
+
+Manual deletions offer an Undo window. Automatic cleanup from **Auto Delete Read Books** does not.
+
+## Storage and recovery
+
+Settings → Cache controls the separate page and cover caches, their current usage, expiration, and manual clearing. Increase cache limits for faster repeat access on a large library; reduce them when device storage is tight. Cache management is not a substitute for choosing explicit downloads.
+
+The Offline page also has maintenance for cleaning orphaned local files. If a downloaded book is unavailable or damaged, retry its download rather than relying on a stale cache entry.

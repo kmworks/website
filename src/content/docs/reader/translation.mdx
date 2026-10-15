@@ -2,7 +2,7 @@
 title: "Manga translation"
 description: "Translate manga pages on iOS and macOS with on-device OCR and your choice of translation provider."
 sidebar:
-  order: 1
+  order: 5
 ---
 
 KMReader can detect text in manga pages and typeset the translation back into the bubbles, on iOS and macOS. OCR runs entirely on your device, and you choose how the recognized text gets translated.
@@ -13,14 +13,14 @@ Open Settings → Manga Translation and pick a model pack from the catalog. Pack
 
 ## 2. Choose a translation provider
 
-Without any setup, KMReader falls back to Apple's built-in translation, so recognized text never leaves your device.
+On iOS 26 and macOS 26 or later, KMReader can use Apple's built-in translation without extra setup, so recognized text stays on your device. Earlier OS versions require an OpenAI-compatible provider.
 
-For higher-quality results you can add any OpenAI-compatible provider with your own endpoint, model, and API key. Only the recognized text — and optionally the comic's title — is sent to your provider; page images are never uploaded. Set a default source language and a target language in the same settings page.
+For higher-quality results on any supported OS version, you can add a provider with your own endpoint, model, and API key. Only the recognized text — and optionally the comic's metadata — is sent to your provider; page images are never uploaded. Set a default source language and a target language in the same settings page. Series language metadata takes precedence over the default source language when available.
 
 ## 3. Translate while reading
 
+- The reader ⋯ menu toggles translation for the current session; on macOS the same option lives in the Manga Translation command menu. It starts off for every newly opened book.
 - Tap the floating translation action to translate the current page; tap again to see the original.
 - Long-press the action to jump straight to Manga Translation settings.
-- The reader ⋯ menu toggles translation for the session; on macOS the same lives in the Manga Translation command menu.
 
-Translated pages are kept for the whole reading session, upcoming pages are translated ahead as you read, and vertical text is rendered vertically. Translation works in paged, right-to-left, split, and Webtoon modes.
+Translated pages are kept for the whole reading session, upcoming pages are translated ahead as you read, and vertical text is rendered vertically when the target language supports it. Translation works in paged, right-to-left, split, and Webtoon modes. Live Text and manga translation cannot be active at the same time; enabling one disables the other.

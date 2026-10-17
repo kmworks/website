@@ -83,7 +83,7 @@ The binary serves on port 25600 with data directory `~/.komga` (override with `K
 ./kmrs   # serves on http://localhost:25600
 ```
 
-On Windows, `kmrs.exe` opens no console window: the server lives in the notification area (system tray), whose icon carries the Open KMReader / Open configuration directory / Open logs folder / Exit menu — left-clicking the icon opens the web UI. A fatal startup error (say, the port is taken) surfaces in a dialog. Started from a terminal it prints startup output there, then detaches once it is serving, so closing the terminal does not stop the server.
+On Windows, `kmrs.exe` opens no console window: the server lives in the notification area (system tray), whose icon carries the Open KMReader / Open configuration directory / Open logs folder / Start with Windows / Exit menu — left-clicking the icon opens the web UI. Start with Windows is off by default; tick it to launch kmrs at logon. The very first start also opens the web UI in the default browser, where the initial admin account is claimed. A fatal startup error (say, the port is taken) surfaces in a dialog. Started from a terminal it prints startup output there, then detaches once it is serving, so closing the terminal does not stop the server.
 
   </TabItem>
   <TabItem label="Source">

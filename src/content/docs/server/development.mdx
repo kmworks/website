@@ -32,6 +32,6 @@ For local analysis, `cargo build --profile profiling --features profiling` produ
 - `crates/komga-core`: domain model, TSID, time encoding/decoding, natural-sort comparator, error codes
 - `crates/komga-db`: Flyway-compatible migrator (migration files are byte-for-byte copies of komga's Flyway migrations), connection pool, UDFs/collations, DAO
 - `crates/komga-media`: media pipeline (sniffing/extraction/hashing/thumbnails/metadata)
-- `crates/komga-search`: tantivy search index and Lucene query syntax
+- `crates/komga-search`: tantivy search index and full-text query layer
 - `crates/komga-server`: axum HTTP layer (DTOs, authentication, SSE, OPDS, task queue)
 - `xtask`: engineering helper commands

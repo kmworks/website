@@ -24,6 +24,7 @@ Scope exclusions are intentional and not listed here either:
 ## API
 
 - Request JSON is parsed strictly: property names and search-condition operator tags are case-sensitive (`oneShot`, `isNot`). The Java version accepts any casing (Jackson `ACCEPT_CASE_INSENSITIVE_PROPERTIES` / `ACCEPT_CASE_INSENSITIVE_VALUES`), so payloads spelled `oneshot` or `isnot` work there but get a 422 here; send the documented camelCase forms.
+- `server.context-path` only prefixes generated links (OPDS/WebPub/Kobo); routes are not mounted under it, so the server cannot answer under the prefix itself — put it behind a reverse proxy that strips the prefix. The Java version mounts the whole application under it.
 
 ## Database / migrations
 

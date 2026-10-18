@@ -9,7 +9,7 @@ kmrs checks GitHub for newer releases of itself once at startup and then every 2
 When a newer stable release exists (pre-releases are ignored), it surfaces in two places:
 
 - the web UI shows an update indicator in the sidebar footer for administrators, linking to the updates page
-- `GET /api/v1/releases/latest` (admin only) returns the latest version, its release URL and date, and the time of the last check; it answers 404 while the running version is up to date
+- `GET /api/v1/update-check` (admin only) reports the last check's outcome: `update` carries the newer version with its release URL and date (`null` while the running version is up to date), `checkedAt` is the time of the last successful check (`null` until it completes), and `enabled` reflects the setting below
 
 The check is on by default and costs one anonymous GitHub API request per run. Disable it with:
 

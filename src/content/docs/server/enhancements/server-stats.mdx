@@ -21,4 +21,15 @@ All counts cover only the content the user is allowed to see (library sharing an
 
 - `tasks` — the background task queue and execution metrics, merged by task type: `queueSize`, and one `types` entry per task type that has queued tasks or recorded executions: `type`, `queued`, `executions`, `totalTimeMs`, `maxTimeMs`, `failures`
 - `process` — `startTime`, `uptimeSeconds`, `cpuUsage` (percent of total capacity), `memoryBytes` (resident set size)
+- `disk` — `free` and `total` bytes of the volume holding the configuration directory
 - `totals` — global content counts: `libraries`, `series`, `books`, `fileSize` (bytes), `collections`, `readlists`, `sidecars`
+
+## Server state and control
+
+The admin server page is fed by kmrs-native endpoints rather than the Java-parity actuator surface. All are administrator-only except `/api/v1/server/info`, which any authenticated user can call.
+
+- `GET /api/v1/server/info` — server `version`, `gitBranch`, `gitCommitId`
+- `GET /api/v1/server/scheduled-tasks` — periodic library scans: `libraryId`, `libraryName`, `intervalSeconds`
+- `GET /api/v1/server/sessions` — active sessions (`id`, `creationTime`, `lastAccessedTime`, `maxInactiveInterval`, `expired`); `DELETE /api/v1/server/sessions/{id}` ends one
+- `GET /api/v1/server/logfile` — the current log file as plain text
+- `POST /api/v1/server/shutdown` — shuts the server down

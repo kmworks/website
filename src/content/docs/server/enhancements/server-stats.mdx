@@ -32,4 +32,3 @@ The admin server page is fed by kmrs-native endpoints rather than the Java-parit
 - `GET /api/v1/server/scheduled-tasks` — periodic library scans: `libraryId`, `libraryName`, `intervalSeconds`
 - `GET /api/v1/server/sessions` — active sessions (`id`, `creationTime`, `lastAccessedTime`, `maxInactiveInterval`, `expired`); `DELETE /api/v1/server/sessions/{id}` ends one
 - `GET /api/v1/server/logfile` — the current log file as plain text
-- `POST /api/v1/server/shutdown` — shuts the server down

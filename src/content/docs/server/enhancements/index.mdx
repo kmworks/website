@@ -29,6 +29,8 @@ Improvements KMServer adds on top of Java parity, plus intentional behavior diff
 Intentional differences from the Java behavior:
 
 - `/actuator/shutdown` is not implemented: the Java version lets anyone who can reach the port shut the server down anonymously (`management.endpoint.shutdown.access: unrestricted`). kmrs has no HTTP shutdown endpoint at all.
+- EPUB resources on `/api/v1/books/{bookId}/resource/{path}` (and the OPDS v2 mirror) require authentication for every file type, and the requester must pass the book's content-restriction check; anonymous requests get the same bare 401 as the rest of the API. Java permits anonymous access to font files declared in the OPF, bypassing both.
+- `/api/v1/fonts/**` requires authentication. Java serves `/api/v1/fonts/resource/**` anonymously: font files of any known family are downloadable without credentials, and family names are enumerable via 200/404 probing.
 - Book/series thumbnails: `If-None-Match` answered from a deep ETag (blob rows: row id + size; file-backed rows: mtime + size) instead of hashing the body; `thumbnails.deep-etag = false` restores Java behavior.
 - Regenerating a book thumbnail reuses the stored generated thumbnail when its longest edge is at least the configured size, downscaling it instead of reopening the book file (never upscaled; any miss — no stored thumbnail, unknown dimension, stale or unreadable bytes — falls back to source extraction). Only user-initiated regenerations take the shortcut, so a replaced book file still gets its new cover from the file; Java always re-reads the file, and byte output can differ for these thumbnails, same class of deviation as the JPEG encoder.
 - Page order and series book numbering are case-sensitive (Java: case-insensitive).

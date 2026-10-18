@@ -129,4 +129,8 @@ Every key below is commented out at its default value; uncomment to change it. A
 # storage = "db" # db = blobs in the database, file = files under <config-dir>/thumbnails; env: KOMGA_THUMBNAILS_STORAGE
 # answer If-None-Match from the thumbnail row instead of hashing the body (kmrs enhancement; Java always hashes)
 # deep-etag = true # false = hash the body like the Java version; env: KOMGA_THUMBNAILS_DEEPETAG
+
+[update-check]
+# periodic check for newer kmrs releases on GitHub (kmrs enhancement; the Java version only fetches releases on demand)
+# enabled = true # env: KOMGA_UPDATECHECK_ENABLED
 ```

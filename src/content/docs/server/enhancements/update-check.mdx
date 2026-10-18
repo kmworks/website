@@ -1,0 +1,21 @@
+---
+title: "Update check"
+sidebar:
+  order: 13
+---
+
+kmrs checks GitHub for newer releases of itself once at startup and then every 24 hours, keeping the result in memory. The Java version only fetches the release list when an admin opens the updates page, so a new release goes unnoticed until someone looks.
+
+When a newer stable release exists (pre-releases are ignored), it surfaces in two places:
+
+- the web UI shows an update indicator in the sidebar footer for administrators, linking to the updates page
+- `GET /api/v1/releases/latest` (admin only) returns the latest version, its release URL and date, and the time of the last check; it answers 404 while the running version is up to date
+
+The check is on by default and costs one anonymous GitHub API request per run. Disable it with:
+
+```toml
+[update-check]
+enabled = false
+```
+
+or `KOMGA_UPDATECHECK_ENABLED=false`.

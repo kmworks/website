@@ -5,7 +5,22 @@ sidebar:
   label: "Search"
 ---
 
-kmrs ports komga's Lucene search to [tantivy](https://github.com/quickwit-oss/tantivy): the query syntax (`title:berserk`, `tag:seinen AND status:ONGOING`, prefixes, wildcards, phrases) and the multilingual analyzer chain behave like the Java version. This document describes the analyzer chain and the recall extensions kmrs adds on top of it.
+kmrs ports komga's Lucene search to [tantivy](https://github.com/quickwit-oss/tantivy): the multilingual analyzer chain behaves like the Java version, while the query syntax is deliberately smaller (see below). This document describes the query syntax, the analyzer chain, and the recall extensions kmrs adds on top.
+
+## Query syntax
+
+A query is whitespace-separated terms, all of which must match (AND). Outside `field:` scoping, everything is literal text: `~`, `*`, `^`, quotes and parens carry no operator meaning, so pasting a title from anywhere can never produce a query error or an empty result because of a stray character.
+
+The only operator is field scoping, like komga:
+
+- `field:term` — `status:ongoing`, `publisher:vertigo`
+- `field:(a b)` — terms ANDed under the field: `author:(sean murphy)`
+- `field:(a OR b)` — terms ORed under the field: `status:(error OR unsupported)`
+- `field:"a b"` — the quoted form of the AND group: `tag:"double pages"`
+
+A term that analyzes to zero tokens (pure punctuation, decorative symbols like `▪ ◆ ★`) is silently dropped from the query instead of failing it.
+
+The fields are the ones komga documents: `title`, `isbn`, `name` (collections and readlists), `author` (any role), `writer`, `penciller`, `inker`, `colorist`, `letterer`, `cover`, `editor`, `translator`, `publisher`, `status`, `reading_direction`, `age_rating`, `language`, `tag`, `series_tag`, `book_tag`, `genre`, `sharing_label`, `total_book_count`, `book_count`, `release_date`, `deleted`, `oneshot`, `complete`. Without a field, terms match the series or book title (plus the ISBN for books) and the collection or readlist name.
 
 ## The analyzer chain
 
@@ -17,8 +32,6 @@ Both the index side and the query side share one pipeline (komga's `MultiLingual
 4. **lowercase**
 5. **CJK bigram** — sliding bigrams over CJK runs; the index side also emits every CJK character as a unigram (kmrs extension, see below)
 6. **ASCII fold** — accents stripped (`café` → `cafe`)
-
-Prefix and wildcard query terms skip the bigram step, like Java's `MultiLingualAnalyzer.normalize`.
 
 ## Extensions over the Java version
 
@@ -32,7 +45,7 @@ That breaks ANDed queries: komga's `defaultOperator = AND` requires every analyz
 
 kmrs indexes every CJK character as a unigram (Lucene's `outputUnigrams` mode), so every query-side token resolves: `可爱` and `我的` match mid-run, `3月` matches `3月的狮子`, and single-character queries like `王` work anywhere in a run.
 
-The added unigrams take positions that keep the bigrams' relative spacing intact (run-initial unigram → the run's first position; mid-run unigram → the position of the bigram it starts; trailing unigram → its own position), so phrase queries behave as before.
+The added unigrams take positions that keep the bigrams' relative spacing intact (run-initial unigram → the run's first position; mid-run unigram → the position of the bigram it starts; trailing unigram → its own position), preserving the established index layout.
 
 ### CJK prefix fallback
 
@@ -42,11 +55,17 @@ The relaxation is deliberately narrow:
 
 - only a suffix of CJK bigram-chain tokens may be dropped — whole-word (Latin/digit) clauses are never relaxed, so `JOJO的奇妙冒险系列` matches `JOJO的奇妙冒险`, but `Frieren系列完全版` never degrades to a bare `Frieren`;
 - the retained prefix keeps at least two tokens;
-- only plain search-box terms qualify — phrases, field-qualified terms (`title:…`), and compound queries are untouched, so a Lucene miss stays a miss otherwise.
+- only plain search-box terms qualify — field-scoped and grouped queries are untouched, so a miss stays a miss otherwise.
+
+### Fuzzy fallback
+
+When a bare query (no field scoping, no groups) matches nothing even after the prefix fallback above, kmrs retries it with bounded edit-distance tolerance per token: Latin words of 3–4 characters tolerate one edit, longer words two, and pure numbers of 2+ digits two — so a typo (`bersrk` → `berserk`) or a slightly-off volume upper bound (`Vol.01-Vol.19` against a title carrying `Vol.01-Vol.20`) still resolves. CJK tokens always stay exact: a one-edit tolerance on two-character bigrams would flood recall, and tokens shorter than three characters stay exact for the same reason.
+
+The retry only fires when the exact query found nothing, so fuzzy matches never dilute an exact hit set.
 
 ### Simplified ↔ traditional cross-search
 
-Index and query text are both normalized to simplified Chinese (OpenCC conversion tables) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles. Prefix and wildcard queries are covered too.
+Index and query text are both normalized to simplified Chinese (OpenCC conversion tables) before tokenization, so the two scripts cross-match in both directions: a traditional query `名偵探柯南` finds the simplified title `名侦探柯南`, and a simplified query finds traditional titles.
 
 Two properties of the mapping are worth knowing:
 
@@ -65,5 +84,5 @@ Files that do not belong to a search index are never deleted, so pointing kmrs a
 
 ## Known deviations from the Java version
 
-- Lucene fuzzy (`~`) and phrase-slop (`~N`) queries are unsupported and yield empty results.
+- The query syntax is deliberately smaller than Lucene's (see [Query syntax](#query-syntax)): boolean operators (`AND`/`OR`/`NOT`, `&&`/`||`/`!`, `+`/`-`), fuzzy (`~`), wildcards, phrases, boosts (`^`) and ranges (`[a TO b]`) are literal text, not operators — with the one exception of `OR`/`AND` inside a `field:(…)` group. A query komga would interpret (`batman NOT publisher:dc`, `release_date:[1990 TO 2000]`) is searched as plain terms instead.
 - `komga.lucene.index-analyzer.*` and `komga.lucene.commit-delay` are ignored; the analyzer is fixed to the chain described above.

@@ -29,6 +29,7 @@ Improvements KMServer adds on top of Java parity, plus intentional behavior diff
 Intentional differences from the Java behavior:
 
 - `/actuator/shutdown` is not implemented: the Java version lets anyone who can reach the port shut the server down anonymously (`management.endpoint.shutdown.access: unrestricted`). kmrs has no HTTP shutdown endpoint at all.
+- Book and series file deletion requests wait for the filesystem operation and return an HTTP 500 with the path and underlying error when deletion fails; Java returns 202 after queueing the task, leaving failures in the server log. Successful deletion still returns 202.
 - EPUB resources on `/api/v1/books/{bookId}/resource/{path}` (and the OPDS v2 mirror) require authentication for every file type, and the requester must pass the book's content-restriction check; anonymous requests get the same bare 401 as the rest of the API. Java permits anonymous access to font files declared in the OPF, bypassing both.
 - `/api/v1/fonts/**` requires authentication. Java serves `/api/v1/fonts/resource/**` anonymously: font files of any known family are downloadable without credentials, and family names are enumerable via 200/404 probing.
 - Book/series thumbnails: `If-None-Match` answered from a deep ETag (blob rows: row id + size; file-backed rows: mtime + size) instead of hashing the body; `thumbnails.deep-etag = false` restores Java behavior.

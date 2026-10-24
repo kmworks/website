@@ -1,6 +1,6 @@
 ---
 title: "SSE recovery"
-description: "Resume event streams after a disconnect, with an explicit reset when complete replay is no longer possible."
+description: "Replay complete event sequences when available after a disconnect."
 sidebar:
   order: 14
 ---
@@ -18,34 +18,20 @@ The server takes the live subscription and the replay decision atomically, so an
 Heartbeat comments and `TaskQueueStatus` snapshots do not carry event IDs.
 A fresh task queue snapshot is generated after each connection, so it does not need replay.
 
-## Reset when replay is incomplete
+## When history is incomplete
 
-The server sends a `Reset` event when it cannot guarantee complete recovery, including when:
+The server does not replay a partial history.
+If some events after the requested ID are no longer retained, the ID belongs to an earlier server process, or the ID is invalid or ahead of the current stream, the connection starts with live events instead.
+No application-specific reset event is added to the SSE protocol.
 
-- some events after the requested ID are no longer retained
-- the ID belongs to an earlier server process
-- the ID is invalid or ahead of the current event stream
-
-`Reset` carries the latest event ID and an empty JSON object:
-
-```text
-id:<latest-event-id>
-event:Reset
-data:{}
-
-```
-
-The server skips the incomplete history and continues with events published after that cursor.
-Advancing the cursor also prevents the next reconnect from repeating the same reset.
-
-A client that receives `Reset` must replace missed history with a full refresh of its current API state.
-The web UI does this by invalidating all queries and reloading cover images.
-Other clients need a `Reset` listener of their own; native `EventSource` handles transport reconnection, but it does not perform this application-level refresh.
+The web UI applies events as they arrive and does not run a separate full refresh merely because a reconnect succeeded.
+A user who notices stale state can reload the page manually.
+Third-party clients can choose their own reconciliation policy when they need stronger consistency; no custom event handling is required by the server.
 
 ## Scope and limits
 
 The event history is process-local and is not persisted in a database.
-Events missed while the server is stopped are covered by the reset-and-refresh path rather than replayed from a durable log.
+Events missed while the server is stopped are not replayed from a durable log.
 Recovery applies to automatic reconnects within the current browser connection lifecycle, not to restoring an event ID across page loads.
 
-`Reset` restores current state; it does not guarantee delivery of every one-off notification that occurred during a gap.
+Replay is best-effort: events outside the retained history and one-off notifications during a gap can be missed.

@@ -1,0 +1,122 @@
+:root {
+  color-scheme: light dark;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #f4f5f7;
+  color: #191c20;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.relay-card {
+  width: min(100%, 32rem);
+  padding: 32px;
+  border: 1px solid #d9dde3;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 16px 48px rgb(25 28 32 / 8%);
+}
+
+.relay-kicker {
+  margin: 0 0 20px;
+  color: #59616d;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  line-height: 1.2;
+}
+
+.relay-description,
+.relay-detail,
+.relay-noscript {
+  color: #59616d;
+  line-height: 1.6;
+}
+
+.relay-description {
+  margin: 12px 0 24px;
+}
+
+.relay-status {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #edf1f5;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.relay-status.is-success {
+  background: #e4f4e9;
+  color: #17632d;
+}
+
+.relay-status.is-error {
+  background: #fbe9e7;
+  color: #98261f;
+}
+
+.relay-detail,
+.relay-noscript {
+  margin: 16px 0 0;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.relay-noscript {
+  color: #98261f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    background: #111418;
+    color: #edf0f3;
+  }
+
+  .relay-card {
+    border-color: #30363e;
+    background: #191d22;
+    box-shadow: none;
+  }
+
+  .relay-kicker,
+  .relay-description,
+  .relay-detail,
+  .relay-noscript {
+    color: #a5adb8;
+  }
+
+  .relay-status {
+    background: #272d35;
+  }
+
+  .relay-status.is-success {
+    background: #173d26;
+    color: #8ce0a6;
+  }
+
+  .relay-status.is-error {
+    background: #48201f;
+    color: #ffaaa3;
+  }
+
+  .relay-noscript {
+    color: #ffaaa3;
+  }
+}

@@ -1,0 +1,37 @@
+---
+title: "SSE recovery"
+description: "Replay complete event sequences when available after a disconnect."
+sidebar:
+  order: 14
+---
+
+KMServer assigns an ID to every domain event on `/sse/v1/events` and keeps the most recent 1024 events in memory.
+The Java version only forwards live events and has no recovery history.
+
+## Replay after a reconnect
+
+Native `EventSource` clients automatically reconnect and send the last received event ID in `Last-Event-ID`.
+If every event after that ID is still available, the server replays them in order before continuing with live events.
+Replay applies the same administrator and per-user visibility rules as live delivery.
+The server takes the live subscription and the replay decision atomically, so an event published while reconnecting cannot fall between the two phases.
+
+Heartbeat comments and `TaskQueueStatus` snapshots do not carry event IDs.
+A fresh task queue snapshot is generated after each connection, so it does not need replay.
+
+## When history is incomplete
+
+The server does not replay a partial history.
+If some events after the requested ID are no longer retained, the ID belongs to an earlier server process, or the ID is invalid or ahead of the current stream, the connection starts with live events instead.
+No application-specific reset event is added to the SSE protocol.
+
+The web UI applies events as they arrive and does not run a separate full refresh merely because a reconnect succeeded.
+A user who notices stale state can reload the page manually.
+Third-party clients can choose their own reconciliation policy when they need stronger consistency; no custom event handling is required by the server.
+
+## Scope and limits
+
+The event history is process-local and is not persisted in a database.
+Events missed while the server is stopped are not replayed from a durable log.
+Recovery applies to automatic reconnects within the current browser connection lifecycle, not to restoring an event ID across page loads.
+
+Replay is best-effort: events outside the retained history and one-off notifications during a gap can be missed.

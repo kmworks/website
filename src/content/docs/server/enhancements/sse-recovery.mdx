@@ -1,0 +1,51 @@
+---
+title: "SSE recovery"
+description: "Resume event streams after a disconnect, with an explicit reset when complete replay is no longer possible."
+sidebar:
+  order: 14
+---
+
+KMServer assigns an ID to every domain event on `/sse/v1/events` and keeps the most recent 1024 events in memory.
+The Java version only forwards live events and has no recovery history.
+
+## Replay after a reconnect
+
+Native `EventSource` clients automatically reconnect and send the last received event ID in `Last-Event-ID`.
+If every event after that ID is still available, the server replays them in order before continuing with live events.
+Replay applies the same administrator and per-user visibility rules as live delivery.
+The server takes the live subscription and the replay decision atomically, so an event published while reconnecting cannot fall between the two phases.
+
+Heartbeat comments and `TaskQueueStatus` snapshots do not carry event IDs.
+A fresh task queue snapshot is generated after each connection, so it does not need replay.
+
+## Reset when replay is incomplete
+
+The server sends a `Reset` event when it cannot guarantee complete recovery, including when:
+
+- some events after the requested ID are no longer retained
+- the ID belongs to an earlier server process
+- the ID is invalid or ahead of the current event stream
+
+`Reset` carries the latest event ID and an empty JSON object:
+
+```text
+id:<latest-event-id>
+event:Reset
+data:{}
+
+```
+
+The server skips the incomplete history and continues with events published after that cursor.
+Advancing the cursor also prevents the next reconnect from repeating the same reset.
+
+A client that receives `Reset` must replace missed history with a full refresh of its current API state.
+The web UI does this by invalidating all queries and reloading cover images.
+Other clients need a `Reset` listener of their own; native `EventSource` handles transport reconnection, but it does not perform this application-level refresh.
+
+## Scope and limits
+
+The event history is process-local and is not persisted in a database.
+Events missed while the server is stopped are covered by the reset-and-refresh path rather than replayed from a durable log.
+Recovery applies to automatic reconnects within the current browser connection lifecycle, not to restoring an event ID across page loads.
+
+`Reset` restores current state; it does not guarantee delivery of every one-off notification that occurred during a gap.

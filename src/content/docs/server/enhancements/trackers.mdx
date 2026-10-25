@@ -6,7 +6,7 @@ KMServer can sync reading progress to AniList, MyAnimeList, Bangumi, and MangaBa
 
 ## Accounts and series links
 
-Open **Trackers** from the account menu and sign in to each platform you want to use. OAuth sign-in is scoped to the current KMServer user, so every user can connect their own platform accounts. Authorization codes return through the kmworks.date callback relay, while tokens are exchanged and stored by your own KMServer instance in `kmrs.sqlite`.
+Open **Trackers** from the account menu and sign in to each platform you want to use. Each KMServer user connects their own platform accounts, so everyone keeps progress in their own profiles.
 
 Link a series from its detail page. Each user can link one platform entry per provider and choose how progress is interpreted:
 
@@ -22,10 +22,4 @@ Completing a book triggers an update for that user's linked series. KMServer rea
 
 Finishing the last known chapter or volume can complete the remote entry. Starting a new entry sets its reading date, and advancing an already completed entry can switch it to rereading when the platform supports that state.
 
-Synchronization is one-way: platform progress is not pulled back into KMServer. Failed updates do not interrupt reading, and there is no persistent retry queue or scheduled full reconciliation.
-
-## Upgrading tracker support
-
-Series links, tracking modes, offsets, and preferences are preserved. Platform OAuth tokens are not copied from the previous external service, so each user must sign in once again on the **Trackers** page after upgrading.
-
-Official release binaries include the shared OAuth client configuration. If you build KMServer yourself and need platform sign-in, see [Development](/server/development#tracker-oauth-secrets).
+Synchronization is one-way: platform progress is not pulled back into KMServer. Failed updates do not interrupt reading.

@@ -118,6 +118,10 @@
 	--km-glow-a: rgba(255, 179, 64, 0.2);
 	--km-glow-r: rgba(255, 61, 104, 0.08);
 	--km-footer-bg: #efeff1;
+	/* Accent as text on light surfaces: darker than --km-accent for AA contrast. */
+	--km-accent-text: #9a5500;
+	--km-cta-bg: #ffb340;
+	--km-cta-fg: #1a1206;
 }
 
 /* Wider content area on large displays (e.g. MacBook Pro 16″) */
@@ -190,6 +194,7 @@
 	--km-glow-a: rgba(255, 179, 64, 0.13);
 	--km-glow-r: rgba(255, 61, 104, 0.06);
 	--km-footer-bg: #08080a;
+	--km-accent-text: #ffb340;
 }
 
 /* ---- Tailwind theme mapping ----
@@ -587,4 +592,10 @@ body:not(:has([data-mobile-sidebar])) [data-menu-btn] {
 	::view-transition-new(root) {
 		animation: none;
 	}
+}
+
+/* kmworks: mark the current docs page with the brand accent. */
+[data-nb-sidebar-link][aria-current="page"] {
+	color: var(--km-accent-text);
+	box-shadow: inset 2px 0 0 var(--km-accent);
 }

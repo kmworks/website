@@ -92,8 +92,8 @@
 }
 
 .km-landing .btnPrimary {
-  background: #ffb340;
-  color: #1a1206;
+  background: var(--km-cta-bg);
+  color: var(--km-cta-fg);
 }
 
 .km-landing .btnPrimary:hover {
@@ -207,7 +207,7 @@
 /* ---------- sections ---------- */
 
 .km-landing .section {
-  padding: 4.5rem 0;
+  padding: 4rem 0;
 }
 
 .km-landing .sectionHead {
@@ -756,6 +756,37 @@
   border-bottom: 1px solid var(--km-border);
 }
 
+.km-landing .compare tbody th {
+  font-weight: 400;
+}
+
+/* Keep the capability column visible while the value columns scroll. */
+.km-landing .compare tbody th,
+.km-landing .compare thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--km-surface);
+}
+
+@media (max-width: 640px) {
+  .km-landing .compare {
+    font-size: 0.85rem;
+    min-width: 27rem;
+  }
+
+  .km-landing .compare th,
+  .km-landing .compare td {
+    padding: 0.75rem 0.7rem;
+  }
+
+  .km-landing .compare tbody th,
+  .km-landing .compare thead th:first-child {
+    width: 8.5rem;
+    box-shadow: 1px 0 0 var(--km-border);
+  }
+}
+
 .km-landing .compare tr:last-child td {
   border-bottom: 0;
 }
@@ -774,8 +805,7 @@
   font-weight: 700;
 }
 
-.km-landing .compare .no,
-.km-landing .compare .varies {
+.km-landing .compare .no {
   color: var(--km-text-muted);
 }
 
@@ -894,6 +924,10 @@
 
   .km-landing .heroShots .shotFloat {
     position: relative;
+    /* Drop the desktop offsets: relative positioning would still apply them
+       and push the shot past the page gutter. */
+    left: 0;
+    bottom: 0;
     z-index: 1;
     order: 1;
     width: 32%;

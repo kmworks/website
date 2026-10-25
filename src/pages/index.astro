@@ -21,7 +21,7 @@ const dockerRun = `docker run -d \\
   ghcr.io/kmworks/kmrs`;
 
 const serverFeatures = [
-  { title: "One binary", icon: "ph:package" },
+  { title: "Small footprint", icon: "ph:package" },
   { title: "Cross-platform", icon: "ph:devices" },
   { title: "Komga + enhancements", icon: "ph:plugs-connected" },
   { title: "Web UI included", icon: "ph:browser" },
@@ -32,7 +32,7 @@ const serverFeatures = [
 
 <BaseLayout
   title="Native Komga Clients & Compatible Server"
-  description="kmworks is an open-source reading ecosystem: KMReader, a native Apple client, and KMServer, a full-featured Komga drop-in replacement in Rust with additional capabilities."
+  description="kmworks is an open-source reading ecosystem: KMReader, a native Apple client, and KMServer, a full-featured Komga drop-in replacement in Rust with additional capabilities and a small memory footprint."
 >
   <div class="flex flex-col min-h-screen km-landing">
     <Header />
@@ -47,7 +47,8 @@ const serverFeatures = [
               <p class="heroSub">
                 An open-source ecosystem for your comic and manga library:
                 KMReader, a native Apple client, and KMServer, a
-                full-featured Komga drop-in replacement in Rust.
+                full-featured Komga drop-in replacement in Rust with a small
+                memory footprint.
               </p>
               <div class="ctaRow">
                 <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">
@@ -169,7 +170,7 @@ const serverFeatures = [
               <p class="sectionSub">
                 A full-featured Komga drop-in replacement in Rust: the same
                 formats, API and database, plus additional capabilities — in
-                one static binary.
+                one static binary with no JVM and a small memory footprint.
               </p>
               <div class="miniGrid" style="margin-top: 1.8rem;">
                 {serverFeatures.map((f) => (

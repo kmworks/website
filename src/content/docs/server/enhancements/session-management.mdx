@@ -1,0 +1,23 @@
+---
+title: "Session management"
+sidebar:
+  order: 16
+---
+
+Signed-in browsers and devices hold server-side sessions (persisted in `sessions.sqlite` with the default `jdbc-session-enabled: true`). The Java version exposes these only through `/actuator/sessions`; kmrs adds REST endpoints and UI for them. The endpoints are kmrs-native and absent from the OpenAPI spec.
+
+## Your own sessions
+
+`GET /api/v2/users/me/sessions` — the caller's active sessions: `id`, `creationTime`, `lastAccessedTime`, and `current` marking the session the request authenticated with.
+
+`DELETE /api/v2/users/me/sessions/{id}` — ends one of the caller's own sessions; sessions belonging to someone else read as missing (404).
+
+The account security page lists them between the password form and the login activity, with the current session marked.
+
+## All sessions (administrators)
+
+`GET /api/v2/users/sessions` — every active session with its owner, most recently active first: `id`, `userId`, `email` (`null` when the session's user no longer exists), `creationTime`, `lastAccessedTime`.
+
+`DELETE /api/v2/users/sessions/{id}` — ends any session, signing that device out.
+
+The admin users page lists them above the authentication activity.

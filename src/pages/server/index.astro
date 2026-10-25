@@ -49,8 +49,8 @@ const clients = [
 ---
 
 <BaseLayout
-  title="KMServer — Komga-Compatible Comic & Manga Server, in Rust"
-  description="KMServer is a lightweight, Komga-compatible comic and manga server written in Rust, with the web UI included. Same API, same database: point it at your existing Komga library."
+  title="KMServer — Full-Featured Komga Drop-in Replacement in Rust"
+  description="KMServer is a full-featured Komga drop-in replacement in Rust: CBZ/CBR/PDF/EPUB, the same API and database, a bundled web UI, additional capabilities, and a small memory footprint."
 >
   <div class="flex flex-col min-h-screen km-landing">
     <Header />
@@ -64,16 +64,20 @@ const clients = [
               <p class="eyebrow">KMServer</p>
               <h1 class="heroTitle">Your library. One server.</h1>
               <p class="heroSub">
-                Komga reimplemented in Rust: one static binary, a bounded
-                footprint, and the web UI included.
+                A full-featured Komga drop-in replacement in Rust: the same
+                formats, API and database, plus additional capabilities — in
+                one static binary with no JVM and a small memory footprint.
               </p>
               <div class="chipRow" style="margin-top: 0; margin-bottom: 2rem;">
                 <span class="chip">Written in Rust</span>
                 <span class="chip">Komga-compatible</span>
+                <span class="chip">Komga + enhancements</span>
+                <span class="chip">CBZ · CBR · PDF · EPUB</span>
                 <span class="chip">Existing libraries</span>
                 <span class="chip">Existing database</span>
                 <span class="chip">Cross-platform</span>
                 <span class="chip">Single binary</span>
+                <span class="chip">Small footprint</span>
               </div>
               <div class="ctaRow">
                 <a class="btnPrimary" href={releasesUrl} target="_blank" rel="noopener">
@@ -148,11 +152,11 @@ const clients = [
               <div class="cardIcon">
                 <Icon name="ph:memory" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">Bounded memory</h3>
+              <h3 class="cardTitle">Small footprint, efficient serving</h3>
               <p class="cardBody">
-                A 16 MiB SQLite page-cache budget per database and capped
-                allocator arenas keep the footprint flat, whatever the
-                hardware. <a href="/server/enhancements">Enhancements</a>
+                A 16 MiB SQLite page-cache budget per database, capped
+                allocator arenas, and bounded container caches keep memory
+                predictable and page serving efficient. <a href="/server/enhancements">Enhancements</a>
               </p>
             </article>
             <article class="card">
@@ -186,8 +190,8 @@ const clients = [
               <h3 class="cardTitle">API parity, verified</h3>
               <p class="cardBody">
                 REST, OPDS v1.2/v2, SSE, Kobo and KOReader sync. A differential
-                harness compares about 105 endpoints against a live Java
-                instance of the compatibility target (komga 1.28.1).
+                harness compares about 105 endpoints against a live Java Komga
+                instance.
               </p>
               <Code code={diffRun} lang="bash" />
             </div>

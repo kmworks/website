@@ -6,6 +6,17 @@ sidebar:
 
 The compatibility target is **komga 1.29.0**: the Flyway migrations, the OpenAPI document, and the behavior fixtures are taken from that release, and API behavior is ported from it. Improvements and intentional behavior differences are listed under [Enhancements](/server/enhancements); accepted gaps under [Known limitations](/server/limitations).
 
+## Compatibility scope
+
+KMServer is a full-featured drop-in replacement, not a CBZ/CBR-only or API-only subset. Its scope includes:
+
+- **Libraries and media**: CBZ/ZIP, CBR/RAR, PDF, and EPUB scanning, metadata extraction, thumbnails, and page/resource serving
+- **APIs and clients**: REST, OPDS v1.2/v2, SSE, Kobo and KOReader sync, authentication, and the bundled web UI
+- **Existing installations**: the same port, mounts, and `KOMGA_*` environment variables, with in-place upgrades of `database.sqlite` and `tasks.sqlite` that remain readable by Java Komga
+- **Additional capabilities**: smart lists, reading trackers, CJK cross-search, outbound webhooks, reading statistics, and the other [Enhancements](/server/enhancements)
+
+The accepted gaps and intentional scope exclusions are explicit: see [Known limitations](/server/limitations).
+
 ## Differential test harness
 
 `tests/diff/diff.py` starts the Java komga and kmrs side by side over the same fixture library and compares ~105 endpoints (status, normalized JSON/XML bodies, headers, zip structure):

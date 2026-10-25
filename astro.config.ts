@@ -9,7 +9,7 @@ const nimbusConfig = defineNimbusConfig({
   site: "https://kmworks.date",
   title: "kmworks",
   description:
-    "kmworks is an open-source comic and manga reading ecosystem: server and native clients, drop-in compatible with Komga.",
+    "kmworks is an open-source reading ecosystem: KMReader, a native Apple client, and KMServer, a full-featured Komga drop-in replacement in Rust with additional capabilities.",
   locale: "en",
   github: "https://github.com/kmworks",
   editPattern: "https://github.com/kmworks/website/edit/main/{path}",

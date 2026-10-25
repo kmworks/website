@@ -4,7 +4,7 @@ sidebar:
   order: 0
 ---
 
-KMServer is a drop-in, API-compatible reimplementation of the [Komga](https://komga.org) comic/manga server in Rust, distributed as the `kmrs` binary: a single static executable.
+KMServer is a full-featured drop-in replacement for [Komga](https://komga.org) in Rust — same library formats, API, and database, plus additional capabilities. It is distributed as the `kmrs` binary: a single static executable.
 
 *The name: Keep Manga Reading Simple.*
 
@@ -28,6 +28,7 @@ Try KMServer at [demo.kmworks.date](https://demo.kmworks.date): the latest image
 - **Library formats**: CBZ/ZIP, CBR/RAR, PDF, and EPUB — scanning, metadata extraction, thumbnails, and Komga-compatible page/resource serving
 - **API parity**: REST `/api/**`, OPDS v1.2/v2, SSE, Kobo sync, and KOReader progress sync, with endpoints, DTOs, pagination, error shapes, and authentication behavior matching the Java version
 - **Verified against the Java version**: byte-for-byte Flyway migrations, a differential test harness comparing ~105 endpoints against a live Java instance, and schema contract tests
+- **Beyond Komga**: smart lists, reading trackers, CJK cross-search, outbound webhooks, reading statistics, and [more](/server/enhancements)
 
 ## Supported formats
 
@@ -46,10 +47,16 @@ For media-type restrictions and PDFium lookup details, see [Known limitations](/
 
 ## Enhancements
 
-On top of drop-in compatibility, KMServer adds improvements the Java version does not have:
+On top of drop-in compatibility, KMServer adds capabilities the Java version does not have:
 
-- **Search**: simplified ↔ traditional Chinese cross-search and CJK boundary unigrams (e.g. `3月` matches `3月的狮子`). See [Search](/server/search).
-- **Sorting**: natural sort of numbered titles ("Page 2" < "Page 10") with a configurable ICU locale (`server.sort-locale`). The full list: [Enhancements](/server/enhancements).
+- **Smart lists**: saved searches evaluated live per user, with sharing scopes and generated covers
+- **Reading trackers**: reading-progress sync with AniList, MyAnimeList, Bangumi, and MangaBaka
+- **Search**: simplified ↔ traditional Chinese cross-search and CJK boundary unigrams (e.g. `3月` matches `3月的狮子`)
+- **Outbound webhooks**: library events delivered as signed JSON payloads
+- **Reading statistics**: per-user totals, daily activity, and reading streaks
+- **Sorting**: natural sort of numbered titles ("Page 2" < "Page 10") with a configurable ICU locale (`server.sort-locale`)
+
+See the full list under [Enhancements](/server/enhancements).
 
 ## Migrating from Komga
 

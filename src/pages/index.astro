@@ -12,7 +12,7 @@ const appStoreUrl = "https://apps.apple.com/app/id6755198424";
 const releasesUrl = "https://github.com/kmworks/kmrs/releases/latest";
 
 const dockerRun = `docker run -d \\
-  --name=komga \\
+  --name=kmrs \\
   --user 1000:1000 \\
   -p 25600:25600 \\
   --mount type=bind,source=/path/to/config,target=/config \\
@@ -43,9 +43,9 @@ const serverFeatures = [
         <div class="container">
           <div class="heroInner">
             <div>
-              <h1 class="heroTitle">Your Komga library. Native everywhere.</h1>
+              <h1 class="heroTitle">Your Komga library, native on every Apple device.</h1>
               <p class="heroSub">
-                An open-source ecosystem for your comic and manga library:
+                An open-source ecosystem for your comics, manga, and ebooks:
                 KMReader, a native Apple client, and KMServer, a
                 full-featured Komga drop-in replacement in Rust with a small
                 memory footprint.
@@ -67,7 +67,7 @@ const serverFeatures = [
                   srcset="/img/shots/ipad-dashboard-900.webp 900w, /img/shots/ipad-dashboard-1600.webp 1600w"
                   sizes="(max-width: 1024px) 74vw, 42vw"
                   width="900"
-                  height="1201"
+                  height="675"
                   alt="KMReader on iPad showing the library dashboard with Keep Reading and recently added books"
                   fetchpriority="high"
                   decoding="async"
@@ -79,7 +79,7 @@ const serverFeatures = [
                   srcset="/img/shots/iphone-dashboard-600.webp 600w, /img/shots/iphone-dashboard-1000.webp 1000w"
                   sizes="(max-width: 1024px) 32vw, 15vw"
                   width="600"
-                  height="1299"
+                  height="1305"
                   alt="KMReader on iPhone showing the library dashboard"
                   fetchpriority="high"
                   decoding="async"
@@ -130,8 +130,8 @@ const serverFeatures = [
                 srcset="/img/shots/ipad-epub-900.webp 900w, /img/shots/ipad-epub-1600.webp 1600w"
                 sizes="(max-width: 1024px) 92vw, 50vw"
                 width="900"
-                height="1201"
-                alt="KMReader on iPad showing the EPUB reader with the theme panel open"
+                height="675"
+                alt="KMReader on iPad showing the EPUB reader with the book info panel open"
                 loading="lazy"
                 decoding="async"
               />
@@ -140,9 +140,9 @@ const serverFeatures = [
               <p class="eyebrow">KMReader</p>
               <h2 class="sectionTitle">Your library, built for Apple.</h2>
               <p class="sectionSub">
-                A native app for iPhone, iPad, Mac and Apple TV: the DIVINA
-                comic reader with on-device manga translation, offline
-                downloads, and progress sync across devices.
+                A native app for iPhone, iPad, Mac and Apple TV: a comic and
+                manga reader with on-device translation, EPUB and PDF readers,
+                offline downloads, and progress sync across devices.
               </p>
               <div class="chipRow">
                 <span class="chip">iPhone</span>
@@ -170,7 +170,7 @@ const serverFeatures = [
               <p class="sectionSub">
                 A full-featured Komga drop-in replacement in Rust: the same
                 formats, API and database, plus additional capabilities — in
-                one static binary with no JVM and a small memory footprint.
+                one self-contained binary with no JVM and a small memory footprint.
               </p>
               <div class="miniGrid" style="margin-top: 1.8rem;">
                 {serverFeatures.map((f) => (
@@ -204,8 +204,8 @@ const serverFeatures = [
             </div>
           </div>
           <p class="techNote">
-            KMServer is distributed as the <code>kmrs</code> binary: one static
-            executable for Linux, macOS, and Windows, on x86_64 and aarch64.
+            KMServer is distributed as the <code>kmrs</code> binary: one
+            self-contained executable for Linux, macOS, and Windows.
           </p>
         </div>
       </section>
@@ -247,7 +247,7 @@ const serverFeatures = [
               keeps working. KMReader is one client among many.
             </p>
           </div>
-          <div class="diagram" role="img" aria-label="Diagram: KMServer exposes the Komga-compatible API to the Web UI, OPDS readers, KMReader, Kobo sync and KOReader sync. KMReader runs on iPhone, iPad, Mac and Apple TV.">
+          <div class="diagram" role="img" aria-label="Diagram: KMServer exposes the Komga-compatible API to the web UI, OPDS readers, KMReader, Kobo e-readers, and KOReader. KMReader runs on iPhone, iPad, Mac and Apple TV.">
             <div class="eco">
               <div class="ecoBox ecoRoot">KMServer</div>
               <div class="ecoLine"></div>
@@ -256,42 +256,30 @@ const serverFeatures = [
               <div class="ecoRow ecoRow5">
                 <div class="ecoCol">
                   <div class="ecoLine"></div>
-                  <div class="ecoBox">Web UI</div>
+                  <div class="ecoBox">Web UI<span class="ecoCap">any browser</span></div>
                 </div>
                 <div class="ecoCol">
                   <div class="ecoLine"></div>
-                  <div class="ecoBox">OPDS</div>
+                  <div class="ecoBox">OPDS readers</div>
                 </div>
                 <div class="ecoCol">
                   <div class="ecoLine"></div>
                   <div class="ecoBox ecoHl">KMReader</div>
+                  <div class="ecoLine"></div>
+                  <div class="ecoPlat">
+                    <span class="ecoChip">iPhone</span>
+                    <span class="ecoChip">iPad</span>
+                    <span class="ecoChip">Mac</span>
+                    <span class="ecoChip">Apple TV</span>
+                  </div>
                 </div>
                 <div class="ecoCol">
                   <div class="ecoLine"></div>
-                  <div class="ecoBox">Kobo sync</div>
+                  <div class="ecoBox">Kobo<span class="ecoCap">e-readers</span></div>
                 </div>
                 <div class="ecoCol">
                   <div class="ecoLine"></div>
-                  <div class="ecoBox">KOReader sync</div>
-                </div>
-              </div>
-              <div class="ecoLine"></div>
-              <div class="ecoRow ecoRow4">
-                <div class="ecoCol">
-                  <div class="ecoLine"></div>
-                  <span class="ecoChip">iPhone</span>
-                </div>
-                <div class="ecoCol">
-                  <div class="ecoLine"></div>
-                  <span class="ecoChip">iPad</span>
-                </div>
-                <div class="ecoCol">
-                  <div class="ecoLine"></div>
-                  <span class="ecoChip">Mac</span>
-                </div>
-                <div class="ecoCol">
-                  <div class="ecoLine"></div>
-                  <span class="ecoChip">Apple TV</span>
+                  <div class="ecoBox">KOReader</div>
                 </div>
               </div>
             </div>

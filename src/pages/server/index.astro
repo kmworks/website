@@ -12,7 +12,7 @@ export const prerender = true;
 const releasesUrl = "https://github.com/kmworks/kmrs/releases/latest";
 
 const dockerRun = `docker run -d \\
-  --name=komga \\
+  --name=kmrs \\
   --user 1000:1000 \\
   -p 25600:25600 \\
   --mount type=bind,source=/path/to/config,target=/config \\
@@ -66,7 +66,7 @@ const clients = [
               <p class="heroSub">
                 A full-featured Komga drop-in replacement in Rust: the same
                 formats, API and database, plus additional capabilities — in
-                one static binary with no JVM and a small memory footprint.
+                one self-contained binary with no JVM and a small memory footprint.
               </p>
               <div class="chipRow" style="margin-top: 0; margin-bottom: 2rem;">
                 <span class="chip">Written in Rust</span>
@@ -132,7 +132,7 @@ const clients = [
           <div class="sectionHead">
             <h2 class="sectionTitle">Why KMServer?</h2>
             <p class="sectionSub">
-              The Komga experience, rebuilt in Rust: one static binary instead
+              The Komga experience, rebuilt in Rust: one self-contained binary instead
               of a JVM runtime, and a footprint that stays small.
             </p>
           </div>
@@ -141,10 +141,10 @@ const clients = [
               <div class="cardIcon">
                 <Icon name="ph:package" class="w-[26px] h-[26px]" />
               </div>
-              <h3 class="cardTitle">One static binary</h3>
+              <h3 class="cardTitle">One binary</h3>
               <p class="cardBody">
                 No JVM, no runtime: the whole server is one Rust executable
-                for Linux, macOS, and Windows, on x86_64 and aarch64. Docker
+                for Linux, macOS, and Windows. Docker
                 image included.
               </p>
             </article>
@@ -217,7 +217,7 @@ const clients = [
             <div>
               <h2 class="sectionTitle">Keep your library. Keep your database.</h2>
               <p class="sectionSub">
-                Point KMServer at an existing komga data directory and it
+                Point KMServer at an existing Komga data directory and it
                 upgrades <code>database.sqlite</code> in place with
                 byte-for-byte Flyway migrations. The Java version can still
                 open libraries written by KMServer, so you can switch back at
@@ -257,14 +257,14 @@ const clients = [
                 <div class="step">
                   <span class="stepName">Install</span>
                   <p class="stepDesc">
-                    One <code>docker run</code>, or a single static binary from
+                    One <code>docker run</code>, or a single binary from
                     the releases page.
                   </p>
                 </div>
                 <div class="step">
                   <span class="stepName">Keep your library</span>
                   <p class="stepDesc">
-                    Point <code>/config</code> at your existing komga data.
+                    Point <code>/config</code> at your existing Komga data.
                     KMServer upgrades it in place.
                   </p>
                 </div>

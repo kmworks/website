@@ -13,10 +13,11 @@ KMServer reads the same data directory as the Java version, so migration is a ma
 
 1. **Stop the existing server**
 
-   Stop the Java komga process so nothing writes to the database while you switch:
+   Stop the Java Komga process so nothing writes to the database while you switch. With Docker, also rename the old container: it frees the `komga` name and keeps the container around in case you want to switch back:
 
    ```sh
    docker stop komga
+   docker rename komga komga-java
    ```
 
 2. **Back up the database**
@@ -37,7 +38,7 @@ KMServer reads the same data directory as the Java version, so migration is a ma
 
    ```sh
    docker run -d \
-     --name=komga \
+     --name=kmrs \
      --user 1000:1000 \
      -p 25600:25600 \
      --mount type=bind,source=/path/to/config,target=/config \
@@ -49,7 +50,7 @@ KMServer reads the same data directory as the Java version, so migration is a ma
      </TabItem>
      <TabItem label="Docker Compose">
 
-   Point the volumes at your existing directories:
+   Point the volumes at your existing Komga config and library directories:
 
    ```yaml
    services:
@@ -82,7 +83,7 @@ KMServer reads the same data directory as the Java version, so migration is a ma
    On first start, KMServer upgrades `database.sqlite` in place with byte-for-byte Flyway migrations. Your libraries, users, and reading progress carry over.
 
    :::note
-   The upgrade is not one-way: the Java version can still open a database written by KMServer, so you can switch back by starting the old container again.
+   The upgrade is not one-way: the Java version can still open a database written by KMServer. To switch back, stop KMServer and start the old container again (`docker stop kmrs && docker start komga-java`). KMServer-only data — smart lists, reading tracker links, and the komf integration — lives in `kmrs.sqlite`, which the Java version ignores; it is picked up again if you return to KMServer.
    :::
 
 5. **Connect your clients**

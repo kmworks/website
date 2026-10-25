@@ -1,37 +1,40 @@
 ---
 title: "Your reading, your data"
-description: "KMReader keeps every Komga login, preference, and cache on your device only. Nothing is uploaded, shared, or sold."
+description: "KMReader keeps every Komga login, preference, and cache on your device. No account, no analytics, nothing sold."
 sidebar:
   hidden: true
 ---
 
-KMReader keeps every Komga login, preference, and cache on your device only. Nothing is uploaded, shared, or sold.
+KMReader keeps every Komga login, preference, and cache on your device. There is no KMReader account, no analytics, and nothing is sold or shared.
 
-## What we collect
+## What stays on your device
 
-We don't run servers for KMReader and never see your personal information. The app stores everything locally so you can enjoy multi-server support, fast loading, and uninterrupted reading.
+KMReader stores the following locally so you can use several servers, load quickly, and keep reading offline:
 
-- Komga server addresses, display names, and encrypted credentials
-- Reading progress, cached images, and downloaded EPUB files
+- Komga server addresses, display names, and sign-in credentials — an app-managed API key when the server supports one, otherwise your username and password
+- Reading progress, cached pages and covers, and downloaded books
 - Preferences like themes, layouts, and cache budgets
 
-iCloud, analytics, and crash reporting are not used. We can't view or retrieve the items listed above.
+We cannot view or retrieve any of it. KMReader does not use iCloud sync, analytics, or crash reporting.
 
 ## How local storage works
 
-Sensitive details such as passwords live in Keychain, while caches and preferences are stored in KMReader's app sandbox. Removing a server profile clears its cached pages, thumbnails, and EPUB files.
+Everything lives in KMReader's app sandbox, which iOS and macOS encrypt at rest as part of standard data protection. Removing a server profile deletes its saved credentials, cached pages, covers, and downloaded books.
 
 You control when to clear caches or sign out. Uninstalling the app removes everything.
 
-## Connections to your server
+## Network connections
 
-KMReader talks directly to the Komga servers you add. All requests stay between your Apple device and your Komga instance using HTTPS if your server supports it. We never proxy, log, or inspect that traffic.
+- **Your Komga servers.** KMReader talks directly to the servers you add, using HTTPS when your server supports it. We never proxy, log, or inspect that traffic.
+- **Manga translation model packs.** When you download an OCR model pack, KMReader fetches the catalog and the pack from `models.kmworks.date`. These are plain file downloads: no account, library content, or reading data is sent, though the host sees the usual request details such as your IP address.
+- **Your translation provider**, if you configure one (see below).
+- **Apple services** you choose to use, such as in-app purchases through the App Store, Handoff, Spotlight, and widgets, are handled by Apple under Apple's privacy policy.
 
 ## Manga translation
 
 Text detection and OCR run entirely on your device — page images are never uploaded, to us or to anyone else.
 
-If you use Apple's built-in translation, the recognized text stays on your device too. If you configure your own custom AI translation provider, only the recognized text — and optionally the comic's title — is sent, over your own API key, to the endpoint you chose. That traffic goes straight from your device to your provider; we run no servers in between.
+If you use Apple's built-in translation, the recognized text stays on your device too. If you configure a custom AI translation provider, only the recognized text is sent, over your own API key, to the endpoint you chose. With **Include Comic Metadata** turned on (it is off by default), the series and chapter titles, authors, and genres are added to that request. That traffic goes straight from your device to your provider; we run no servers in between.
 
 ## No third-party tracking
 
@@ -41,11 +44,11 @@ The app ships without advertising SDKs, analytics beacons, social trackers, or d
 
 Because everything lives on-device, you can:
 
-- Log out of a server to wipe its credentials and content caches
-- Use the in-app cache controls to clear pages, books, or thumbnails
+- Remove a server profile to delete its credentials, caches, and downloads
+- Use the in-app cache controls to clear pages, books, or covers
 - Delete the app to remove every remaining file and preference
 
-If you reinstall KMReader, you'll start with a clean slate.
+If you reinstall KMReader, you start with a clean slate.
 
 ## Updates to this policy
 

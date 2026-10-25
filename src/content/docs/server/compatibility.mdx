@@ -1,10 +1,10 @@
 ---
 title: "Compatibility"
 sidebar:
-  order: 5
+  order: 6
 ---
 
-The compatibility target is **komga 1.29.0**: the Flyway migrations, the OpenAPI document, and the behavior fixtures are taken from that release, and API behavior is ported from it. Improvements and intentional behavior differences are listed under [Enhancements](/server/enhancements); accepted gaps under [Known limitations](/server/limitations).
+The compatibility target is **Komga 1.29.0**: the Flyway migrations, the OpenAPI document, and the behavior fixtures are taken from that release, and API behavior is ported from it. Improvements and intentional behavior differences are listed under [Enhancements](/server/enhancements); accepted gaps under [Known limitations](/server/limitations).
 
 ## Compatibility scope
 
@@ -19,7 +19,7 @@ The accepted gaps and intentional scope exclusions are explicit: see [Known limi
 
 ## Differential test harness
 
-`tests/diff/diff.py` starts the Java komga and kmrs side by side over the same fixture library and compares ~105 endpoints (status, normalized JSON/XML bodies, headers, zip structure):
+`tests/diff/diff.py` starts Java Komga and kmrs side by side over the same fixture library and compares ~105 endpoints (status, normalized JSON/XML bodies, headers, zip structure):
 
 ```sh
 python3 tests/diff/diff.py --java-jar /path/to/komga.jar --rust-bin ./target/debug/kmrs

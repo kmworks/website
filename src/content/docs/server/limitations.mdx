@@ -1,24 +1,26 @@
 ---
 title: "Known limitations"
 sidebar:
-  order: 7
+  order: 8
 ---
 
-Places where kmrs has not matched the Java version and does not plan to — accepted gaps. Improvements and intentional behavior differences are listed under [Enhancements](/server/enhancements).
+Places where KMServer does not match the Java version and does not plan to — accepted gaps. Improvements and intentional behavior differences are listed under [Enhancements](/server/enhancements).
 
-Scope exclusions are intentional and not listed here either:
+## Out of scope
 
-- no actuator endpoints or metrics that only expose JVM/Spring internals (beans, conditions, env, configprops, loggers, mappings, heapdump, threaddump, `system.*`/`http.server.requests` meters, `jvm.*` beyond `jvm.memory.used` and the like).
+These are excluded on purpose rather than gaps:
+
+- Actuator endpoints and metrics that only expose JVM/Spring internals (beans, conditions, env, configprops, loggers, mappings, heapdump, threaddump, `system.*`/`http.server.requests` meters, `jvm.*` beyond `jvm.memory.used` and the like).
 
 ## Media formats
 
-- No JXL / HEIF / JPEG2000 decoding: those types are sniffed but excluded from the readable image types, so page convert/resize fails like an unsupported reader. The Java version decodes them via ImageIO/TwelveMonkeys.
-- PDF support requires a runtime libpdfium, looked up in `KOMGA_PDFIUM_PATH`, next to the executable, then system paths; when unavailable, every PDF operation returns `Unsupported`. The Java version bundles PDFBox. The Docker image ships libpdfium next to the binary.
+- No JXL / HEIF / JPEG2000 decoding: those types are sniffed but excluded from the readable image types, so converting or resizing those pages fails the same way as for any unsupported image format. The Java version decodes them via ImageIO/TwelveMonkeys.
+- PDF support requires a runtime libpdfium, looked up in `KOMGA_PDFIUM_PATH`, next to the executable, then system paths; when unavailable, every PDF operation returns `Unsupported`. The Java version bundles PDFBox. The Docker image ships libpdfium next to the binary; for the release archives, see [Installation](/server/installation).
 - JPEG output is not byte-identical to ImageIO (different encoder), an accepted deviation that affects byte-level comparisons of thumbnails and page hashes.
 
 ## Search
 
-- The full-text query syntax is a deliberate subset of komga's Lucene syntax: whitespace-ANDed terms plus `field:` scoping (including `field:(a OR b)` groups). Boolean operators, fuzzy `~`, wildcards, phrases, boosts and `[a TO b]` ranges are searched as literal text, not interpreted as operators — see [Search](/server/search).
+- The full-text query syntax is a deliberate subset of Komga's Lucene syntax: whitespace-ANDed terms plus `field:` scoping (including `field:(a OR b)` groups). Boolean operators, fuzzy `~`, wildcards, phrases, boosts and `[a TO b]` ranges are searched as literal text, not interpreted as operators — see [Search](/server/search).
 - `komga.lucene.index-analyzer.*` and `komga.lucene.commit-delay` are ignored (warned and dropped during Java config migration); the analyzer is fixed to the multilingual ngram chain.
 
 ## API

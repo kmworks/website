@@ -1,12 +1,16 @@
 ---
 title: "Reading trackers"
+sidebar:
+  order: 15
 ---
 
 KMServer can sync reading progress to AniList, MyAnimeList, Bangumi, and MangaBaka.
 
 ## Accounts and series links
 
-Open **Trackers** from the account menu and sign in to each platform you want to use. Each KMServer user connects their own platform accounts, so everyone keeps progress in their own profiles.
+Open **Trackers** from the account menu and sign in to each platform you want to use. Each KMServer user connects their own platform accounts, so everyone keeps progress in their own profiles. You can disconnect a platform from the same page at any time.
+
+The Trackers page also holds two per-user preferences: which libraries show tracker actions (all of them by default), and a default platform that is preselected when you link a new series.
 
 Link a series from its detail page. Each user can link one platform entry per provider and choose how progress is interpreted:
 
@@ -23,3 +27,7 @@ Completing a book triggers an update for that user's linked series. KMServer rea
 Finishing the last known chapter or volume can complete the remote entry. Starting a new entry sets its reading date, and advancing an already completed entry can switch it to rereading when the platform supports that state.
 
 Synchronization is one-way: platform progress is not pulled back into KMServer. Failed updates do not interrupt reading.
+
+Tracker accounts, links, and preferences are stored in `kmrs.sqlite`, so the Java version can still open the data directory. Self-built binaries need the platform OAuth credentials at compile time; see [Development](/server/development#tracker-oauth-secrets).
+
+The Java version has no tracker support.

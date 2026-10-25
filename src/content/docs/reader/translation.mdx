@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-KMReader can detect text in manga pages and typeset the translation back into the bubbles, on iOS and macOS. OCR runs entirely on your device, and you choose how the recognized text gets translated.
+KMReader 7.2 and later can detect text in manga pages and typeset the translation back into the bubbles, on iOS and macOS. OCR runs entirely on your device, and you choose how the recognized text gets translated.
 
 ## 1. Download an OCR model pack
 
@@ -15,7 +15,7 @@ Open Settings → Manga Translation and pick a model pack from the catalog. Pack
 
 On iOS 26 and macOS 26 or later, KMReader can use Apple's built-in translation without extra setup, so recognized text stays on your device. Earlier OS versions require a custom AI provider.
 
-For higher-quality results on any supported OS version, you can add a provider with your own endpoint, model, and API key. Only the recognized text — and optionally the comic's metadata — is sent to your provider; page images are never uploaded. Set a default source language and a target language in the same settings page. Series language metadata takes precedence over the default source language when available.
+For higher-quality results on any supported OS version, you can add a provider with your own endpoint, model, and API key. Only the recognized text is sent to your provider; page images are never uploaded. Turn on **Include Comic Metadata** to also send the series and chapter titles, authors, and genres, which helps with names and tone. Set a default source language and a target language in the same settings page. Series language metadata takes precedence over the default source language when available.
 
 ## 3. Translate while reading
 

@@ -28,6 +28,14 @@ const faqs = [
     a: "Yes. KMServer speaks the same API: REST, OPDS v1.2/v2, SSE, Kobo and KOReader sync. Your existing clients reconnect without changes.",
   },
   {
+    q: "Which file formats does KMServer support?",
+    a: "KMServer scans CBZ/ZIP, CBR/RAR, PDF, and EPUB books. Webtoon is a reading presentation for compatible books, not a separate file format.",
+  },
+  {
+    q: "How can KMServer support PDF and EPUB while staying lightweight?",
+    a: "PDF pages are rendered on demand by libpdfium instead of PDFBox on a JVM. The Docker image includes libpdfium; standalone installations must provide it. EPUB packages are parsed on the server, while compatible readers handle layout using the served metadata, navigation, and resources.",
+  },
+  {
     q: "Does KMReader work offline?",
     a: "Yes. Downloaded books stay fully readable offline: pages, covers, metadata and progress are stored locally.",
   },

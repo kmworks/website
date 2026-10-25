@@ -25,8 +25,24 @@ Try KMServer at [demo.kmworks.date](https://demo.kmworks.date): the latest image
 
 - **Drop-in replacement** for `gotson/komga`: same port (25600), same `/config` and `/data` mounts, same `KOMGA_*` environment variables
 - **Data-level compatibility**: opens and upgrades existing komga data directories (`database.sqlite`, `tasks.sqlite`) in place, and the Java version can still open libraries written by KMServer
+- **Library formats**: CBZ/ZIP, CBR/RAR, PDF, and EPUB — scanning, metadata extraction, thumbnails, and Komga-compatible page/resource serving
 - **API parity**: REST `/api/**`, OPDS v1.2/v2, SSE, Kobo sync, and KOReader progress sync, with endpoints, DTOs, pagination, error shapes, and authentication behavior matching the Java version
 - **Verified against the Java version**: byte-for-byte Flyway migrations, a differential test harness comparing ~105 endpoints against a live Java instance, and schema contract tests
+
+## Supported formats
+
+KMServer scans the same library file types as Komga. Each library can independently enable or disable CBX (CBZ/ZIP and CBR/RAR), PDF, and EPUB scanning.
+
+| Format | Support |
+| ------ | ------- |
+| **CBZ / ZIP** | Image pages, `ComicInfo.xml` metadata, thumbnails, and page serving. |
+| **CBR / RAR** | RAR 4 and RAR 5 image archives, with the same metadata, thumbnail, and page-serving flow. |
+| **PDF** | Page analysis, thumbnails, and on-demand JPEG rendering through libpdfium. The Docker image includes libpdfium; standalone installations must provide it at runtime. |
+| **EPUB** | OPF metadata, tables of contents, landmarks, reading positions, and resource serving. Compatible readers render reflowable and fixed-layout books; image-based EPUBs can also use DIVINA page reading. |
+
+Webtoon is a reading presentation, not a file format. For webtoons and long strips, choose Webtoon in a compatible reader; the book itself still uses one of the formats above.
+
+For media-type restrictions and PDFium lookup details, see [Known limitations](/server/limitations#media-formats).
 
 ## Enhancements
 

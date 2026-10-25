@@ -1,7 +1,7 @@
 ---
 title: "Enhancements"
 sidebar:
-  order: 6
+  order: 7
   label: "Overview"
 ---
 
@@ -24,34 +24,48 @@ Improvements KMServer adds on top of Java parity, plus intentional behavior diff
 - [Smart lists](/server/enhancements/smart-lists): saved search filters evaluated live per requesting user, with visibility scopes and generated covers
 - [Library and server statistics](/server/enhancements/server-stats): per-library content counts for any user, and an admin server snapshot with task and process state
 - [Update check](/server/enhancements/update-check): periodic check for new releases, surfaced in the admin UI and `/api/v1/update-check`
-- [SSE recovery](/server/enhancements/sse-recovery): bounded event replay when complete, without adding a custom recovery event
+- [SSE recovery](/server/enhancements/sse-recovery): after a reconnect, missed events are replayed when the server still holds all of them
 
 ## Behavior differences
 
-Intentional differences from the Java behavior:
+Intentional differences from the Java behavior. Where a setting can restore the Java behavior, the entry names it.
+
+### Security and authentication
 
 - `/actuator/shutdown` is not implemented: the Java version lets anyone who can reach the port shut the server down anonymously (`management.endpoint.shutdown.access: unrestricted`). kmrs has no HTTP shutdown endpoint at all.
-- Book and series file deletion stays asynchronous: requests return 202 after queueing, and completion is reported to admins through `FileDeletionCompleted` SSE with the underlying error. The server stats snapshot retains the latest failure per task type for the current process; Java leaves failures in the server log.
-- File deletion is idempotent: paths that are already missing count as completed, and the remaining cleanup and soft-delete still run, so retries after partial failures can finish. Actual filesystem results replace Java's `Files.isWritable` precheck, which has different semantics from deletion on Unix.
 - EPUB resources on `/api/v1/books/{bookId}/resource/{path}` (and the OPDS v2 mirror) require authentication for every file type, and the requester must pass the book's content-restriction check; anonymous requests get the same bare 401 as the rest of the API. Java permits anonymous access to font files declared in the OPF, bypassing both.
 - `/api/v1/fonts/**` requires authentication. Java serves `/api/v1/fonts/resource/**` anonymously: font files of any known family are downloadable without credentials, and family names are enumerable via 200/404 probing.
-- Book/series thumbnails: `If-None-Match` answered from a deep ETag (blob rows: row id + size; file-backed rows: mtime + size) instead of hashing the body; `thumbnails.deep-etag = false` restores Java behavior.
-- Regenerating a book thumbnail reuses the stored generated thumbnail when its longest edge is at least the configured size, downscaling it instead of reopening the book file (never upscaled; any miss — no stored thumbnail, unknown dimension, stale or unreadable bytes — falls back to source extraction). Only user-initiated regenerations take the shortcut, so a replaced book file still gets its new cover from the file; Java always re-reads the file, and byte output can differ for these thumbnails, same class of deviation as the JPEG encoder.
+- The KOReader sync endpoints (`/koreader/**`) also accept the REST `X-API-Key` header; Java accepts only the KOReader `X-Auth-User`/`X-Auth-Key` pair there.
+- Successful API-key authentications record at most one authentication-activity row per key per hour; Java records one per request, which floods the login-activity view for clients that send their key on every request. Failed authentications are still recorded per request.
+
+### API, sessions, and settings
+
+- HTTP sessions persist across restarts by default: `jdbc-session-enabled` defaults to `true`, storing sessions in `sessions.sqlite`; Java only enables this in its Docker profile, other runs keep sessions in memory. Set it to `false` to restore Java behavior.
+- `GET /actuator/sessions` without `?username=` lists all sessions (Java rejects it).
+- Server port, context path, and the kepubify path are configuration-only. The Java version also honors database overrides set from the settings UI (applied on restart); kmrs never reads them — `PATCH /api/v1/settings` silently ignores the three fields, the admin settings UI does not offer them, and stale values left in a Java-era database have no effect.
+- The `koboPort` setting is removed. Java rewrites the port in Kobo download URLs for direct connections whose Host header lacks one (a Kobo firmware quirk); kmrs builds the URLs from the request's Host as-is and expects Kobo sync behind a reverse proxy, which supplies the right host and port itself. `PATCH /api/v1/settings` silently ignores the field and the admin settings UI no longer offers it.
+- `/api/v1/books/{bookId}/next` and `/previous` break `numberSort` ties by book id; Java's tie-handling is unstable — see [Next/previous navigation](/server/enhancements/next-previous).
+
+### Scanning and files
+
+- Book and series file deletion stays asynchronous: requests return 202 after queueing, and completion is reported to admins through `FileDeletionCompleted` SSE with the underlying error. The server stats snapshot retains the latest failure per task type for the current process; Java leaves failures in the server log.
+- File deletion is idempotent: paths that are already missing count as completed, and the remaining cleanup and soft-delete still run, so retries after partial failures can finish. Actual filesystem results replace Java's `Files.isWritable` precheck, which has different semantics from deletion on Unix.
+- Hash-based trash restore keeps customized titles: when a moved book or series matches a trashed entry by file hash, a title/titleSort that differs from the old file/directory name (or is locked) is restored with the rest of the metadata; a value that still echoes the old name follows the new one. Java restores locked fields only, losing an unlocked custom title.
 - Page order and series book numbering are case-sensitive (Java: case-insensitive).
 - Analysis error comments name the cause: `media.comment` for `ERR_1005`/`ERR_1008` appends the underlying error (e.g. `ERR_1008: could not open zip archive: ...`), so clients show the actual reason instead of a bare "unknown error"; Java stores the bare code.
-- `GET /actuator/sessions` without `?username=` lists all sessions (Java rejects it).
-- `/api/v1/books/{bookId}/next` and `/previous` break `numberSort` ties by book id; Java's tie-handling is unstable — see [Next/previous navigation](/server/enhancements/next-previous).
+- EPUB files present in the container but undeclared in the OPF `<manifest>` (common in repacked light-novel EPUBs) are served on `/api/v1/books/{bookId}/resource/{path}`: the path is normalized as at analysis time (`..` escaping the archive root is rejected) and the Content-Type is guessed from the extension. The generated Readium manifest still reflects only the parsed OPF. Java 404s such entries, leaving broken images in the reader.
+
+### Thumbnails and covers
+
+- Book/series thumbnails: `If-None-Match` answered from a deep ETag (blob rows: row id + size; file-backed rows: mtime + size) instead of hashing the body; `thumbnails.deep-etag = false` restores Java behavior.
+- Regenerating a book thumbnail reuses the stored generated thumbnail when its longest edge is at least the configured size, downscaling it instead of reopening the book file (never upscaled; any miss — no stored thumbnail, unknown dimension, stale or unreadable bytes — falls back to source extraction). Only user-initiated regenerations take the shortcut, so a replaced book file still gets its new cover from the file; Java always re-reads the file, and byte output can differ for these thumbnails, same class of deviation as the JPEG encoder.
+- Collection/read list covers: adaptive collage of up to 4 member covers (1 full, 2/3 mirrored across the 2×2 diagonal, 4 = 2×2) on a blurred, dimmed blowup of the first cover (neutral gray when no cover is available); Java renders a fixed 2×2 grid on black, cycling members.
+
+### Performance and storage
+
 - Memory is bounded regardless of CPU cores: 16 MiB SQLite page-cache budget per database (`cache_size` pragma overrides), and `malloc` arenas capped at 2 on Linux/glibc (`MALLOC_ARENA_MAX` overrides; `1` saves more on tiny boxes but serializes C-side allocation).
 - `synchronous` defaults to `NORMAL` in WAL mode (Java: SQLite's `FULL`): commits no longer fsync, so write bursts (komf full-library match, scans) don't saturate the disk; a power loss can roll back the last committed transactions but cannot corrupt the database. `[database.pragmas] synchronous = "FULL"` restores Java behavior.
 - The WAL file is capped at 64 MiB in WAL mode (`journal_size_limit` pragma; Java: uncapped): SQLite's autocheckpoint rewinds the write position but never shrinks the file, so without a cap it sits at the high-water mark of the largest past write burst. `[database.pragmas] journal_size_limit = "-1"` restores Java behavior.
 - SQL statements that run 500 ms or longer are logged at WARN with their text (log target `komga_db::slow_query`); lock waits count toward the time, so lock-starved writers show up too. The Java version has no slow-query log.
-- Collection/read list covers: adaptive collage of up to 4 member covers (1 full, 2/3 mirrored across the 2×2 diagonal, 4 = 2×2) on a blurred, dimmed blowup of the first cover (neutral gray when no cover is available); Java renders a fixed 2×2 grid on black, cycling members.
 - `task_pool_size` defaults to 2 (Java: 1): with a single worker, one long task — most notably a search index rebuild — blocks every scan/analyze/hash task behind it; two workers parallelize across series while same-series tasks stay mutually exclusive at the SQL level. Set it back to 1 in the server settings to restore Java behavior.
-- Hash-based trash restore keeps customized titles: when a moved book or series matches a trashed entry by file hash, a title/titleSort that differs from the old file/directory name (or is locked) is restored with the rest of the metadata; a value that still echoes the old name follows the new one. Java restores locked fields only, losing an unlocked custom title.
-- HTTP sessions persist across restarts by default: `jdbc-session-enabled` defaults to `true`, storing sessions in `sessions.sqlite`; Java only enables this in its Docker profile, other runs keep sessions in memory. Set it to `false` to restore Java behavior.
-- The KOReader sync endpoints (`/koreader/**`) also accept the REST `X-API-Key` header; Java accepts only the KOReader `X-Auth-User`/`X-Auth-Key` pair there.
-- Successful API-key authentications record at most one authentication-activity row per key per hour; Java records one per request, which floods the login-activity view for clients that send their key on every request. Failed authentications are still recorded per request.
 - Page serving caches open container handles behind small LRU bounds keyed by path + size + mtime: PDF documents (4 entries), ZIP/EPUB archives (16), and RAR read positions (2 per thread). Flipping pages no longer re-parses the container per request, and on solid RAR archives each page is decompressed once instead of re-decompressing from the start; a replaced file is detected by its changed key and reopened. The RAR cache is Unix-only because unrar opens archives without delete sharing — on Windows a cached handle would block deleting the book. Java opens and closes the container on every request.
-- Server port, context path, and the kepubify path are configuration-only. The Java version also honors database overrides set from the settings UI (applied on restart); kmrs never reads them — `PATCH /api/v1/settings` silently ignores the three fields, the admin settings UI does not offer them, and stale values left in a Java-era database have no effect.
-- The `koboPort` setting is removed. Java rewrites the port in Kobo download URLs for direct connections whose Host header lacks one (a Kobo firmware quirk); kmrs builds the URLs from the request's Host as-is and expects Kobo sync behind a reverse proxy, which supplies the right host and port itself. `PATCH /api/v1/settings` silently ignores the field and the admin settings UI no longer offers it.
-- EPUB files present in the container but undeclared in the OPF `<manifest>` (common in repacked light-novel EPUBs) are served on `/api/v1/books/{bookId}/resource/{path}`: the path is normalized as at analysis time (`..` escaping the archive root is rejected) and the Content-Type is guessed from the extension. The generated Readium manifest still reflects only the parsed OPF. Java 404s such entries, leaving broken images in the reader.

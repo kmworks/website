@@ -10,7 +10,7 @@ export const prerender = true;
 const blocks = [
   {
     title: "Server",
-    body: "KMServer is a full-featured Komga drop-in replacement with additional capabilities, distributed as a single static Rust binary (kmrs) with no JVM and a small memory footprint. It scans your library directories in place and serves everything over HTTP on port 25600. The kmweb UI is embedded in the binary, so the browser interface works out of the box. Bounded memory and container caches keep resource use predictable and page serving efficient.",
+    body: "KMServer is a full-featured Komga drop-in replacement with additional capabilities, distributed as a single self-contained Rust binary (kmrs) with no JVM and a small memory footprint. It scans your library directories in place and serves everything over HTTP on port 25600. The kmweb UI is embedded in the binary, so the browser interface works out of the box. Bounded memory and container caches keep resource use predictable and page serving efficient.",
     icon: "ph:hard-drives",
   },
   {
@@ -20,7 +20,7 @@ const blocks = [
   },
   {
     title: "Database",
-    body: "SQLite: database.sqlite and tasks.sqlite in the config directory. Existing komga databases are upgraded in place with byte-for-byte Flyway migrations, and the Java version can still open the result.",
+    body: "SQLite: database.sqlite and tasks.sqlite in the config directory. Existing Komga databases are upgraded in place with byte-for-byte Flyway migrations, and the Java version can still open the result.",
     icon: "ph:database",
   },
   {

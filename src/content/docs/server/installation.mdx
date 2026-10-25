@@ -4,7 +4,7 @@ sidebar:
   order: 1
 ---
 
-Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`) and prebuilt binaries for Linux, macOS, and Windows (x86_64 and aarch64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
+Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`) and prebuilt binaries for Linux (x86_64, aarch64), macOS (Apple silicon, Intel), and Windows (x86_64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
 
 Want to look around first? The [demo](https://demo.kmworks.date) runs the latest image; find the shared sign-in account on the [Introduction](/server/intro#demo) page.
 
@@ -13,7 +13,7 @@ Want to look around first? The [demo](https://demo.kmworks.date) runs the latest
 
 ```sh
 docker run -d \
-  --name=komga \
+  --name=kmrs \
   --user 1000:1000 \
   -p 25600:25600 \
   --mount type=bind,source=/path/to/config,target=/config \
@@ -22,7 +22,7 @@ docker run -d \
   ghcr.io/kmworks/kmrs
 ```
 
-An existing komga `/config` directory (with `database.sqlite` / `tasks.sqlite`) is picked up and upgraded in place.
+An existing Komga `/config` directory (with `database.sqlite` / `tasks.sqlite`) is picked up and upgraded in place.
 
 The kmweb UI is embedded in the binary and served at `/`, so `http://<host>:25600/` works in a browser immediately.
 
@@ -70,20 +70,30 @@ services:
     restart: unless-stopped
 ```
 
-komf's port is deliberately not published: its API has no authentication, and only kmrs needs to reach it. Once the stack is up, open the integrations page in the admin UI (or call `PUT /api/v1/komf/integration` with the same two URLs) and confirm — kmrs mints an API key and provisions komf itself; komf then calls back in Komga mode and starts matching metadata.
+komf's port is deliberately not published: unless you set komf-rs's `KOMF_AUTH_KEY`, its API has no authentication, and only kmrs needs to reach it (see [komf integration](/server/enhancements/komf)). Once the stack is up, open the integrations page in the admin UI (or call `PUT /api/v1/komf/integration` with the same two URLs) and confirm — kmrs mints an API key and provisions komf itself; komf then calls back in Komga mode and starts matching metadata.
 
   </TabItem>
   <TabItem label="Binary">
 
-Download the archive for your platform from the [latest release](https://github.com/kmworks/kmrs/releases/latest) (Linux, macOS, Windows; x86_64 and aarch64).
+Download the archive for your platform from the [latest release](https://github.com/kmworks/kmrs/releases/latest) (Linux x86_64/aarch64, macOS Apple silicon/Intel, Windows x86_64).
 
-The binary serves on port 25600 with data directory `~/.komga` (override with `KOMGA_CONFIG_DIR`):
+The binary serves on port 25600 and keeps its configuration and databases in `~/.komga` (override with `--config-dir` or `KOMGA_CONFIG_DIR`):
 
 ```sh
 ./kmrs   # serves on http://localhost:25600
 ```
 
-On Windows, `kmrs.exe` opens no console window: the server lives in the notification area (system tray), whose icon carries the Open KMReader / Open configuration directory / Open logs folder / Start with Windows / Exit menu — left-clicking the icon opens the web UI. Start with Windows is off by default; tick it to launch kmrs at logon. The very first start also opens the web UI in the default browser, where the initial admin account is claimed. A fatal startup error (say, the port is taken) surfaces in a dialog. Started from a terminal it prints startup output there, then detaches once it is serving, so closing the terminal does not stop the server.
+:::note
+PDF support needs libpdfium at runtime, which the release archives do not include. Download the library for your platform (for example from [pdfium-binaries](https://github.com/bblanchon/pdfium-binaries)) and put it next to the executable, or point `KOMGA_PDFIUM_PATH` at it. Without it, CBZ, CBR, and EPUB still work, but PDF books are reported as unsupported. The Docker image already includes libpdfium.
+:::
+
+On Windows, `kmrs.exe` runs without a console window and lives in the notification area (system tray):
+
+- Left-click the tray icon, or choose **Open KMReader** from its menu, to open the web UI. The menu also has Open configuration directory, Open logs folder, Start with Windows, and Exit.
+- **Start with Windows** is off by default; tick it to launch kmrs at logon.
+- The first start opens the web UI in your default browser so you can create the initial admin account.
+- A fatal startup error, such as the port already being in use, is shown in a dialog.
+- Started from a terminal, kmrs prints its startup output there and then detaches, so closing the terminal does not stop the server.
 
   </TabItem>
   <TabItem label="Source">

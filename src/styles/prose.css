@@ -144,6 +144,9 @@
   padding: 0.125rem 0.375rem;
   font-size: 0.8125em;
   font-weight: 450;
+  /* A long path that wraps keeps its chip border and padding on every line. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .docs-content :where(code:not([class])):not(:where(pre *))::before,
@@ -237,7 +240,8 @@
 .docs-content :where(a:not([class])) {
   color: var(--nb-foreground);
   text-decoration-line: underline;
-  text-decoration-color: var(--nb-border-strong);
+  /* kmworks accent, toned down so dense reference pages stay calm. */
+  text-decoration-color: color-mix(in oklab, var(--km-accent) 55%, transparent);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   font-weight: 500;
@@ -245,7 +249,8 @@
 }
 
 .docs-content :where(a:not([class]):hover) {
-  text-decoration-color: var(--nb-foreground);
+  color: var(--km-accent-text);
+  text-decoration-color: currentColor;
 }
 
 /* ---- Long-tail prose vocabulary ----

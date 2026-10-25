@@ -13,16 +13,18 @@ const appStoreUrl = "https://apps.apple.com/app/id6755198424";
 // browser interface; "Generic OPDS client" is intentionally a range, since
 // OPDS readers differ.
 const rows: { cap: string; kmreader: string; webui: string; opds: string }[] = [
-  { cap: "Native iPhone", kmreader: "yes", webui: "Browser", opds: "varies" },
-  { cap: "Native iPad", kmreader: "yes", webui: "Browser", opds: "varies" },
-  { cap: "Native macOS", kmreader: "yes", webui: "Browser", opds: "varies" },
-  { cap: "Apple TV", kmreader: "yes", webui: "No", opds: "varies" },
-  { cap: "Offline downloads", kmreader: "yes", webui: "No", opds: "varies" },
-  { cap: "EPUB", kmreader: "yes", webui: "yes", opds: "varies" },
-  { cap: "PDF", kmreader: "yes", webui: "yes", opds: "varies" },
-  { cap: "Multiple servers", kmreader: "yes", webui: "No", opds: "varies" },
-  { cap: "Widgets", kmreader: "yes", webui: "No", opds: "No" },
-  { cap: "Spotlight", kmreader: "yes", webui: "No", opds: "No" },
+  { cap: "Nothing to install", kmreader: "App Store", webui: "yes", opds: "Varies" },
+  { cap: "Windows, Linux, Android", kmreader: "No", webui: "yes", opds: "Varies" },
+  { cap: "Native iPhone and iPad app", kmreader: "yes", webui: "Browser", opds: "Varies" },
+  { cap: "Native Mac app", kmreader: "yes", webui: "Browser", opds: "Varies" },
+  { cap: "Apple TV", kmreader: "yes", webui: "No", opds: "Varies" },
+  { cap: "Comics and manga", kmreader: "yes", webui: "yes", opds: "Varies" },
+  { cap: "EPUB", kmreader: "yes", webui: "yes", opds: "Varies" },
+  { cap: "PDF", kmreader: "yes", webui: "yes", opds: "Varies" },
+  { cap: "Offline downloads", kmreader: "yes", webui: "No", opds: "Varies" },
+  { cap: "Multiple servers", kmreader: "yes", webui: "No", opds: "Varies" },
+  { cap: "Full server administration", kmreader: "Partial", webui: "yes", opds: "No" },
+  { cap: "Widgets and Spotlight", kmreader: "yes", webui: "No", opds: "No" },
 ];
 ---
 
@@ -49,44 +51,32 @@ const rows: { cap: string; kmreader: string; webui: string; opds: string }[] = [
                   <th scope="col">Capability</th>
                   <th scope="col">KMReader</th>
                   <th scope="col">Web UI</th>
-                  <th scope="col">Generic OPDS client</th>
+                  <th scope="col">OPDS app</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((r) => (
                   <tr>
-                    <td>{r.cap}</td>
-                    <td>
-                      {r.kmreader === "yes" ? (
-                        <span class="yes">✓</span>
-                      ) : (
-                        <span class="no">{r.kmreader}</span>
-                      )}
-                    </td>
-                    <td>
-                      {r.webui === "yes" ? (
-                        <span class="yes">✓</span>
-                      ) : (
-                        <span class="no">{r.webui}</span>
-                      )}
-                    </td>
-                    <td>
-                      {r.opds === "yes" ? (
-                        <span class="yes">✓</span>
-                      ) : (
-                        <span class="varies">{r.opds}</span>
-                      )}
-                    </td>
+                    <th scope="row">{r.cap}</th>
+                    {[r.kmreader, r.webui, r.opds].map((v) => (
+                      <td>
+                        {v === "yes" ? (
+                          <span class="yes" aria-label="Yes">✓</span>
+                        ) : (
+                          <span class="no">{v}</span>
+                        )}
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <p class="techNote">
-            Capabilities of the current KMReader release. "Generic OPDS client"
-            is a range on purpose: OPDS readers differ widely, check yours for
-            specifics. The Web UI row describes the embedded kmweb interface and
-            the komga web UI, which share the same browser constraints.
+            Capabilities of the current KMReader release. "OPDS app" means any
+            generic OPDS reader; they differ widely, so check yours for
+            specifics. The Web UI column describes the embedded kmweb interface
+            and the Komga web UI, which share the same browser constraints.
           </p>
           <div class="ctaRow" style="margin-top: 2.4rem;">
             <a class="btnPrimary" href={appStoreUrl} target="_blank" rel="noopener">

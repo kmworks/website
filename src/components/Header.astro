@@ -27,6 +27,13 @@ const { collection, showSidebar = true, sections: sectionsProp } = Astro.props;
 const currentSlug = stripBase(Astro.url.pathname, import.meta.env.BASE_URL).replace(/\/$/, "") || "/";
 
 const appStoreUrl = "https://apps.apple.com/app/id6755198424";
+const releasesUrl = "https://github.com/kmworks/kmrs/releases/latest";
+// The call to action follows the product being read about: KMServer pages
+// offer the server download, everything else the App Store.
+const onServerPages = currentSlug === "/server" || currentSlug.startsWith("/server/");
+const cta = onServerPages
+  ? { label: "Download KMServer", href: releasesUrl }
+  : { label: "Get KMReader", href: appStoreUrl };
 const discordUrl = "https://discord.gg/WQtE6VhjpP";
 
 // Product nav. Docs pages keep the section tab strip derived from the
@@ -143,12 +150,12 @@ const resolveSectionHref = (href: string): string =>
       </LinkButton>
       <ThemeToggle />
       <a
-        href={appStoreUrl}
+        href={cta.href}
         target="_blank"
         rel="noopener"
-        class="hidden md:inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-primary text-primary-foreground text-[0.8125rem] font-semibold no-underline hover:opacity-90 transition-opacity whitespace-nowrap"
+        class="hidden md:inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-[var(--km-cta-bg)] text-[var(--km-cta-fg)] text-[0.8125rem] font-semibold no-underline hover:opacity-90 transition-opacity whitespace-nowrap"
       >
-        Get KMReader
+        {cta.label}
       </a>
       {showSidebar && collection && (
         <Button
@@ -185,12 +192,12 @@ const resolveSectionHref = (href: string): string =>
         </a>
       ))}
       <a
-        href={appStoreUrl}
+        href={cta.href}
         target="_blank"
         rel="noopener"
-        class="mt-1 inline-flex items-center justify-center h-9 px-4 rounded-full bg-primary text-primary-foreground text-sm font-semibold no-underline"
+        class="mt-1 inline-flex items-center justify-center h-9 px-4 rounded-full bg-[var(--km-cta-bg)] text-[var(--km-cta-fg)] text-sm font-semibold no-underline"
       >
-        Get KMReader
+        {cta.label}
       </a>
     </nav>
   </div>

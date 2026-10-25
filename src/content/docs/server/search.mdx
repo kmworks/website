@@ -1,17 +1,16 @@
 ---
-title: "Search in kmrs"
+title: "Search"
 sidebar:
-  order: 4
-  label: "Search"
+  order: 5
 ---
 
-kmrs ports komga's Lucene search to [tantivy](https://github.com/quickwit-oss/tantivy): the multilingual analyzer chain behaves like the Java version, while the query syntax is deliberately smaller (see below). This document describes the query syntax, the analyzer chain, and the recall extensions kmrs adds on top.
+kmrs ports Komga's Lucene search to [tantivy](https://github.com/quickwit-oss/tantivy): the multilingual analyzer chain behaves like the Java version, while the query syntax is deliberately smaller (see below). This page describes the query syntax, the analyzer chain, and the recall extensions kmrs adds on top.
 
 ## Query syntax
 
 A query is whitespace-separated terms, all of which must match (AND). Outside `field:` scoping, everything is literal text: `~`, `*`, `^`, quotes and parens carry no operator meaning, so pasting a title from anywhere can never produce a query error or an empty result because of a stray character.
 
-The only operator is field scoping, like komga:
+The only operator is field scoping, like Komga:
 
 - `field:term` — `status:ongoing`, `publisher:vertigo`
 - `field:(a b)` — terms ANDed under the field: `author:(sean murphy)`
@@ -20,11 +19,11 @@ The only operator is field scoping, like komga:
 
 A term that analyzes to zero tokens (pure punctuation, decorative symbols like `▪ ◆ ★`) is silently dropped from the query instead of failing it.
 
-The fields are the ones komga documents: `title`, `isbn`, `name` (collections and readlists), `author` (any role), `writer`, `penciller`, `inker`, `colorist`, `letterer`, `cover`, `editor`, `translator`, `publisher`, `status`, `reading_direction`, `age_rating`, `language`, `tag`, `series_tag`, `book_tag`, `genre`, `sharing_label`, `total_book_count`, `book_count`, `release_date`, `deleted`, `oneshot`, `complete`. Without a field, terms match the series or book title (plus the ISBN for books) and the collection or readlist name.
+The fields are the ones Komga documents: `title`, `isbn`, `name` (collections and readlists), `author` (any role), `writer`, `penciller`, `inker`, `colorist`, `letterer`, `cover`, `editor`, `translator`, `publisher`, `status`, `reading_direction`, `age_rating`, `language`, `tag`, `series_tag`, `book_tag`, `genre`, `sharing_label`, `total_book_count`, `book_count`, `release_date`, `deleted`, `oneshot`, `complete`. Without a field, terms match the series or book title (plus the ISBN for books) and the collection or readlist name.
 
 ## The analyzer chain
 
-Both the index side and the query side share one pipeline (komga's `MultiLingualAnalyzer`); the index side appends an n-gram filter (komga's `MultiLingualNGramAnalyzer`, minGram 3, maxGram 10, preserveOriginal), which is what makes substring matching work:
+Both the index side and the query side share one pipeline (Komga's `MultiLingualAnalyzer`); the index side appends an n-gram filter (Komga's `MultiLingualNGramAnalyzer`, minGram 3, maxGram 10, preserveOriginal), which is what makes substring matching work:
 
 1. **t2s** — traditional → simplified Chinese conversion (kmrs extension, see below)
 2. **standard tokenize** — UAX#29 word segmentation: Han/Hiragana characters one per token, katakana runs stay together, Latin/digit runs
@@ -41,7 +40,7 @@ These change recall only: the index format is versioned (see below), and nothing
 
 Java's `CJKBigramFilter` indexes a CJK run as sliding bigrams plus a trailing unigram, so a character that only appears mid-run has no index entry of its own.
 
-That breaks ANDed queries: komga's `defaultOperator = AND` requires every analyzed token to resolve, and the query's trailing unigram resolves nowhere when that character sits mid-run. `可爱` analyzes to `+可爱 +爱`, but 爱 exists in the Java index only inside the bigrams 可爱/爱对 — so `可爱` cannot match `我的可愛對黑岩目高不管用`. Only substrings aligned with a run boundary match at all.
+That breaks ANDed queries: Komga's `defaultOperator = AND` requires every analyzed token to resolve, and the query's trailing unigram resolves nowhere when that character sits mid-run. `可爱` analyzes to `+可爱 +爱`, but 爱 exists in the Java index only inside the bigrams 可爱/爱对 — so `可爱` cannot match `我的可愛對黑岩目高不管用`. Only substrings aligned with a run boundary match at all.
 
 kmrs indexes every CJK character as a unigram (Lucene's `outputUnigrams` mode), so every query-side token resolves: `可爱` and `我的` match mid-run, `3月` matches `3月的狮子`, and single-character queries like `王` work anywhere in a run.
 
@@ -84,5 +83,5 @@ Files that do not belong to a search index are never deleted, so pointing kmrs a
 
 ## Known deviations from the Java version
 
-- The query syntax is deliberately smaller than Lucene's (see [Query syntax](#query-syntax)): boolean operators (`AND`/`OR`/`NOT`, `&&`/`||`/`!`, `+`/`-`), fuzzy (`~`), wildcards, phrases, boosts (`^`) and ranges (`[a TO b]`) are literal text, not operators — with the one exception of `OR`/`AND` inside a `field:(…)` group. A query komga would interpret (`batman NOT publisher:dc`, `release_date:[1990 TO 2000]`) is searched as plain terms instead.
+- The query syntax is deliberately smaller than Lucene's (see [Query syntax](#query-syntax)): boolean operators (`AND`/`OR`/`NOT`, `&&`/`||`/`!`, `+`/`-`), fuzzy (`~`), wildcards, phrases, boosts (`^`) and ranges (`[a TO b]`) are literal text, not operators — with the one exception of `OR`/`AND` inside a `field:(…)` group. A query Komga would interpret (`batman NOT publisher:dc`, `release_date:[1990 TO 2000]`) is searched as plain terms instead.
 - `komga.lucene.index-analyzer.*` and `komga.lucene.commit-delay` are ignored; the analyzer is fixed to the chain described above.

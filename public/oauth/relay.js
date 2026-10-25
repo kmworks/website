@@ -49,10 +49,13 @@ export function buildRelayTarget(url) {
   if (target.username || target.password || target.search || target.hash) {
     throw new Error("The authorization return address contains unsupported parts.");
   }
-  const targetPath = new RegExp(
+  const legacyTargetPath = new RegExp(
     `^/(?:[A-Za-z0-9_-]+/)*api/oauth/${provider}/callback$`,
   );
-  if (!targetPath.test(target.pathname)) {
+  const nativeTargetPath = new RegExp(
+    `^/(?:[A-Za-z0-9_-]+/)*api/v1/trackers/oauth/${provider}/callback$`,
+  );
+  if (!legacyTargetPath.test(target.pathname) && !nativeTargetPath.test(target.pathname)) {
     throw new Error("The authorization return address does not match this provider.");
   }
 

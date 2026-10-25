@@ -1,0 +1,31 @@
+---
+title: "Reading trackers"
+---
+
+KMServer can sync reading progress to AniList, MyAnimeList, Bangumi, and MangaBaka.
+
+## Accounts and series links
+
+Open **Trackers** from the account menu and sign in to each platform you want to use. OAuth sign-in is scoped to the current KMServer user, so every user can connect their own platform accounts. Authorization codes return through the kmworks.date callback relay, while tokens are exchanged and stored by your own KMServer instance in `kmrs.sqlite`.
+
+Link a series from its detail page. Each user can link one platform entry per provider and choose how progress is interpreted:
+
+- **Auto** detects chapter or volume tracking from the book names in the series.
+- **Chapter** and **Volume** select an explicit progress field.
+- **Chapter offset** shifts the pushed chapter number without changing volume progress.
+
+You can also edit the remote status, score, chapter, and volume manually from the linked entry.
+
+## Synchronization behavior
+
+Completing a book triggers an update for that user's linked series. KMServer reads the whole series' completed set and only advances the remote value; marking a book unread or deleting progress never moves the platform value backward.
+
+Finishing the last known chapter or volume can complete the remote entry. Starting a new entry sets its reading date, and advancing an already completed entry can switch it to rereading when the platform supports that state.
+
+Synchronization is one-way: platform progress is not pulled back into KMServer. Failed updates do not interrupt reading, and there is no persistent retry queue or scheduled full reconciliation.
+
+## Upgrading tracker support
+
+Series links, tracking modes, offsets, and preferences are preserved. Platform OAuth tokens are not copied from the previous external service, so each user must sign in once again on the **Trackers** page after upgrading.
+
+Official release binaries include the shared OAuth client configuration. If you build KMServer yourself and need platform sign-in, see [Development](/server/development#tracker-oauth-secrets).

@@ -127,6 +127,10 @@ End with `Summary: N errors, N warnings.`
 - Remove `<AgentDirective />` unless asked.
 - Edit `src/components.ts` to bypass registration — if a component is used in `.mdx`, register it.
 
+## Merging PRs
+
+- Squash-merge with a hand-written commit message (title and body), never the default message, and without `Co-Authored-By` trailers.
+
 ## Project home
 
 [nimbus-docs.com](https://nimbus-docs.com)

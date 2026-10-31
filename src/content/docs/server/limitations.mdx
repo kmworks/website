@@ -14,7 +14,8 @@ These are excluded on purpose rather than gaps:
 
 ## Media formats
 
-- No HEIF / HEIC / AVIF decoding: those types are sniffed but excluded from the readable image types, so converting or resizing those pages fails the same way as for any unsupported image format. The Java version decodes them via ImageIO/NightMonkeys and libheif.
+- HEIF / HEIC decoding covers HEVC still images. Image sequences and other HEIF payloads are not decoded: those pages are still served as-is, but they report no dimensions, and converting or resizing them fails. The Java version decodes them via ImageIO/NightMonkeys and libheif.
+- AVIF decoding covers single-image files. Grid-based and animated files are not decoded, with the same result as above. Container rotation and mirroring are not applied, so thumbnails and reported dimensions of those pages use the coded orientation; the original page still displays correctly in clients. The container's color information and ICC profiles are ignored, so such pages can show slightly different colors in thumbnails and converted output.
 - PDF support requires a runtime libpdfium, looked up in `KOMGA_PDFIUM_PATH`, next to the executable, then system paths; when unavailable, every PDF operation returns `Unsupported`. The Java version bundles PDFBox. The Docker image ships libpdfium next to the binary; for the release archives, see [Installation](/server/installation).
 - JPEG output is not byte-identical to ImageIO (different encoder), an accepted deviation that affects byte-level comparisons of thumbnails and page hashes.
 

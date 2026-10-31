@@ -14,7 +14,7 @@ cargo xtask dump-checksums         # print Flyway CRC32 for all migrations
 
 `sync-migrations` looks for a `komga` source checkout next to this repo by default; `KOMGA_REPO_DIR` can be used to point elsewhere. The checkout should be at the compatibility target (`1.29.2`).
 
-Building requires libheif, found through `pkg-config`: `brew install libheif` on macOS, `apt install libheif-dev` on Debian and Ubuntu. Release builds link the static libraries from [kmworks/libheif-static](https://github.com/kmworks/libheif-static) instead.
+The first build downloads prebuilt static libheif, libde265 and dav1d from [kmworks/libheif-static](https://github.com/kmworks/libheif-static). To build offline, extract the archive for your target and set `LIBHEIF_STATIC_DIR` to it.
 
 ## Tracker OAuth secrets
 

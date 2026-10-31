@@ -14,7 +14,7 @@ These are excluded on purpose rather than gaps:
 
 ## Media formats
 
-- HEIF, HEIC and AVIF pages are decoded by pure Rust libraries rather than libheif. Everyday files work normally. Rare variants, such as image sequences and grid-based or animated AVIF, are still served as-is but get no thumbnail or conversion, and rotated AVIF files can get a thumbnail in the wrong orientation.
+- HEIF, HEIC and AVIF pages are decoded by libheif, as in the Java version, but only its HEVC and AV1 decoders are built in. Rare files with other payloads, such as AVC or JPEG, are still served as-is but get no thumbnail or conversion.
 - PDF support requires a runtime libpdfium, looked up in `KOMGA_PDFIUM_PATH`, next to the executable, then system paths; when unavailable, every PDF operation returns `Unsupported`. The Java version bundles PDFBox. The Docker image ships libpdfium next to the binary; for the release archives, see [Installation](/server/installation).
 - JPEG output is not byte-identical to ImageIO (different encoder), an accepted deviation that affects byte-level comparisons of thumbnails and page hashes.
 

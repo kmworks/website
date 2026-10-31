@@ -14,6 +14,8 @@ cargo xtask dump-checksums         # print Flyway CRC32 for all migrations
 
 `sync-migrations` looks for a `komga` source checkout next to this repo by default; `KOMGA_REPO_DIR` can be used to point elsewhere. The checkout should be at the compatibility target (`1.29.2`).
 
+Building requires libheif, found through `pkg-config`: `brew install libheif` on macOS, `apt install libheif-dev` on Debian and Ubuntu. Release builds link the static libraries from [kmworks/libheif-static](https://github.com/kmworks/libheif-static) instead.
+
 ## Tracker OAuth secrets
 
 Official release builds embed the shared tracker OAuth client IDs and secrets at compile time. A self-built binary needs each provider's client ID/secret pair when running `cargo build`; setting them only when starting KMServer has no effect. Client IDs are not secret, but they must belong to the same OAuth application as their paired secrets.

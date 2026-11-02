@@ -20,7 +20,7 @@ Then confirm `dist/` still serves every public route: `/`, `/server/`, `/reader/
 
 ## CI
 
-`.github/workflows/ci.yml` runs the verify chain above (`typecheck` → `nimbus-docs check` → `lint:docs` → `build`) on PRs and pushes to `main`. It does not deploy.
+`.github/workflows/ci.yml` runs the verify chain above (`typecheck` → `build` → `nimbus-docs check` → `lint:docs`) on PRs and pushes to `main`. It does not deploy.
 
 ## Deploy
 

@@ -4,7 +4,7 @@ sidebar:
   order: 1
 ---
 
-Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`) and prebuilt binaries for Linux (x86_64, aarch64), macOS (Apple silicon, Intel), and Windows (x86_64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
+Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`), a signed and notarized macOS app for Apple silicon, and prebuilt binaries for Linux (x86_64, aarch64) and Windows (x86_64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
 
 Want to look around first? The [demo](https://demo.kmworks.date) runs the latest image; find the shared sign-in account on the [Introduction](/server/intro#demo) page.
 
@@ -73,9 +73,20 @@ services:
 komf's port is deliberately not published: unless you set komf-rs's `KOMF_AUTH_KEY`, its API has no authentication, and only kmrs needs to reach it (see [komf integration](/server/enhancements/komf)). Once the stack is up, open the integrations page in the admin UI (or call `PUT /api/v1/komf/integration` with the same two URLs) and confirm — kmrs mints an API key and provisions komf itself; komf then calls back in Komga mode and starts matching metadata.
 
   </TabItem>
+  <TabItem label="macOS app">
+
+Download [KMServer_aarch64.dmg](https://github.com/kmworks/kmrs/releases/latest/download/KMServer_aarch64.dmg) (Apple silicon, macOS 13 or later), open it, and drag **KMServer.app** to Applications.
+
+Launch KMServer from Applications to start the server and show its menu bar icon. The menu opens the web UI, configuration directory, or logs folder, and quits the server.
+
+KMServer is signed with Developer ID and notarized by Apple. It serves on port 25600 and keeps its configuration and databases in `&#126;/.komga`, sharing them with the command-line binary.
+
+PDFium and its third-party license notices are included in the app, so PDF books work without a separate library installation.
+
+  </TabItem>
   <TabItem label="Binary">
 
-Download the archive for your platform from the [latest release](https://github.com/kmworks/kmrs/releases/latest) (Linux x86_64/aarch64, macOS Apple silicon, Windows x86_64).
+Download the archive for your platform from the [latest release](https://github.com/kmworks/kmrs/releases/latest) (Linux x86_64/aarch64, Windows x86_64). For a double-clickable macOS app, use the **macOS app** tab instead.
 
 The binary serves on port 25600 and keeps its configuration and databases in `~/.komga` (override with `--config-dir` or `KOMGA_CONFIG_DIR`):
 

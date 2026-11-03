@@ -88,14 +88,14 @@ PDFium and its third-party license notices are included in the app, so PDF books
 
 Download the archive for your platform from the [latest release](https://github.com/kmworks/kmrs/releases/latest) (Linux x86_64/aarch64, Windows x86_64). For a double-clickable macOS app, use the **macOS app** tab instead.
 
-The binary serves on port 25600 and keeps its configuration and databases in `~/.komga` (override with `--config-dir` or `KOMGA_CONFIG_DIR`):
+The binary serves on port 25600 and keeps its configuration and databases in `&#126;/.komga` (override with `--config-dir` or `KOMGA_CONFIG_DIR`):
 
 ```sh
 ./kmrs   # serves on http://localhost:25600
 ```
 
 :::note
-PDF support needs libpdfium at runtime, which the release archives do not include. Download the library for your platform (for example from [pdfium-binaries](https://github.com/bblanchon/pdfium-binaries)) and put it next to the executable, or point `KOMGA_PDFIUM_PATH` at it. Without it, CBZ, CBR, and EPUB still work, but PDF books are reported as unsupported. The Docker image already includes libpdfium.
+PDF support needs libpdfium at runtime. The Windows archive includes `pdfium.dll`; keep it next to `kmrs.exe` when extracting or moving the binary. On Linux, download the library for your platform (for example from [pdfium-binaries](https://github.com/bblanchon/pdfium-binaries)) and put it next to the executable, or point `KOMGA_PDFIUM_PATH` at it. Without it, CBZ, CBR, and EPUB still work, but PDF books are reported as unsupported. The Docker image already includes libpdfium.
 :::
 
 On Windows, `kmrs.exe` runs without a console window and lives in the notification area (system tray):

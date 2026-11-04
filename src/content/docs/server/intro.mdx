@@ -39,7 +39,7 @@ KMServer scans the same library file types as Komga. Each library can independen
 | ------ | ------- |
 | **CBZ / ZIP** | Image pages, `ComicInfo.xml` metadata, thumbnails, and page serving. |
 | **CBR / RAR** | RAR 4 and RAR 5 image archives, with the same metadata, thumbnail, and page-serving flow. |
-| **PDF** | Page analysis, thumbnails, and on-demand JPEG rendering through libpdfium. The Docker image and macOS app include libpdfium; other standalone installations must provide it at runtime. |
+| **PDF** | Page analysis, thumbnails, and on-demand JPEG rendering through libpdfium. The Docker image, macOS app, and Windows packages include libpdfium; Linux release archives must provide it at runtime. |
 | **EPUB** | OPF metadata, tables of contents, landmarks, reading positions, and resource serving. Compatible readers render reflowable and fixed-layout books; image-based EPUBs can also use DIVINA page reading. |
 
 Webtoon is a reading presentation, not a file format. For webtoons and long strips, choose Webtoon in a compatible reader; the book itself still uses one of the formats above.

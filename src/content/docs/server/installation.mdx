@@ -4,7 +4,7 @@ sidebar:
   order: 1
 ---
 
-Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`), a signed and notarized macOS app for Apple silicon, and prebuilt binaries for Linux (x86_64, aarch64) and Windows (x86_64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
+Every release publishes a Docker image to `ghcr.io/kmworks/kmrs` (tags: `latest`, `MAJOR.x`, `x.y.z`; platforms: `linux/amd64`, `linux/arm64`), a signed and notarized macOS app for Apple silicon, a per-user Windows installer, and prebuilt binaries for Linux (x86_64, aarch64) and Windows (x86_64). The [official Komga Docker instructions](https://komga.org/docs/installation/docker) apply verbatim; just swap the image name.
 
 Want to look around first? The [demo](https://demo.kmworks.date) runs the latest image; find the shared sign-in account on the [Introduction](/server/intro#demo) page.
 
@@ -77,11 +77,28 @@ komf's port is deliberately not published: unless you set komf-rs's `KOMF_AUTH_K
 
 Download [KMServer_aarch64.dmg](https://github.com/kmworks/kmrs/releases/latest/download/KMServer_aarch64.dmg) (Apple silicon, macOS 13 or later), open it, and drag **KMServer.app** to Applications.
 
-Launch KMServer from Applications to start the server and show its menu bar icon. The menu opens the web UI, configuration directory, or logs folder, and quits the server.
+Launch KMServer from Applications to start the server and show its menu bar icon. The menu opens the web UI, configuration directory, or logs folder, controls Open at Login, and quits the server.
 
 KMServer is signed with Developer ID and notarized by Apple. It serves on port 25600 and keeps its configuration and databases in `&#126;/.komga`, sharing them with the command-line binary.
 
 PDFium and its third-party license notices are included in the app, so PDF books work without a separate library installation.
+
+To update the installed app, choose **Check for Updates** in the menu bar, then confirm **Update and Restart**. KMServer verifies the download, replaces the app, and starts it again. If the new server does not start, the previous app is restored.
+
+Command-line, launchd, and Windows service deployments do not update themselves; upgrade them through the deployment method used to install them.
+
+  </TabItem>
+  <TabItem label="Windows">
+
+Download [KMServer_x64-setup.exe](https://github.com/kmworks/kmrs/releases/latest/download/KMServer_x64-setup.exe) and run it. The installer installs KMServer for the current user without administrator privileges and adds Start Menu shortcuts.
+
+KMServer runs in the notification area (system tray). Its menu opens the web UI, configuration directory, or logs folder, controls Start with Windows, and exits the server. The first start opens the web UI in your default browser so you can create the initial admin account.
+
+The server listens on port 25600 and stores its configuration and databases in `&#126;/.komga`, sharing them with the command-line binary. Open the configuration directory from the tray menu to find it.
+
+PDFium is included. To update an installed copy, choose **Check for Updates** in the tray menu, then confirm **Update and Restart**. The installer replaces the app and starts it again.
+
+The raw Windows zip remains available under **Binary** for command-line or service deployments.
 
   </TabItem>
   <TabItem label="Binary">

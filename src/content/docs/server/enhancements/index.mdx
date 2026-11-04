@@ -41,7 +41,6 @@ Intentional differences from the Java behavior. Where a setting can restore the 
 
 ### API, sessions, and settings
 
-- HTTP sessions persist across restarts by default: `jdbc-session-enabled` defaults to `true`, storing sessions in `sessions.sqlite`; Java only enables this in its Docker profile, other runs keep sessions in memory. Set it to `false` to restore Java behavior.
 - `GET /actuator/sessions` without `?username=` lists all sessions (Java rejects it).
 - Server port, context path, and the kepubify path are configuration-only. The Java version also honors database overrides set from the settings UI (applied on restart); kmrs never reads them — `PATCH /api/v1/settings` silently ignores the three fields, the admin settings UI does not offer them, and stale values left in a Java-era database have no effect.
 - The `koboPort` setting is removed. Java rewrites the port in Kobo download URLs for direct connections whose Host header lacks one (a Kobo firmware quirk); kmrs builds the URLs from the request's Host as-is and expects Kobo sync behind a reverse proxy, which supplies the right host and port itself. `PATCH /api/v1/settings` silently ignores the field and the admin settings UI no longer offers it.

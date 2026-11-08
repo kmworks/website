@@ -18,7 +18,7 @@ The setting is exposed as `recentReadingDays` on `/api/v1/settings` (`0` = off, 
 
 ## The `readDate` search condition
 
-Book searches accept a `readDate` condition, a kmrs addition to the search document listed as `readDateSearch` in the [`/api/v1/server/info` features](/server/enhancements/server-stats#server-state-and-control) (servers without it reject the search), with the same operators as `releaseDate`: `before`, `after`, `isInTheLast`, `isNotInTheLast`, `isNull` and `isNotNull`. It matches the requesting user's read date, the time they last read the book, so a book they never opened has none. Unlike `releaseDate`, which is matched by day, it compares the exact instant. Keep Reading with a 30-day window looks like this:
+Book searches accept a `readDate` condition, a kmrs addition to the search document, with the same operators as `releaseDate`: `before`, `after`, `isInTheLast`, `isNotInTheLast`, `isNull` and `isNotNull`. It matches the requesting user's read date, the time they last read the book, so a book they never opened has none. Unlike `releaseDate`, which is matched by day, it compares the exact instant. Keep Reading with a 30-day window looks like this:
 
 ```json
 {

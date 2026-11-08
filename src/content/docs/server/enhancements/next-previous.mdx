@@ -12,7 +12,7 @@ The server setting **Next book skips read books** (Settings → Reading, off by 
 
 When every later book is already read, the endpoint falls back to the plain next book, so re-reading a finished series or list still moves forward.
 
-The `previous` endpoints are not affected, and a `skipRead` query parameter is ignored: the setting alone decides. The setting is exposed as `skipReadOnNext` on `GET`/`PATCH /api/v1/settings` (admin only) and stored in `SERVER_SETTINGS` as `KMRS_NEXT_SKIP_READ`, a key the Java version ignores. Clients that pick the next book from their own book list rather than calling these endpoints are not affected.
+The `previous` endpoints are not affected, and a `skipRead` query parameter is ignored: the setting alone decides. The setting is exposed as `skipReadOnNext` on `/api/v1/settings`: every user can read it with `GET`, so clients can follow it offline, and only admins can change it with `PATCH`. It is stored in `SERVER_SETTINGS` as `KMRS_NEXT_SKIP_READ`, a key the Java version ignores. Clients that pick the next book from their own book list rather than calling these endpoints are not affected.
 
 ## numberSort ties
 

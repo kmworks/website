@@ -9,9 +9,26 @@ The server setting **Recent reading window** (Settings → Reading, off by defau
 ## Where it applies
 
 - **On Deck** is filtered by the server: `GET /api/v1/books/ondeck` only returns series whose most recent read date falls inside the window, with no new query parameter. The OPDS v1 and v2 On Deck feeds and the Kobo sync On Deck shelf follow the same rule.
-- **Keep Reading** has no endpoint of its own: clients build it from the book search, sorted by read date. The web UI applies the window there and drops in-progress books read before it. Other clients can do the same by reading the setting.
+- **Keep Reading** has no endpoint of its own: clients build it from the book search (`POST /api/v1/books/list`), sorted by read date. A client that reads the setting adds a `readDate` condition (below) to that search, so the server filters it and paging stays correct. The web UI and KMReader do; clients that don't read the setting show every in-progress book.
 - The OPDS Keep Reading feeds are not filtered.
 
 ## API
 
 The setting is exposed as `recentReadingDays` on `/api/v1/settings` (`0` = off, `0` to `3650` accepted): every user can read it with `GET`, so clients can filter Keep Reading the same way, and only admins can change it with `PATCH`. It is stored in `SERVER_SETTINGS` as `KMRS_RECENT_READING_DAYS`, a key the Java version ignores.
+
+## The `readDate` search condition
+
+Book searches accept a `readDate` condition, a kmrs addition to the search document, with the same operators as `releaseDate`: `before`, `after`, `isInTheLast`, `isNotInTheLast`, `isNull` and `isNotNull`. It matches the requesting user's read date, the time they last read the book, so a book they never opened has none. Unlike `releaseDate`, which is matched by day, it compares the exact instant. Keep Reading with a 30-day window looks like this:
+
+```json
+{
+  "condition": {
+    "allOf": [
+      { "readStatus": { "operator": "is", "value": "IN_PROGRESS" } },
+      { "readDate": { "operator": "isInTheLast", "duration": "P30D" } }
+    ]
+  }
+}
+```
+
+[Smart lists](/server/enhancements/smart-lists) can use it too, and evaluate it for whoever reads the list.

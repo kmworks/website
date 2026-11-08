@@ -1,0 +1,17 @@
+---
+title: "Recent reading window"
+sidebar:
+  order: 9
+---
+
+The server setting **Recent reading window** (Settings → Reading, off by default) limits Keep Reading and On Deck to series the user read recently: 30, 90 or 180 days. Series last read before that drop out of both lists; reading any page of them again brings them back. The Java version has no such limit, so old abandoned series stay on the dashboard forever.
+
+## Where it applies
+
+- **On Deck** is filtered by the server: `GET /api/v1/books/ondeck` only returns series whose most recent read date falls inside the window, with no new query parameter. The OPDS v1 and v2 On Deck feeds and the Kobo sync On Deck shelf follow the same rule.
+- **Keep Reading** has no endpoint of its own: clients build it from the book search, sorted by read date. The web UI applies the window there and drops in-progress books read before it. Other clients can do the same by reading the setting.
+- The OPDS Keep Reading feeds are not filtered.
+
+## API
+
+The setting is exposed as `recentReadingDays` on `/api/v1/settings` (`0` = off, `0` to `3650` accepted): every user can read it with `GET`, so clients can filter Keep Reading the same way, and only admins can change it with `PATCH`. It is stored in `SERVER_SETTINGS` as `KMRS_RECENT_READING_DAYS`, a key the Java version ignores.

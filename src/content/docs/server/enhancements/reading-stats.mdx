@@ -35,5 +35,6 @@ Weekday, hour, and the daily pages are derived from real activity: books tracked
 
 `GET /api/v1/stats/reading/tops` — content composition:
 
+- `topSeries` — the 10 series with the most completed books, each as `{seriesId, name, value, total}`: `value` completed books out of the series' `total` visible books. Needs no metadata beyond the series title, so it is filled even for libraries without authors, genres, or tags
 - `topAuthors` / `topGenres` / `topTags` — the 10 most common names among series with at least one completed book (each name counts once per series)
 - `genreDistribution` / `tagDistribution` — the full ranking, capped at 17 entries plus an `Other` bucket summing the rest

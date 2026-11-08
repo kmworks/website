@@ -28,8 +28,10 @@ All counts cover only the content the user is allowed to see (library sharing an
 
 The admin server page is fed by kmrs-native endpoints rather than the Java-parity actuator surface. All are administrator-only except `/api/v1/server/info`, which any authenticated user can call.
 
-- `GET /api/v1/server/info` — server `version`, `gitBranch`, `gitCommitId`
+- `GET /api/v1/server/info` — server `version`, `gitBranch`, `gitCommitId`, and `features`
 - `GET /api/v1/server/scheduled-tasks` — periodic library scans: `libraryId`, `libraryName`, `intervalSeconds`
 - `GET /api/v1/server/logfile` — the current log file as plain text
+
+`features` lists the kmrs-private endpoint groups the server provides, so a client can tell from one request what it may call instead of probing each group for a 404: `serverStats` (`/api/v1/stats/libraries`, `/api/v1/stats/server`), `readingStats`, `smartLists`, `komf`, `trackers`, and `updateCheck`. A name means the endpoints exist, not that the feature is configured; names are only ever added. Komga answers `/api/v1/server/info` with 404.
 
 Session listing and revocation live under `/api/v2/users/**` — see [Session management](/server/enhancements/session-management).

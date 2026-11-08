@@ -6,15 +6,13 @@ sidebar:
 
 The sibling book endpoints — `GET /api/v1/books/{bookId}/next|previous` and `GET /api/v1/readlists/{id}/books/{bookId}/next|previous` — differ from the Java version in two ways.
 
-## skipRead
+## Skip read books
 
-The `next` endpoints accept an optional `skipRead` query parameter (default `false`).
+The server setting **Next book skips read books** (Settings → Reading, off by default) changes the `next` endpoints for every client. When it is on, they return the first book after the current one — in series order, or in read-list order — that the requesting user has not read. "Not read" means unread or in progress, matching the `read_status` search filter.
 
-With `skipRead=true`, the endpoint returns the first book after the current one — in series order, or in read-list order — that the requesting user has not read. "Not read" means unread or in progress, matching the `read_status` search filter.
+When every later book is already read, the endpoint falls back to the plain next book, so re-reading a finished series or list still moves forward.
 
-When every later book is already read, the endpoint falls back to the plain next book, so re-reading a finished series or list still moves forward. Either way it is a single request; without the parameter, clients have to emulate this with extra search round trips.
-
-The `previous` endpoints do not take the parameter.
+The `previous` endpoints are not affected, and a `skipRead` query parameter is ignored: the setting alone decides. The setting is exposed as `skipReadOnNext` on `GET`/`PATCH /api/v1/settings` (admin only) and stored in `SERVER_SETTINGS` as `KMRS_NEXT_SKIP_READ`, a key the Java version ignores. Clients that pick the next book from their own book list rather than calling these endpoints are not affected.
 
 ## numberSort ties
 

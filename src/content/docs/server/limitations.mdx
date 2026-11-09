@@ -25,7 +25,7 @@ These are excluded on purpose rather than gaps:
 
 ## API
 
-- Request JSON is parsed strictly: property names and search-condition operator tags are case-sensitive (`oneShot`, `isNot`). The Java version accepts any casing (Jackson `ACCEPT_CASE_INSENSITIVE_PROPERTIES` / `ACCEPT_CASE_INSENSITIVE_VALUES`), so payloads spelled `oneshot` or `isnot` work there but get a 422 here; send the documented camelCase forms.
+- Request JSON is parsed strictly: property names and search-condition operator tags are case-sensitive (`oneShot`, `isNot`). The Java version accepts any casing (Jackson `ACCEPT_CASE_INSENSITIVE_PROPERTIES` / `ACCEPT_CASE_INSENSITIVE_VALUES`), so payloads spelled `oneshot` or `isnot` work there. Here a wrong-case operator tag or enum value gets a 422, but a wrong-case property name is silently ignored as an unknown field: `PATCH /api/v1/settings` with `{"TaskPoolSize": 3}` returns 204 and changes nothing. Send the documented camelCase forms.
 - `server.context-path` only prefixes generated links (OPDS/WebPub/Kobo); routes are not mounted under it, so the server cannot answer under the prefix itself — put it behind a reverse proxy that strips the prefix. The Java version mounts the whole application under it.
 
 ## Database / migrations

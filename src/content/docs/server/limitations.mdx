@@ -40,4 +40,4 @@ Warned about and dropped during `application.yml` migration:
 - `komga.database.batch-chunk-size`, `komga.tasks-db.batch-chunk-size`
 - `komga.database.check-local-filesystem`, `komga.tasks-db.check-local-filesystem`
 
-Ignored but behavior-equivalent (not limitations): `server.tomcat.*` (tomcat-specific), `server.forward-headers-strategy` (always `framework`), shutdown handling (always graceful).
+Ignored but behavior-equivalent (not limitations): `server.tomcat.*` (tomcat-specific), `server.forward-headers-strategy` (always `framework`, except that `X-Forwarded-For` is honored only from [`server.trusted-proxies`](/server/enhancements#security-and-authentication)), shutdown handling (always graceful).

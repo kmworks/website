@@ -13,7 +13,7 @@ const githubUrl = "https://github.com/kmworks/kmreader";
 const readingFeatures = [
   {
     title: "DIVINA",
-    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, manga translation, and per-book preferences.",
+    body: "The dedicated comic reader, on every platform: single and double page, spreads, page curl, AI upscaling, manga translation, and panel-by-panel reading on iOS.",
     icon: "ph:book-open",
   },
   {
@@ -46,12 +46,12 @@ const translationFeatures = [
   },
   {
     title: "Lettered back into the page",
-    body: "Translations are typeset into the bubbles — vertical text stays vertical — across paged, RTL, split, and Webtoon modes.",
+    body: "Translations are typeset into the bubbles — vertical text stays vertical — across paged, RTL, split, and dual-page layouts.",
     icon: "ph:textbox",
   },
   {
     title: "One tap away",
-    body: "A floating reader action translates the page, shows the original again, and prefetches what comes next.",
+    body: "A per-page reader action translates the current page, shows the original again, and prefetches what comes next.",
     icon: "ph:hand-tap",
   },
 ];
@@ -65,6 +65,7 @@ const libraryFeatures = [
   { label: "Metadata filters", icon: "ph:funnel" },
   { label: "Saved searches", icon: "ph:magnifying-glass" },
   { label: "Reading history", icon: "ph:clock-counter-clockwise" },
+  { label: "Reading trackers", icon: "ph:bookmark-simple" },
   { label: "Multiple servers", icon: "ph:hard-drives" },
   { label: "API key sign-in", icon: "ph:key" },
 ];
@@ -443,7 +444,7 @@ const tvosShots = [
               KMReader works with any Komga 1.20.0+ server, including
               KMServer, the single-binary Rust server from the same family.
               On KMServer you also get smart lists, server-side reading stats,
-              and metadata fetching with komf.
+              reading trackers, session management, and metadata fetching with komf.
             </p>
             <a class="btnGhost" href="/server/" style="margin-top: 2rem;">
               Learn about KMServer <Icon name="ph:arrow-right" class="w-4 h-4" />

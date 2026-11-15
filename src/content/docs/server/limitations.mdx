@@ -28,6 +28,12 @@ These are excluded on purpose rather than gaps:
 - Request JSON is parsed strictly: property names and search-condition operator tags are case-sensitive (`oneShot`, `isNot`). The Java version accepts any casing (Jackson `ACCEPT_CASE_INSENSITIVE_PROPERTIES` / `ACCEPT_CASE_INSENSITIVE_VALUES`), so payloads spelled `oneshot` or `isnot` work there. Here a wrong-case operator tag or enum value gets a 422, but a wrong-case property name is silently ignored as an unknown field: `PATCH /api/v1/settings` with `{"TaskPoolSize": 3}` returns 204 and changes nothing. Send the documented camelCase forms.
 - `server.context-path` only prefixes generated links (OPDS/WebPub/Kobo); routes are not mounted under it, so the server cannot answer under the prefix itself — put it behind a reverse proxy that strips the prefix. The Java version mounts the whole application under it.
 
+## HTTP connections
+
+KMServer does not limit the number of client connections, and it has no timeout for a connection that is waiting for request headers or sitting idle between requests. A client that stops partway through its headers can also keep a graceful shutdown waiting indefinitely. Put public instances behind a reverse proxy and configure connection and header timeouts there.
+
+Direct LAN use can be affected too, without an attack. In a measured KMReader setup, an iPhone that lost its network shortly after a request left six connections open indefinitely. A launchd-started server with a soft limit of 256 open files had room for only about 120 connections after its ordinary open files, so repeated disconnects can eventually prevent new connections. A reverse proxy with suitable upstream timeouts bounds this; restarting KMServer releases the connections it is holding.
+
 ## Database / migrations
 
 - Deprecated BCP47 aliases (e.g. `iw` → `he`) are not normalized by the language-code migration for pre-2023-08 libraries, an accepted deviation.

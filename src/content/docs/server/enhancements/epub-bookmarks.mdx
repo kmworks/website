@@ -1,0 +1,42 @@
+---
+title: "EPUB bookmarks"
+description: "Store per-user EPUB bookmarks on the server for compatible reader clients."
+---
+
+Authenticated clients can store bookmarks per user and book in `kmrs.sqlite`.
+Bookmarks do not change reading progress or the Java-compatible main database.
+Clients must integrate these endpoints; local KMReader bookmarks are not automatically uploaded.
+
+- `GET /api/v1/books/{bookId}/bookmarks` returns an array sorted by chapter index, chapter fraction, then UUID. An empty array means no bookmarks.
+- `PUT /api/v1/books/{bookId}/bookmarks/{bookmarkId}` creates or replaces one bookmark and returns it with status 200. Use a client-generated UUID and retain it for retries.
+- `DELETE /api/v1/books/{bookId}/bookmarks/{bookmarkId}` returns 204, including when that bookmark is already absent.
+
+PUT accepts the following JSON; GET and PUT responses add `id` and `bookId`:
+
+```json
+{
+  "chapterIndex": 2,
+  "chapterHref": "Text/chapter3.xhtml",
+  "chapterFraction": 0.5,
+  "totalProgression": 0.2,
+  "chapterTitle": "Chapter 3",
+  "createdAt": "2026-11-26T10:00:00Z"
+}
+```
+
+`chapterIndex` is zero-based. Both fractions must be finite numbers between 0 and 1,
+inclusive. `chapterHref` is required (at most 8192 UTF-8 bytes); `chapterTitle` is optional
+or null (at most 4096 UTF-8 bytes). `createdAt` is the original capture time in RFC 3339
+format, allowing offline bookmarks to retain their timestamps. The chapter path and
+fraction identify the reading position; total progression is for display only.
+The server stores the position without checking it against the current EPUB contents.
+
+All operations use the authenticated user's identity and enforce library sharing and
+content restrictions. A missing book returns 404 and a forbidden book returns 403.
+Other users cannot see or delete your bookmarks, even if they use the same UUID.
+Permanent book or user deletion removes the associated bookmarks; soft deletion preserves them.
+Hash-matched moves and renames, and upgrade imports, carry bookmarks to the replacement book ID.
+An upgraded EPUB can have different chapters, so clients must handle positions that no longer resolve.
+Repeated PUTs replace the same entry, with the last accepted write winning. There is
+no change feed or deletion tombstone: clients should fetch the current list and replay
+explicit pending local changes, rather than re-uploading their entire cache after every fetch.
